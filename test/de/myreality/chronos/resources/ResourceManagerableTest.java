@@ -95,7 +95,7 @@ public class ResourceManagerableTest {
 			
 			List<ResourceDefinition> definitions = new ArrayList<ResourceDefinition>();
 			definition1 = new BasicResourceDefinition("definition1", "string");
-			definition2 = new BasicResourceDefinition("definition1", "string");
+			definition2 = new BasicResourceDefinition("definition2", "string");
 			definitions.add(definition1);
 			definitions.add(definition2);
 			
