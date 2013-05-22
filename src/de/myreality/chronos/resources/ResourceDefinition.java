@@ -58,6 +58,9 @@ public interface ResourceDefinition extends Serializable, FamilyObject<ResourceD
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	// Resource element tag
+	public static final String RESOURCE_TAG = "resource";
 
 	// ===========================================================
 	// Methods

@@ -52,7 +52,7 @@ public class XMLSource implements DataSource {
 	@Override
 	public Collection<ResourceDefinition> load() throws ResourceException {
 		NodeList nodes = getXMLNodes(file);
-		return scanNodeList(nodes, null);
+		return scanNodeList(nodes, null, null, null);
 	}
 
 	// ===========================================================
@@ -99,19 +99,57 @@ public class XMLSource implements DataSource {
 	 * @return A collection of processed resource definitions
 	 * @throws ResourceException Is thrown when a group or a definition is not valid
 	 */
-	private Collection<ResourceDefinition> scanNodeList(NodeList nodes, Node parent) throws ResourceException {
+	private Collection<ResourceDefinition> scanNodeList(NodeList nodes, Node parent, ResourceDefinition parentDefinition, ResourceGroup parentGroup) throws ResourceException {
 		
 		Collection<ResourceDefinition> definitions = new ArrayList<ResourceDefinition>();
 		
 		for (int index = 0; index < nodes.getLength(); ++index) {
 			
-			//Node node = nodes.item(index);
+			Node node = nodes.item(index);
 			
-			
+			if (isDefinition(node)) {
+				ResourceDefinition definition = convertNodeToDefinition(node);
+				
+				// Only add to node list when parent is not a definition
+				if (!isDefinition(parent)) {
+					definitions.add(definition);
+				}
+			} else if (isGroup(node)) {
+				if (parent != null && !isGroup(parent)) {
+					throw new ResourceException("Only groups are permitted as parent for another group");
+				} else if (parent == null) {
+					
+				} else {
+					
+				}
+			} else {
+				throw new ResourceException("Invalid tag in resource file: <" + node.getNodeName() + ">");
+			}
 			
 		}
 		
 		return definitions;
+	}
+	
+	
+	private ResourceDefinition convertNodeToDefinition(Node node) throws ResourceException {
+		return null;
+	}
+	
+	private boolean isDefinition(Node node) {
+		if (node != null) {
+			return node.getNodeName().equals(ResourceDefinition.RESOURCE_TAG);
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean isGroup(Node node) {
+		if (node != null) {
+			return node.getNodeName().equals(ResourceGroup.RESOURCE_TAG);
+		} else {
+			return false;
+		}
 	}
 
 	// ===========================================================

@@ -64,6 +64,9 @@ public interface ResourceGroup extends FamilyObject<ResourceGroup>, Serializable
 	// ===========================================================
 	
 	static final String DEFAULT_ID = "root";
+	
+	// Resource element tag
+	public static final String RESOURCE_TAG = "group";
 
 	// ===========================================================
 	// Methods
