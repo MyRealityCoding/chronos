@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changes>
+    <patch version="0.7.3alpha">
+    	<category name="General">
+    		<item type="modified">Javadoc has been extended</item>
+    	</category>
+    	<category name="Updating">
+    		<item type="modified">UpdatingListener has been changed in order to increase usability</item>
+    		<item type="modified">Methods have been implemented: getGameVersion() and getNewerVersion()</item>
+    		<item type="modified">Method has been improved: isNewVersionAvailable()</item>
+    	</category>
+    	<category name="Bug Fixes">
+    		<item type="modified">Issue #4 solved: URL defect on missing slash is fixed</item>
+    		<item type="modified">Issue #5 solved: Game updater shuts down correctly now</item>
+    	</category>
+    </patch>
+	<patch version="0.7.2alpha">
+		<category name="General">
+			<item type="modified">Slick has been extracted to a seperated .jar</item>
+		</category>
+		<category name="Updating">
+		    <item type="added">An updating listener has been implemented</item>
+		</category>
+		<category name="Slick Support">
+		    <item type="modified">ShaderProgramLoader is now a singleton</item>
+		</category>
+	</patch>
+	<patch version="0.7.1alpha">
+		<category name="General">
+			<item type="modified">Packages have been renamed to a shorter way</item>
+			<item type="added">util.* package has been added</item>
+			<item type="modified">Documentation has been extended</item>
+		</category>
+		<category name="Utilities">
+		    <item type="added">Dimension classes for 2D and 3D have been implemented</item>
+		    <item type="added">Tree class with bounding support has been added</item>
+		</category>
+		<category name="Models">
+			<item type="modified">Method "setDimensions()" has been renamed to "setDimension()"</item>
+		</category>
+		<category name="Slick Support">
+			<item type="added">Methods from super class have been overloaded and minimized</item>
+		</category>
+		<category name="Bug Fixes">
+			<item type="modified">Issue #1 solved: Center positioning works fine now</item>
+			<item type="modified">Issue #2 solved: Bound normalization works now correctly</item>
+		</category>
+	</patch>
+	<patch version="0.7alpha">
+		<category name="General">
+			<item type="added">Added 2D point class with distance and angle calculation</item>
+			<item type="added">Added 3D point class with distance and angle calculation</item>
+			<item type="modified">Modified vector classes and added distance and angle calculation</item>
+			<item type="modified">Documentation has been extended</item>
+		</category>
+		<category name="Logging">
+			<item type="added">Added a logger in order to show log messages</item>
+			<item type="added">Added a log system interface for Log4j support</item>
+			<item type="added">Added a basic logger system for outputting chronos messages</item>
+		</category>
+		<category name="Resources">
+			<item type="added">Added a shader loader in order to load GSGL shader programs</item>
+			<item type="added">Added an emitter loader to load particles in Slick2D</item>
+		</category>
+	</patch>	
+	<patch version="0.6dev">
+		<category name="General">
+			<item type="added">First XML validation via XSD has been added</item>
+			<item type="modified">Entities and components can be serialized now</item>
+			<item type="added">Serialization example has been added</item>
+			<item type="added">Scripting example has been added</item>
+		</category>
+		<category name="Resources">
+			<item type="added">Deferred resource loading has been implemented</item>
+			<item type="added">ScriptLoader has been added by default</item>
+			<item type="added">AnimationLoader has been added</item>			
+		</category>
+	</patch>
+	<patch version="0.5dev">
+		<category name="General">
+			<item type="modified">Documentation has been extended</item>
+		</category>
+		<category name="Scripting">
+			<item type="added">Added scripting support</item>
+			<item type="added">Added support for LUA</item>
+		</category>
+		<category name="Resources">
+			<item type="modified">Reformatted the entire resource XML base</item>
+			<item type="added">Referred resource loading</item>
+			<item type="added">Resource performance by free resources.</item>
+		</category>
+	</patch>
+	<patch version="0.4dev">
+		<category name="General">
+			<item type="modified">Documentation has been extended and refreshed</item>
+			<item type="added">A reflection template has been written in order to fetch the internal type class correctly</item>
+			<item type="modified">ID of components and entities will be now generated automatically</item>
+		</category>
+		<category name="Models">
+			<item type="added">An entity manager has been implemented</item>
+			<item type="added">Entities can now be attached to entity systems</item>
+			<item type="removed">Removed the default position methods like getX() and getY()</item>	
+			<item type="added">Added global and local position methods</item>		
+			<item type="added">Entities can now have a width, a height and a depth</item>
+		</category>
+		<category name="Resources">
+			<item type="added">A resource wrapper has been written in order to change immutable resources at runtime</item>
+			<item type="modified">Resources can now be reloaded by adding other values with the same resource ID</item>
+		</category>
+		<category name="Slick Support">
+			<item type="added">Implemented a new component BeforeUpdateComponent. Its update method is called before the general updating process</item>
+			<item type="added">Implemented a new component AfterUpdateComponent. Its update method is called after the general updating process</item>
+		</category>
+	</patch>
+
+	<patch version="0.3dev">
+		<category name="General">
+			<item type="added">New 2D vector has been implemented</item>
+			<item type="modified">Documentation has been extended and refreshed</item>
+		</category>
+		<category name="Models">
+			<item type="added">Global position methods have been added</item>
+			<item type="modified">Components are now node objects as well</item>
+		</category>
+	</patch>
+	
+	<patch version="0.2dev">
+		<category name="General">
+			<item type="added">chronos-toolkit.jar is now available for download</item>
+			<item type="added">The official website http://dev.my-reality.de/chronos is now reachable</item>
+			<item type="added">Project has been hosted on code.google.com</item>
+		</category>
+		<category name="Toolkit">
+			<item type="added">Chronos has now its own exception</item>
+			<item type="added">A file helper has been implemented in order to simplify file usage</item>
+		</category>
+		<category name="Models">
+			<item type="added">A basic entity system for game models has been created</item>
+			<item type="added">Node system has been implemented (including parent and child system)</item>
+			<item type="added">Each entity can now has components in order to give behavior</item>
+		</category>
+		<category name="Examples">
+			<item type="added">Examples for file scanner, game updating via FTP and SVN and string resource
+			      loading have been added</item>
+		</category>
+		<category name="Resources">
+			<item type="added">Resource manager has been added</item>
+			<item type="added">A system for resource loading has been implemented</item>
+			<item type="added">String loader has been added</item>
+			<item type="added">An exception has been added for unknown resources</item>
+		</category>
+		<category name="Game Updater">
+			<item type="added">Game updater (FTP and SVN) have been added</item>
+		</category>
+		<category name="Slick Support">
+			<item type="added">Image resource loader has been added</item>
+			<item type="added">Music resource loader has been added</item>
+			<item type="added">Sound resource loader has been added</item>
+			<item type="added">Color resource loader has been added</item>
+			<item type="added">Font resource loader has been added</item>
+			<item type="added">Render component for images has been added</item>
+			<item type="added">Render component for animations has been added</item>
+			<item type="added">Chronos game state has been added</item>
+		</category>
+	</patch>
+</changes>
