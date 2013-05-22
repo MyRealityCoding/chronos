@@ -1,4 +1,0 @@
-chronos
-=======
-
-Game Development Toolkit

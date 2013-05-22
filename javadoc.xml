@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="." destdir="doc" doctitle="Chronos - Game Development Toolkit (Official Documentation)" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="de.myreality.dev.chronos.toolkit.resource,de.myreality.dev.chronos.toolkit,de.myreality.dev.chronos.toolkit.objects" source="1.6" sourcefiles="src/de/myreality/dev/chronos/toolkit/updating/OpenGameUpdater.java" sourcepath="src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>
