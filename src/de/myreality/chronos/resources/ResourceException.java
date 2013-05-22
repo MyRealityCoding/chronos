@@ -40,18 +40,14 @@
 package de.myreality.chronos.resources;
 
 /**
- * 
+ * Resource exception which is thrown when there is a corrupt resource or
+ * something is wrong during the resource loading process.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since
- * @version
+ * @since 0.8alpha
+ * @version 0.8alpha
  */
 public class ResourceException extends Exception {
-
-	
-
-
-	
 
 	// ===========================================================
 	// Constants
@@ -68,14 +64,18 @@ public class ResourceException extends Exception {
 	// ===========================================================
 	
 	/**
-	 * @param message
+	 * Creates a new resource exception with a given message
+	 * 
+	 * @param message message of this exception
 	 */
 	public ResourceException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param cause
+	 * Creates a new resource exception with the given cause
+	 * 
+	 * @param cause given cause
 	 */
 	public ResourceException(Throwable cause) {
 		super(cause);
