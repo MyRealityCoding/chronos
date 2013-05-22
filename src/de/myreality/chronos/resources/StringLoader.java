@@ -48,7 +48,7 @@ import de.myreality.chronos.logging.ChronosLogger;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-@Registered("string")
+@ResourceType("string")
 public class StringLoader extends AbstractResourceLoader<String> {
 
 	// ===========================================================

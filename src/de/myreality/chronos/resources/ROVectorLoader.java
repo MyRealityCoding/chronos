@@ -49,7 +49,7 @@ import de.myreality.chronos.util.Vector3f;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-@Registered("vector")
+@ResourceType("vector")
 public class ROVectorLoader extends AbstractResourceLoader<ROVector3f> {
 	
 	// ===========================================================

@@ -180,7 +180,7 @@ public class ResourceManager implements ResourceManagerable {
 		ChronosLogger.info("Register loader: " + clazz.getSimpleName());
 
 		// Check if the class is registered
-		Registered annotation = clazz.getAnnotation(Registered.class);
+		ResourceType annotation = clazz.getAnnotation(ResourceType.class);
 		if (annotation != null) {
 
 			if (annotation.value().isEmpty()) {
