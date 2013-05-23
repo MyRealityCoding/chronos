@@ -157,7 +157,7 @@ public class ClassUtils {
 					result.add(entry.getName());
 				}
 			} catch (IOException e) {
-				// Log.UTIL.WARN(e);
+				// Do nothing
 			}
 		}
 		return result;
@@ -166,20 +166,18 @@ public class ClassUtils {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Class<?>[] searchForAnnotation(Class<?> annotation) {
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-
+		final String TARGET_FORMAT = ".class";
 		URL[] roots = ((URLClassLoader) (Thread.currentThread()
 				.getContextClassLoader())).getURLs();
 
 		for (URL root : roots) {
 			for (String relativePath : getChildren(root)) {
 				
-				if (relativePath.endsWith(".class")) {
-					
-					System.out.println(relativePath);
+				if (relativePath.endsWith(TARGET_FORMAT)) {
 					
 					// Remove .class and change / to .
 					String className = relativePath.substring(0,
-							relativePath.length() - 6).replace("/", ".");
+							relativePath.length() - TARGET_FORMAT.length()).replace("/", ".");
 					try {
 						Class element = Class.forName(className);
 
