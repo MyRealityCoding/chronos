@@ -89,6 +89,7 @@ public class ResourceManager implements ResourceManagerable {
 	}
 
 	// Make manager package-private for testing purpose
+	@SuppressWarnings("unchecked")
 	ResourceManager() {
 		loaders = new HashMap<String, ResourceLoader<?>>();
 		translations = new HashMap<String, String>();
@@ -99,8 +100,12 @@ public class ResourceManager implements ResourceManagerable {
 		groupManager.addElement(new BasicResourceGroup());
 
 		try {
-			addResourceLoader(StringLoader.class);
-			addResourceLoader(ROVectorLoader.class);
+			//addResourceLoader(StringLoader.class);
+			//addResourceLoader(ROVectorLoader.class);
+			Class<? extends ResourceLoader<?> >[] loaders = (Class<? extends ResourceLoader<?>>[]) ClassUtils.searchForAnnotation(ResourceType.class);
+			for (Class<? extends ResourceLoader<?> > clazz : loaders) {
+				addResourceLoader(clazz);
+			}
 		} catch (ResourceException e) {
 			ChronosLogger.error(e);
 		}

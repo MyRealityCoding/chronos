@@ -39,8 +39,18 @@
  */
 package de.myreality.chronos.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Utility class which provides functionality for other classes
@@ -50,6 +60,7 @@ import java.lang.reflect.InvocationTargetException;
  * @version 0.8alpha
  */
 public class ClassUtils {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -73,13 +84,13 @@ public class ClassUtils {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T> T createObject(Class<T> clazz) {
 		Constructor<?> constructor;
 		try {
 			constructor = clazz.getConstructor();
-			return (T) constructor.newInstance(new Object[]{});	
+			return (T) constructor.newInstance(new Object[] {});
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
@@ -93,9 +104,96 @@ public class ClassUtils {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
-		
+
+	}
+
+	/**
+	 * Collects all children of the given file into the given result list. The
+	 * resulting string is the relative path from the given reference.
+	 */
+	private static void addFiles(File file, List<String> result, File reference) {
+		if (!file.exists() || !file.isDirectory()) {
+			return;
+		}
+		for (File child : file.listFiles()) {
+			if (child.isDirectory()) {
+				addFiles(child, result, reference);
+			} else {
+				String path = null;
+				while (child != null && !child.equals(reference)) {
+					if (path != null) {
+						path = child.getName() + "/" + path;
+					} else {
+						path = child.getName();
+					}
+					child = child.getParentFile();
+				}
+				result.add(path);
+			}
+		}
+	}
+
+	/**
+	 * Takes a given url and creates a list which contains all children of the
+	 * given url. (Works with Files and JARs).
+	 */
+	public static List<String> getChildren(URL url) {
+		List<String> result = new ArrayList<String>();
+		if ("file".equals(url.getProtocol())) {
+			File file = new File(url.getPath());
+			if (!file.isDirectory()) {
+				file = file.getParentFile();
+			}
+			addFiles(file, result, file);
+		} else if ("jar".equals(url.getProtocol())) {
+			try {
+				JarFile jar = ((JarURLConnection) url.openConnection())
+						.getJarFile();
+				Enumeration<JarEntry> e = jar.entries();
+				while (e.hasMoreElements()) {
+					JarEntry entry = e.nextElement();
+					result.add(entry.getName());
+				}
+			} catch (IOException e) {
+				// Log.UTIL.WARN(e);
+			}
+		}
+		return result;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Class<?>[] searchForAnnotation(Class<?> annotation) {
+		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+
+		URL[] roots = ((URLClassLoader) (Thread.currentThread()
+				.getContextClassLoader())).getURLs();
+
+		for (URL root : roots) {
+			for (String relativePath : getChildren(root)) {
+				
+				if (relativePath.endsWith(".class")) {
+					
+					System.out.println(relativePath);
+					
+					// Remove .class and change / to .
+					String className = relativePath.substring(0,
+							relativePath.length() - 6).replace("/", ".");
+					try {
+						Class element = Class.forName(className);
+
+						if (element.getAnnotation(annotation) != null) {
+							classes.add(element);
+						}
+					} catch (ClassNotFoundException ex) {
+						// Do nothing
+					}
+				}
+			}
+		}
+
+		return (Class[]) classes.toArray(new Class[classes.size()]);
 	}
 
 	// ===========================================================
