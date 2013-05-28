@@ -1,18 +1,17 @@
 package de.myreality.chronos.resources;
 
-import java.util.Map.Entry;
-
 import de.myreality.chronos.resources.data.DataNode;
 
 /**
- * Basic implementation of a resource definition factory
+ * Basic factory implementation for resource groups
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class BasicResourceDefinitionFactory implements ResourceDefinitionFactory {
+public class BasicResourceGroupFactory implements ResourceGroupFactory {
 
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -20,15 +19,15 @@ public class BasicResourceDefinitionFactory implements ResourceDefinitionFactory
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private ResourceValidator validator;
 	
+	private ResourceValidator validator;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public BasicResourceDefinitionFactory() {
-		validator = new DefinitionValidator();
+	public BasicResourceGroupFactory() {
+		this.validator = new GroupValidator();
 	}
 
 	// ===========================================================
@@ -38,32 +37,14 @@ public class BasicResourceDefinitionFactory implements ResourceDefinitionFactory
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
+	
 	@Override
-	public ResourceDefinition create(DataNode node) throws ResourceException {
-
-		validator.validate(node);
-
-		String type = node.getAttribute("type");
-		String id = node.getAttribute("id");
+	public ResourceGroup create(DataNode node) throws ResourceException {
 		
-		ResourceDefinition definition = new BasicResourceDefinition(id, type);
-		for (Entry<String, String> entry : node.getAttributes().entrySet()) {
-
-			String key = entry.getKey();
-			String value = entry.getValue();
-
-			if (!key.equals("id") && !key.equals("type")
-					&& !key.equals("deferred")) {
-				definition.addAttribute(key, value);
-			}
-		}
-		
-		if (node.getNumberOfChildren() == 0) {
-			definition.setValue(node.getContent().trim());
-		}
-
-		return definition;
+		validator.validate(node);		
+		String id = node.getAttribute("id");		
+		ResourceGroup group = new BasicResourceGroup(id);		
+		return group;
 	}
 
 	// ===========================================================

@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources.data;
 
+import de.myreality.chronos.resources.ResourceException;
 import de.myreality.chronos.util.Listener;
 
 /**
@@ -68,7 +69,15 @@ public interface DataSourceListener extends Listener {
 	 * 
 	 * @param event data source event
 	 */
-	void onNodeCreate(DataSourceEvent event);
+	void onNodeCreate(DataSourceEvent event) throws ResourceException;
+	
+	/**
+	 * Is called when an error occurs
+	 * 
+	 * @param event Target event
+	 * @param cause Cause of the error
+	 */
+	void onError(DataSourceEvent event, Throwable cause);
 	
 	/**
 	 * Is called after the dater source has loaded all data

@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources;
 
+import de.myreality.chronos.resources.data.DataNode;
 import de.myreality.chronos.resources.data.DataSourceListener;
 import de.myreality.chronos.util.Manager;
 
@@ -58,4 +59,7 @@ public interface ResourceGroupManager extends Manager<ResourceGroup>,
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	ResourceGroup computeGroup(ResourceGroup group, DataNode node)
+			throws ResourceException;
 }

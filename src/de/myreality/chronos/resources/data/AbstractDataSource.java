@@ -103,7 +103,11 @@ public abstract class AbstractDataSource extends BasicObserver<DataSourceListene
 	protected void addNode(DataNode node, DataNode parent) {
 		for (DataSourceListener listener : getListeners()) {
 			DataSourceEvent event = new BasicDataSourceEvent(this, node, parent);
-			listener.onNodeCreate(event);
+			try {
+				listener.onNodeCreate(event);
+			} catch (ResourceException e) {
+				listener.onError(event, e);
+			}
 		}
 		
 		if (parent != null) {

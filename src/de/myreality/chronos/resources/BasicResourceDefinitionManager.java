@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources;
 
+import de.myreality.chronos.resources.data.DataNode;
 import de.myreality.chronos.resources.data.DataSourceEvent;
 import de.myreality.chronos.util.BasicManager;
 
@@ -64,7 +65,7 @@ public class BasicResourceDefinitionManager extends
 
 	private ResourceGroupManager manager;
 
-	//private ResourceDefinitionFactory factory;
+	private ResourceDefinitionFactory factory;
 
 	// ===========================================================
 	// Constructors
@@ -72,7 +73,7 @@ public class BasicResourceDefinitionManager extends
 
 	public BasicResourceDefinitionManager(ResourceGroupManager manager) {
 		this.manager = manager;
-		//factory = new BasicResourceDefinitionFactory();
+		factory = new BasicResourceDefinitionFactory();
 	}
 
 	// ===========================================================
@@ -89,11 +90,28 @@ public class BasicResourceDefinitionManager extends
 	}
 
 	@Override
-	public void onNodeCreate(DataSourceEvent event) {
-		//DataNode node = event.getNode();
-		//DataNode parentNode = event.getParent();
+	public void onNodeCreate(DataSourceEvent event) throws ResourceException {
+		DataNode node = event.getNode();
+		DataNode parentNode = event.getParent();
 
-		
+		if (node.getName().equals(ResourceDefinition.RESOURCE_TAG)) {
+
+			String id = node.getAttribute(DefinitionValidator.ID);
+			String parentId = parentNode.getAttribute(DefinitionValidator.ID);
+
+			ResourceDefinition definition = getElement(id);
+			definition = computeDefinition(definition, node);
+
+			if (parentNode.getName().equals(ResourceDefinition.RESOURCE_TAG)) {
+				ResourceDefinition parentDefinition = getElement(parentId);
+				parentDefinition = computeDefinition(parentDefinition, parentNode);
+				parentDefinition.addChild(definition);
+			} else if (parentNode.getName().equals(ResourceGroup.RESOURCE_TAG)) {
+				ResourceGroup group = manager.getElement(parentId);
+				group = manager.computeGroup(group, parentNode);
+				group.addResourceDefinition(definition);
+			}
+		}
 	}
 
 	@Override
@@ -109,6 +127,22 @@ public class BasicResourceDefinitionManager extends
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	ResourceDefinition computeDefinition(ResourceDefinition definition,
+			DataNode node) throws ResourceException {
+		if (definition == null) {
+			definition = factory.create(node);
+			addElement(definition);
+		}
+
+		return definition;
+	}
+
+	@Override
+	public void onError(DataSourceEvent event, Throwable cause) {
+		// TODO Auto-generated method stub
+
+	}
 
 	// ===========================================================
 	// Inner classes

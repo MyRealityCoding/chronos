@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources;
 
+import de.myreality.chronos.resources.data.DataNode;
 import de.myreality.chronos.resources.data.DataSourceEvent;
 import de.myreality.chronos.util.BasicManager;
 
@@ -61,10 +62,16 @@ public class BasicResourceGroupManager extends BasicManager<ResourceGroup>
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ResourceGroupFactory factory;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public BasicResourceGroupManager() {
+		factory = new BasicResourceGroupFactory();
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -91,9 +98,28 @@ public class BasicResourceGroupManager extends BasicManager<ResourceGroup>
 
 	}
 
+	@Override
+	public void onError(DataSourceEvent event, Throwable cause) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public ResourceGroup computeGroup(ResourceGroup group,
+			DataNode node) throws ResourceException {
+		if (group == null) {
+			group = factory.create(node);
+			addElement(group);
+		}
+
+		return group;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	
 
 	// ===========================================================
 	// Inner classes
