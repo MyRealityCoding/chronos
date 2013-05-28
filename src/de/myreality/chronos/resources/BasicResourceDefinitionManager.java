@@ -55,21 +55,24 @@ public class BasicResourceDefinitionManager extends
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private ResourceGroupManager manager;
+
+	//private ResourceDefinitionFactory factory;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public BasicResourceDefinitionManager(ResourceGroupManager manager) {
 		this.manager = manager;
+		//factory = new BasicResourceDefinitionFactory();
 	}
 
 	// ===========================================================
@@ -82,24 +85,19 @@ public class BasicResourceDefinitionManager extends
 
 	@Override
 	public void beforeLoad() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onNodeCreate(DataSourceEvent event) {
-		System.out.println(event);
-	}
+		//DataNode node = event.getNode();
+		//DataNode parentNode = event.getParent();
 
-	@Override
-	public void onError(DataSourceEvent event, Throwable cause) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void afterLoad() {
-		// TODO Auto-generated method stub
 
 	}
 

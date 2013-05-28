@@ -82,14 +82,7 @@ public class BasicResourceGroupManager extends BasicManager<ResourceGroup>
 
 	@Override
 	public void onNodeCreate(DataSourceEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onError(DataSourceEvent event, Throwable cause) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

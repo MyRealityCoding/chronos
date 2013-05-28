@@ -71,14 +71,6 @@ public interface DataSourceListener extends Listener {
 	void onNodeCreate(DataSourceEvent event);
 	
 	/**
-	 * Is called whenever an error occurs during loading
-	 * 
-	 * @param event data source event
-	 * @param cause cause of the error
-	 */
-	void onError(DataSourceEvent event, Throwable cause);
-	
-	/**
 	 * Is called after the dater source has loaded all data
 	 */
 	void afterLoad();

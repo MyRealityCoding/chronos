@@ -41,9 +41,7 @@ package de.myreality.chronos.resources;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import de.myreality.chronos.resources.data.DataNode;
 import de.myreality.chronos.util.BasicFamilyObject;
 
 /**
@@ -91,28 +89,6 @@ public class BasicResourceDefinition extends BasicFamilyObject<ResourceDefinitio
 		this.attributes = new HashMap<String, String>();
 		this.value = "";
 		this.deferred = deferred;
-	}
-	
-	
-	/**
-	 * Creates a new resource definition from a data node
-	 * 
-	 * @param node target node to fetch the data from
-	 */
-	BasicResourceDefinition(DataNode node) {
-		this.value = node.getContent();
-		
-		for (Entry<String, String> entry : node.getAttributes().entrySet()) {
-			if (entry.getKey().equals("id")) {
-				this.id = entry.getValue();
-			} else if (entry.getKey().equals("type")) {
-				this.type = entry.getValue();
-			} else if (entry.getKey().equals("deferred")) {
-				this.deferred = entry.getValue().equals("true");
-			} else {
-				addAttribute(entry.getKey(), entry.getValue());
-			}
-		}
 	}
 
 	// ===========================================================

@@ -86,7 +86,9 @@ public class BasicManager<T extends IDProvider> implements Manager<T> {
 	 */
 	@Override
 	public void addElement(T element) {
-		elements.put(element.getId(), element);
+		if (element != null) {
+			elements.put(element.getId(), element);
+		}
 	}
 
 	/* (non-Javadoc)

@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources;
 
+
 /**
  * Factory which creates resources from a definition
  *
@@ -57,14 +58,13 @@ public interface ResourceFactory<T> {
 	// ===========================================================
 	
 	/**
-	 * Creates a new object by translating the resource definition into an
-	 * object.
+	 * Creates a new resource out of the definition
 	 * 
-	 * @param definition target definition which is for this factory
-	 * @return The new created object
-	 * @throws ResourceException Is thrown when the definition is not compatible
-	 * with the object or a needed resource is missing.
+	 * @param definition target definition
+	 * @return new resource object
+	 * @throws ResourceException Is thrown when the definition does not fit with the resource
 	 */
 	T create(ResourceDefinition definition) throws ResourceException;
+
 
 }
