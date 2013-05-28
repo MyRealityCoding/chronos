@@ -37,18 +37,19 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.util;
 
-import de.myreality.chronos.util.Listener;
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
- * Listens to a data source
+ * Observer which listens to a specific listener
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface DataSourceListener extends Listener {
+public interface Observer<T extends Listener> extends Serializable {
 	
 	// ===========================================================
 	// Constants
@@ -59,27 +60,38 @@ public interface DataSourceListener extends Listener {
 	// ===========================================================
 	
 	/**
-	 * Is called before the data source starts loading
-	 */
-	void beforeLoad();
-	
-	/**
-	 * Is called whenever a new data node will be added
+	 * Returns all current listeners
 	 * 
-	 * @param event data source event
+	 * @return collection of all containing listeners
 	 */
-	void onNodeCreate(DataSourceEvent event);
+	Collection<T> getListeners();
 	
 	/**
-	 * Is called whenever an error occurs during loading
+	 * Adds a new listener
 	 * 
-	 * @param event data source event
-	 * @param cause cause of the error
+	 * @param listener new listener
 	 */
-	void onError(DataSourceEvent event, Throwable cause);
+	void addListener(T listener);
 	
 	/**
-	 * Is called after the dater source has loaded all data
+	 * Removes an existing listener
+	 * 
+	 * @param listener existing listener
 	 */
-	void afterLoad();
+	void removeListener(T listener);
+	
+	/**
+	 * Determines if the listener exists
+	 * 
+	 * @param listener listeners to check
+	 * @return True when exists
+	 */
+	boolean hasListener(T listener);
+	
+	/**
+	 * Returns the number of current listeners
+	 * 
+	 * @return number of listeners
+	 */
+	int getNumberOfListeners();
 }

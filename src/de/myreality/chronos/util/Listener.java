@@ -37,18 +37,16 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
-import de.myreality.chronos.util.Listener;
+package de.myreality.chronos.util;
 
 /**
- * Listens to a data source
+ * Listener which can be handled by an observer
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface DataSourceListener extends Listener {
+public interface Listener {
 	
 	// ===========================================================
 	// Constants
@@ -57,29 +55,4 @@ public interface DataSourceListener extends Listener {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Is called before the data source starts loading
-	 */
-	void beforeLoad();
-	
-	/**
-	 * Is called whenever a new data node will be added
-	 * 
-	 * @param event data source event
-	 */
-	void onNodeCreate(DataSourceEvent event);
-	
-	/**
-	 * Is called whenever an error occurs during loading
-	 * 
-	 * @param event data source event
-	 * @param cause cause of the error
-	 */
-	void onError(DataSourceEvent event, Throwable cause);
-	
-	/**
-	 * Is called after the dater source has loaded all data
-	 */
-	void afterLoad();
 }
