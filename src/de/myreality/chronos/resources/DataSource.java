@@ -41,6 +41,8 @@ package de.myreality.chronos.resources;
 
 import java.util.Collection;
 
+import de.myreality.chronos.util.Observer;
+
 /**
  * A data source provides definition data for a resource manager.
  *
@@ -48,7 +50,7 @@ import java.util.Collection;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface DataSource {
+public interface DataSource extends Observer<DataSourceListener> {
 	
 	// ===========================================================
 	// Constants
@@ -73,6 +75,6 @@ public interface DataSource {
 	 * 
 	 * @return a collection of all found definitions
 	 */
-	Collection<ResourceDefinition> load() throws ResourceException;
+	Collection<DataNode> load() throws ResourceException;
 
 }

@@ -37,18 +37,18 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.util;
+package de.myreality.chronos.resources;
 
-import java.util.Collection;
+import de.myreality.chronos.util.Manager;
 
 /**
- * Observer which listens to a specific listener
+ * Manages resource definitions
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Observer<T extends Listener> {
+public interface ResourceDefinitionManager extends Manager<ResourceDefinition>, DataSourceListener {
 	
 	// ===========================================================
 	// Constants
@@ -59,38 +59,9 @@ public interface Observer<T extends Listener> {
 	// ===========================================================
 	
 	/**
-	 * Returns all current listeners
+	 * Returns the target group manager
 	 * 
-	 * @return collection of all containing listeners
+	 * @return group manager
 	 */
-	Collection<T> getListeners();
-	
-	/**
-	 * Adds a new listener
-	 * 
-	 * @param listener new listener
-	 */
-	void addListener(T listener);
-	
-	/**
-	 * Removes an existing listener
-	 * 
-	 * @param listener existing listener
-	 */
-	void removeListener(T listener);
-	
-	/**
-	 * Determines if the listener exists
-	 * 
-	 * @param listener listeners to check
-	 * @return True when exists
-	 */
-	boolean hasListener(T listener);
-	
-	/**
-	 * Returns the number of current listeners
-	 * 
-	 * @return number of listeners
-	 */
-	int getNumberOfListeners();
+	ResourceGroupManager getGroupManager();
 }

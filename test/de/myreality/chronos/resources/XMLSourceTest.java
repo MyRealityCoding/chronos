@@ -1,8 +1,8 @@
 package de.myreality.chronos.resources;
 
-import static org.junit.Assert.*;
-
-import java.util.Collection;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,21 +17,26 @@ import org.junit.Test;
 public class XMLSourceTest {
 
 	DataSource source;
-
+	ResourceDefinitionManager manager;
+	
 	@Before
 	public void setUp() throws Exception {
 		source = new XMLSource("xml/example.xml");
+		manager = new BasicResourceDefinitionManager();
+		source.addListener(manager);
 	}
 
 	@Test
 	public void testLoad() {
 		try {
-			Collection<ResourceDefinition> definitions = source.load();
+			
+			
+			source.load();
 
 			assertTrue("There should be 9 definitions instead of "
-					+ definitions.size(), definitions.size() == 9);
+					+ manager.getAllElements().size(), manager.getAllElements().size() == 9);
 
-			for (ResourceDefinition definition : definitions) {
+			for (ResourceDefinition definition : manager.getAllElements()) {
 				assertFalse("ID must be set of definition: " + definition,
 						definition.getId().isEmpty());
 				assertFalse("Value must be set of definition: " + definition,

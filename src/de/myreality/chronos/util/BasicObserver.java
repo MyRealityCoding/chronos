@@ -37,28 +37,21 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
- * XML implementation of a datasource. Reads a XML file and converts it into a
- * collection of resource definitions.
+ * Basic implementation of an observer
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class XMLSource extends AbstractDataSource {
-
+public class BasicObserver<T extends Listener> implements Observer<T> {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -66,15 +59,15 @@ public class XMLSource extends AbstractDataSource {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private String file;
+	
+	private List<T> listeners;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	public XMLSource(String file) {
-		this.file = file;
+	
+	public BasicObserver() {
+		this.listeners = new ArrayList<T>();
 	}
 
 	// ===========================================================
@@ -85,53 +78,36 @@ public class XMLSource extends AbstractDataSource {
 	// Methods from Superclass
 	// ===========================================================
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
+	@Override
+	public Collection<T> getListeners() {
+		return listeners;
+	}
 
-	/**
-	 * Tries to open a XML file and reads the content. Afterwards it will return
-	 * a nodelist object.
-	 * 
-	 * @param file
-	 *            Path of the file
-	 * @return NodeList object which contains all XML nodes
-	 * @throws ResourceException
-	 *             Is thrown when the file is corrupt or not valid
-	 */
-	private NodeList getXMLNodes(String file) throws ResourceException {
-		InputStream input = null;
-		try {
-			input = new FileInputStream(file);
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(input);
-			doc.getDocumentElement().normalize();
-			return doc.getElementsByTagName("resources");
-		} catch (Exception e) {
-			throw new ResourceException(e);
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					throw new ResourceException(e);
-				}
-			}
+	@Override
+	public void addListener(T listener) {
+		if (!hasListener(listener)) {
+			listeners.add(listener);
 		}
 	}
 
 	@Override
-	protected void startLoading() throws ResourceException {
-		NodeList nodes = getXMLNodes(file);
-
-		for (int i = 0; i < nodes.getLength(); ++i) {
-			// Node node = nodes.item(i);
-			// NodeList items = node.getChildNodes();
-			// TODO: Proceed items
-		}
+	public void removeListener(T listener) {
+		listeners.remove(listener);
 	}
+
+	@Override
+	public boolean hasListener(T listener) {
+		return listeners.contains(listener);
+	}
+
+	@Override
+	public int getNumberOfListeners() {
+		return listeners.size();
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
 
 	// ===========================================================
 	// Inner classes

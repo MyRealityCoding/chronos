@@ -39,14 +39,11 @@
  */
 package de.myreality.chronos.resources;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.myreality.chronos.logging.ChronosLogger;
-import de.myreality.chronos.util.BasicManager;
 import de.myreality.chronos.util.ClassUtils;
-import de.myreality.chronos.util.Manager;
 
 /**
  * Singleton resource manager which provides resources. New resources can be
@@ -76,9 +73,9 @@ public class ResourceManager implements ResourceManagerable {
 	// Contains the resource name as key and the resource class as value
 	private Map<String, String> translations;
 
-	private Manager<ResourceGroup> groupManager;
+	private ResourceGroupManager groupManager;
 
-	private Manager<ResourceDefinition> definitionManager;
+	private ResourceDefinitionManager definitionManager;
 
 	// ===========================================================
 	// Constructors
@@ -93,17 +90,16 @@ public class ResourceManager implements ResourceManagerable {
 	ResourceManager() {
 		loaders = new HashMap<String, ResourceLoader<?>>();
 		translations = new HashMap<String, String>();
-		groupManager = new BasicManager<ResourceGroup>();
-		definitionManager = new BasicManager<ResourceDefinition>();
+		groupManager = new BasicResourceGroupManager();
+		definitionManager = new BasicResourceDefinitionManager();
 
 		// Add the root group as default
 		groupManager.addElement(new BasicResourceGroup());
 
 		try {
-			//addResourceLoader(StringLoader.class);
-			//addResourceLoader(ROVectorLoader.class);
-			Class<? extends ResourceLoader<?> >[] loaders = (Class<? extends ResourceLoader<?>>[]) ClassUtils.searchForAnnotation(ResourceType.class);
-			for (Class<? extends ResourceLoader<?> > clazz : loaders) {
+			Class<? extends ResourceLoader<?>>[] loaders = (Class<? extends ResourceLoader<?>>[]) ClassUtils
+					.searchForAnnotation(ResourceType.class);
+			for (Class<? extends ResourceLoader<?>> clazz : loaders) {
 				addResourceLoader(clazz);
 			}
 		} catch (ResourceException e) {
@@ -137,45 +133,54 @@ public class ResourceManager implements ResourceManagerable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Resource<T> getResource(String id, Class<T> clazz) {
-		
-		ResourceLoader<?> loader = loaders.get(clazz.getName());		
+
+		ResourceLoader<?> loader = loaders.get(clazz.getName());
 		Resource<T> resource = null;
-		if (hasResource(id, clazz)) {							
+		if (hasResource(id, clazz)) {
 			resource = (Resource<T>) loader.getResource(id);
-			
+
 		} else if (definitionManager.hasElement(id)) {
-			 ResourceDefinition definition = definitionManager.getElement(id);
-			 
-			 if (definition.isDeferred() && loader != null) {				 
-				 try {
+			ResourceDefinition definition = definitionManager.getElement(id);
+
+			if (definition.isDeferred() && loader != null) {
+				try {
 					resource = (Resource<T>) loader.loadResource(definition);
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}
-			 }
+			}
 		}
-		
+
 		return resource;
 	}
 
 	@Override
 	public void load(DataSource dataSource) throws ResourceException {
-		Collection<ResourceDefinition> definitions = dataSource.load();
+		try {
+			
+			dataSource.addListener(definitionManager);
+			dataSource.addListener(groupManager);
+			
+			dataSource.load();
 
-		for (ResourceDefinition definition : definitions) {
+			for (ResourceDefinition definition : definitionManager
+					.getAllElements()) {
 
-			ResourceLoader<?> loader = getLoaderByDefinition(definition);
+				ResourceLoader<?> loader = getLoaderByDefinition(definition);
 
-			if (loader != null) {
-				addDefinition(definition);
+				if (loader != null) {
 
-				if (!definition.isDeferred()) {
-					loader.loadResource(definition);
+					if (!definition.isDeferred()) {
+						loader.loadResource(definition);
+					}
+				} else {
+					throw new ResourceException("Loader for "
+							+ definition.getType() + " resource does not exist");
 				}
-			} else {
-				throw new ResourceException("Loader for "
-						+ definition.getType() + " resource does not exist");
 			}
+		} finally {
+			dataSource.removeListener(definitionManager);
+			dataSource.removeListener(groupManager);
 		}
 	}
 
@@ -192,7 +197,7 @@ public class ResourceManager implements ResourceManagerable {
 				throw new ResourceException("The annotation in loader class '"
 						+ clazz.getSimpleName() + "' needs a value");
 			}
-			
+
 			ResourceLoader<?> loader = ClassUtils.createObject(clazz);
 			String resourceClass = loader.getResourceClass().getName();
 			loaders.put(resourceClass, loader);
@@ -207,31 +212,17 @@ public class ResourceManager implements ResourceManagerable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private ResourceLoader<?> getLoaderByDefinition(ResourceDefinition definition) throws ResourceException {
+
+	private ResourceLoader<?> getLoaderByDefinition(
+			ResourceDefinition definition) throws ResourceException {
 		String resourceClass = translations.get(definition.getType());
 
 		if (resourceClass == null) {
-			throw new ResourceException("Loader for "
-					+ definition.getType() + " resource does not exist");
+			throw new ResourceException("Loader for " + definition.getType()
+					+ " resource does not exist");
 		}
 
 		return loaders.get(resourceClass);
-	}
-	
-	private void addDefinition(ResourceDefinition definition) {
-		definitionManager.addElement(definition);
-
-		if (definition.getGroup() == null) {
-			definition.setGroup(groupManager
-					.getElement(ResourceGroup.DEFAULT_ID));
-		} else {
-			if (!groupManager.hasElement(definition.getGroupId())) {
-				groupManager.addElement(definition.getGroup());
-			} else {
-				definition.setGroup(groupManager.getElement(definition.getGroupId()));
-			}
-		}
 	}
 
 	// ===========================================================

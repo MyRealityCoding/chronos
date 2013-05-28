@@ -41,10 +41,6 @@ package de.myreality.chronos.resources;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,19 +84,15 @@ public class ResourceManagerableTest {
 	// ===========================================================
 	
 	// Data source which provides dump data
-	class MockDataSource implements DataSource {
+	class MockDataSource extends AbstractDataSource {
 
 		@Override
-		public Collection<ResourceDefinition> load() throws ResourceException {
-			
-			List<ResourceDefinition> definitions = new ArrayList<ResourceDefinition>();
+		protected void startLoading() throws ResourceException {
 			definition1 = new BasicResourceDefinition("definition1", "string");
 			definition2 = new BasicResourceDefinition("definition2", "string");
-			definitions.add(definition1);
-			definitions.add(definition2);
-			
-			return definitions;
+
 		}
+
 		
 	}
 }

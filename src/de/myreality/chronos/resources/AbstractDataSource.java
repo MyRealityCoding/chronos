@@ -39,43 +39,30 @@
  */
 package de.myreality.chronos.resources;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Collection;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import de.myreality.chronos.util.BasicObserver;
 
 /**
- * XML implementation of a datasource. Reads a XML file and converts it into a
- * collection of resource definitions.
+ * Abstract implementation of a data source
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class XMLSource extends AbstractDataSource {
+public abstract class AbstractDataSource extends BasicObserver<DataSourceListener>implements DataSource {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	private String file;
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	public XMLSource(String file) {
-		this.file = file;
-	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -84,54 +71,18 @@ public class XMLSource extends AbstractDataSource {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
+	
+	@Override
+	public final Collection<DataNode> load() throws ResourceException {
+		startLoading();
+		return null;
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	/**
-	 * Tries to open a XML file and reads the content. Afterwards it will return
-	 * a nodelist object.
-	 * 
-	 * @param file
-	 *            Path of the file
-	 * @return NodeList object which contains all XML nodes
-	 * @throws ResourceException
-	 *             Is thrown when the file is corrupt or not valid
-	 */
-	private NodeList getXMLNodes(String file) throws ResourceException {
-		InputStream input = null;
-		try {
-			input = new FileInputStream(file);
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(input);
-			doc.getDocumentElement().normalize();
-			return doc.getElementsByTagName("resources");
-		} catch (Exception e) {
-			throw new ResourceException(e);
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					throw new ResourceException(e);
-				}
-			}
-		}
-	}
-
-	@Override
-	protected void startLoading() throws ResourceException {
-		NodeList nodes = getXMLNodes(file);
-
-		for (int i = 0; i < nodes.getLength(); ++i) {
-			// Node node = nodes.item(i);
-			// NodeList items = node.getChildNodes();
-			// TODO: Proceed items
-		}
-	}
+	
+	protected abstract void startLoading() throws ResourceException;
 
 	// ===========================================================
 	// Inner classes
