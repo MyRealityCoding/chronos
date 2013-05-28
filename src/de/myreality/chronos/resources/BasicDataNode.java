@@ -78,6 +78,10 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 		
 	}
 	
+	BasicDataNode(String name) {
+		this(name, "");
+	}
+	
 	BasicDataNode(String name, String content, Map<String, String> attributes) {
 		this.attributes = attributes;
 		this.name = name;

@@ -61,6 +61,8 @@ public class ResourceManagerableTest {
 	public void setUp() throws Exception {
 		manager = new ResourceManager();		
 		manager.load(new MockDataSource());
+		definition1 = new BasicResourceDefinition("definition1", "string");
+		definition2 = new BasicResourceDefinition("definition2", "string");
 	}
 
 	// ===========================================================
@@ -88,9 +90,16 @@ public class ResourceManagerableTest {
 
 		@Override
 		protected void startLoading() throws ResourceException {
-			definition1 = new BasicResourceDefinition("definition1", "string");
-			definition2 = new BasicResourceDefinition("definition2", "string");
-
+			DataNode node1 = new BasicDataNode("resource");
+			DataNode node2 = new BasicDataNode("resource");
+			DataNode root = new BasicDataNode("group");
+			node1.addAttribute("id", "definition1");
+			node2.addAttribute("id", "definition2");
+			node1.addAttribute("type", "string");
+			node2.addAttribute("type", "string");
+			root.addAttribute("id", "root");
+			addNode(node1, root);
+			addNode(node2, root);
 		}
 
 		
