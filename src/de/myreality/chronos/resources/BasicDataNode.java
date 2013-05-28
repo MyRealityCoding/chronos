@@ -90,6 +90,8 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 		if (attributes == null) {
 			this.attributes = new HashMap<String, String>();
 		}
+		
+		this.content = content.trim();
 	}
 	
 	BasicDataNode(String name, String content) {
@@ -136,6 +138,7 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 	@Override
 	public void setContent(String content) {
 		this.content = content;
+		this.content = content.trim();
 	}
 
 	@Override
@@ -180,6 +183,14 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "BasicDataNode [attributes=" + attributes + ", content="
+				+ content + ", name=" + name + "]";
+	}
+	
+	
 	
 	
 

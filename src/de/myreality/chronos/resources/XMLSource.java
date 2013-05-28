@@ -47,6 +47,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -85,6 +87,17 @@ public class XMLSource extends AbstractDataSource {
 	// Methods from Superclass
 	// ===========================================================
 
+	@Override
+	protected void startLoading() throws ResourceException {
+		NodeList nodes = getXMLNodes(file);
+
+		for (int i = 0; i < nodes.getLength(); ++i) {
+			Node node = nodes.item(i);
+			NodeList items = node.getChildNodes();
+			computeNodes(items, node);
+		}
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -99,7 +112,7 @@ public class XMLSource extends AbstractDataSource {
 	 * @throws ResourceException
 	 *             Is thrown when the file is corrupt or not valid
 	 */
-	private NodeList getXMLNodes(String file) throws ResourceException {
+	NodeList getXMLNodes(String file) throws ResourceException {
 		InputStream input = null;
 		try {
 			input = new FileInputStream(file);
@@ -122,14 +135,61 @@ public class XMLSource extends AbstractDataSource {
 		}
 	}
 
-	@Override
-	protected void startLoading() throws ResourceException {
-		NodeList nodes = getXMLNodes(file);
+	/**
+	 * Computes recursively the nodes and injecting them into the parent data
+	 * source.
+	 * <p>
+	 * The nodes are converted into a {@link DataNode} object.
+	 * 
+	 * @param nodes
+	 *            nodes to calculate the children
+	 * @param parent
+	 *            parent node of the node list
+	 */
+	void computeNodes(NodeList nodes, Node parent) {
 
 		for (int i = 0; i < nodes.getLength(); ++i) {
-			// Node node = nodes.item(i);
-			// NodeList items = node.getChildNodes();
-			// TODO: Proceed items
+			Node node = nodes.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				DataNode dataNode = convertToDataNode(node);
+				DataNode parentNode = convertToDataNode(parent);
+
+				addNode(dataNode, parentNode);
+
+				NodeList children = node.getChildNodes();
+				if (children.getLength() > 0) {
+					computeNodes(children, node);
+				}
+			}
+		}
+	}
+
+	DataNode convertToDataNode(Node node) {
+		if (node != null) {
+			DataNode dataNode = new BasicDataNode(node.getNodeName(),
+					node.getTextContent());
+			
+			if (node.getChildNodes().getLength() > 0) {
+				dataNode.setContent("");
+			}
+
+			NamedNodeMap attributes = node.getAttributes();
+
+			if (attributes != null) {
+				for (int i = 0; i < attributes.getLength(); ++i) {
+					Node attribute = attributes.item(i);
+
+					if (attribute.getNodeType() == Node.ATTRIBUTE_NODE) {
+						dataNode.addAttribute(attribute.getNodeName(),
+								attribute.getNodeValue());
+					}
+				}
+			}
+
+			return dataNode;
+		} else {
+			return null;
 		}
 	}
 

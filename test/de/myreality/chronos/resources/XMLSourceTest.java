@@ -8,6 +8,9 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Test case for a xml source
@@ -18,26 +21,29 @@ import org.junit.Test;
  */
 public class XMLSourceTest {
 
-	DataSource source;
-	
+	static final String FILE = "xml/example.xml";
+
+	XMLSource source;
+
 	ResourceDefinitionManager manager;
-	
+
 	@Before
 	public void setUp() throws Exception {
-		source = new XMLSource("xml/example.xml");
-		manager = new BasicResourceDefinitionManager(new BasicResourceGroupManager());
+		source = new XMLSource(FILE);
+		manager = new BasicResourceDefinitionManager(
+				new BasicResourceGroupManager());
 		source.addListener(manager);
 	}
 
 	@Test
 	public void testLoad() {
 		try {
-			
-			
+
 			Collection<DataNode> nodes = source.load();
 
-			assertTrue("There should be 9 definitions instead of "
-					+ nodes.size(), nodes.size() == 9);
+			assertTrue(
+					"There should be 9 definitions instead of " + nodes.size(),
+					nodes.size() == 9);
 
 			for (ResourceDefinition definition : manager.getAllElements()) {
 				assertFalse("ID must be set of definition: " + definition,
@@ -59,4 +65,89 @@ public class XMLSourceTest {
 			fail(e.getMessage());
 		}
 	}
+
+	@Test
+	public void testGetXMLNodes() {
+		try {
+			NodeList nodes = source.getXMLNodes(FILE);
+			Node node = nodes.item(0);
+			NodeList realList = node.getChildNodes();
+			assertTrue("There has to be only one child", nodes.getLength() == 1);
+			assertFalse("Node has to exists", node == null);
+			assertTrue("There must be 9 items in the list instead of "
+					+ realList.getLength(), realList.getLength() == 9);
+			assertTrue("There must be 4 real nodes in the list",
+					countRealNodes(realList) == 4);
+		} catch (ResourceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testConvertToDataNode() {
+		try {
+			NodeList nodes = source.getXMLNodes(FILE);
+			Node parent = nodes.item(0);
+			NodeList realList = parent.getChildNodes();
+
+			for (int i = 0; i < realList.getLength(); ++i) {
+				Node node = realList.item(i);
+
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					DataNode dataNode = source.convertToDataNode(node);
+
+					assertFalse("Data node must exists", dataNode == null);
+					assertTrue("The node name has to be equal", dataNode
+							.getName().equals(node.getNodeName()));
+					if (node.getChildNodes().getLength() == 0) {
+					assertTrue("The content needs to be equal", dataNode
+							.getContent().equals(node.getTextContent()));
+					} else {
+						assertTrue("The content needs to be empty", dataNode
+								.getContent().isEmpty());
+					}
+
+					// Test the attributes
+					NamedNodeMap attributes = node.getAttributes();
+
+					if (attributes != null) {
+						for (int a = 0; i < attributes.getLength(); ++a) {
+							Node attribute = attributes.item(a);
+
+							if (attribute.getNodeType() == Node.ATTRIBUTE_NODE) {
+								String key = attribute.getNodeName();
+								String value = attribute.getNodeValue();
+								String dataAttribute = dataNode
+										.getAttribute(key);
+								assertTrue("Attribute '" + key
+										+ "' with value='" + value
+										+ "' must exist in data node object",
+										dataAttribute.equals(value));
+								
+							}
+						}
+					}
+					
+					System.out.println(dataNode);
+				}
+			}
+		} catch (ResourceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	private int countRealNodes(NodeList list) {
+		int count = 0;
+
+		for (int i = 0; i < list.getLength(); ++i) {
+			Node node = list.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				++count;
+			}
+		}
+
+		return count;
+	}
+
 }
