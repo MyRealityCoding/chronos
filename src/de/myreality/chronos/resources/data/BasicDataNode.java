@@ -90,11 +90,11 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 		this.content = content.trim();
 	}
 	
-	BasicDataNode(String name, String content) {
+	public BasicDataNode(String name, String content) {
 		this(name, content, null);
 	}
 	
-	BasicDataNode(String name, Map<String, String> attributes) {
+	public BasicDataNode(String name, Map<String, String> attributes) {
 		this(name, "", attributes);
 	}
 
