@@ -173,6 +173,11 @@ public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup>
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "BasicResourceGroup [id=" + id + "]";
+	}
+
 	
 
 	// ===========================================================

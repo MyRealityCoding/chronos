@@ -57,7 +57,6 @@ public class XMLSourceTest {
 			for (ResourceDefinition definition : manager.getAllElements()) {
 				assertFalse("ID must be set of definition: " + definition,
 						definition.getId().isEmpty());
-				System.out.println(definition.getId());
 				assertTrue("The definition " + definition
 						+ " needs at least a group (root)",
 						definition.getGroup() != null);
@@ -71,7 +70,7 @@ public class XMLSourceTest {
 			}
 		} catch (ResourceException e) {
 			fail(e.getMessage());
-		}
+		}	
 	}
 
 	@Test
@@ -135,8 +134,6 @@ public class XMLSourceTest {
 							}
 						}
 					}
-					
-					System.out.println(dataNode);
 				}
 			}
 		} catch (ResourceException e) {

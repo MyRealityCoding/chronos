@@ -163,7 +163,6 @@ public class ResourceManager implements ResourceManagerable {
 		try {
 			
 			dataSource.addListener(definitionManager);
-			dataSource.addListener(groupManager);
 			
 			dataSource.load();
 
@@ -184,7 +183,6 @@ public class ResourceManager implements ResourceManagerable {
 			}
 		} finally {
 			dataSource.removeListener(definitionManager);
-			dataSource.removeListener(groupManager);
 		}
 	}
 

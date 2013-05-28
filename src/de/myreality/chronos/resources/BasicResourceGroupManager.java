@@ -40,7 +40,6 @@
 package de.myreality.chronos.resources;
 
 import de.myreality.chronos.resources.data.DataNode;
-import de.myreality.chronos.resources.data.DataSourceEvent;
 import de.myreality.chronos.util.BasicManager;
 
 /**
@@ -80,29 +79,6 @@ public class BasicResourceGroupManager extends BasicManager<ResourceGroup>
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
-	@Override
-	public void beforeLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onNodeCreate(DataSourceEvent event) {
-		
-	}
-
-	@Override
-	public void afterLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onError(DataSourceEvent event, Throwable cause) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public ResourceGroup computeGroup(ResourceGroup group,

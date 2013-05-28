@@ -40,7 +40,6 @@
 package de.myreality.chronos.resources;
 
 import de.myreality.chronos.resources.data.DataNode;
-import de.myreality.chronos.resources.data.DataSourceListener;
 import de.myreality.chronos.util.Manager;
 
 /**
@@ -50,8 +49,7 @@ import de.myreality.chronos.util.Manager;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceGroupManager extends Manager<ResourceGroup>,
-		DataSourceListener {
+public interface ResourceGroupManager extends Manager<ResourceGroup> {
 	// ===========================================================
 	// Constants
 	// ===========================================================

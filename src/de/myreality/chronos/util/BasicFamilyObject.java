@@ -175,8 +175,6 @@ public class BasicFamilyObject<T extends FamilyObject<T> > implements FamilyObje
 			return false;
 		return true;
 	}
-	
-	
 
 	// ===========================================================
 	// Methods
