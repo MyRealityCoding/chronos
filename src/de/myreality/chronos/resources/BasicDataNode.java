@@ -41,95 +41,72 @@ package de.myreality.chronos.resources;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import de.myreality.chronos.util.BasicFamilyObject;
 
 /**
- * Basic implementation of a resource definition
+ * Basic implementation of a data node
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class BasicResourceDefinition extends BasicFamilyObject<ResourceDefinition> implements ResourceDefinition {
+public class BasicDataNode extends BasicFamilyObject<DataNode> implements
+		DataNode {	
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	
 	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private String type;
-	
-	private String id;
-	
-	private String value;
-	
-	private ResourceGroup group;
-	
 	private Map<String, String> attributes;
 	
-	private boolean deferred;
+	private String content;
+	
+	private String name;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	BasicResourceDefinition(String id, String type) {
-		this(id, type, false);
-	}
-	
-	BasicResourceDefinition(String id, String type, boolean deferred) {
-		this.type = type;
-		this.id = id;
-		this.attributes = new HashMap<String, String>();
-		this.value = "";
-		this.deferred = deferred;
-	}
-	
-	
-	/**
-	 * Creates a new resource definition from a data node
-	 * 
-	 * @param node target node to fetch the data from
-	 */
-	BasicResourceDefinition(DataNode node) {
-		this.value = node.getContent();
+	BasicDataNode() {
 		
-		for (Entry<String, String> entry : node.getAttributes().entrySet()) {
-			if (entry.getKey().equals("id")) {
-				this.id = entry.getValue();
-			} else if (entry.getKey().equals("type")) {
-				this.type = entry.getValue();
-			} else if (entry.getKey().equals("deferred")) {
-				this.deferred = entry.getValue().equals("true");
-			} else {
-				addAttribute(entry.getKey(), entry.getValue());
-			}
+	}
+	
+	BasicDataNode(String name, String content, Map<String, String> attributes) {
+		this.attributes = attributes;
+		this.name = name;
+		this.content = content;	
+		
+		if (attributes == null) {
+			this.attributes = new HashMap<String, String>();
 		}
+	}
+	
+	BasicDataNode(String name, String content) {
+		this(name, content, null);
+	}
+	
+	BasicDataNode(String name, Map<String, String> attributes) {
+		this(name, "", attributes);
 	}
 
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
-	
+
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
-	@Override
-	public String getId() {
-		return id;
-	}
 
 	@Override
-	public String getValue() {
-		return value;
+	public void addAttribute(String name, String value) {
+		attributes.put(name, value);
 	}
 
 	@Override
@@ -138,63 +115,28 @@ public class BasicResourceDefinition extends BasicFamilyObject<ResourceDefinitio
 	}
 
 	@Override
-	public String getType() {
-		return type;
+	public Map<String, String> getAttributes() {
+		return attributes;
 	}
 
 	@Override
-	public ResourceGroup getGroup() {
-		return group;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
-	public String getGroupId() {
-		if (group != null) {
-			return group.getId();
-		} else {
-			return ResourceGroup.DEFAULT_ID;
-		}
+	public String getName() {
+		return name;
 	}
 
 	@Override
-	public void setType(String type) {
-		this.type = type;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@Override
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	@Override
-	public void addAttribute(String name, String value) {
-		attributes.put(name, value);
-	}
-
-	@Override
-	public void setGroup(ResourceGroup group) {
-		if (group != null) {
-			if (this.group != null) {
-				this.group.removeResourceDefinition(this);
-			}
-			group.addResourceDefinition(this);
-		}
-		this.group = group;
-	}
-
-	@Override
-	public boolean isDeferred() {
-		return deferred;
-	}
-
-	@Override
-	public void setDeferred(boolean deferred) {
-		this.deferred = deferred;
+	public String getContent() {
+		return content;
 	}
 
 	// ===========================================================

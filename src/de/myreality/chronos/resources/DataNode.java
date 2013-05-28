@@ -40,114 +40,26 @@
 package de.myreality.chronos.resources;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import de.myreality.chronos.util.FamilyObject;
-import de.myreality.chronos.util.IDProvider;
 
 /**
- * A resource definition defines how a resource looks like. It defines children,
- * attributes and provides functionality of a parent group which is always named
- * as "root" on default.
+ * Defines a simple data node
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceDefinition extends Serializable, FamilyObject<ResourceDefinition>, IDProvider {
+public interface DataNode extends Serializable, FamilyObject<DataNode> {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	// Resource element tag
-	public static final String RESOURCE_TAG = "resource";
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Returns the id of this definition
-	 * 
-	 * @return current definition id
-	 */
-	String getId();
-	
-	
-	/**
-	 * Returns the current value of this resource
-	 * 
-	 * @return current content value
-	 */
-	String getValue();	
-	
-	/**
-	 * Returns the type if the resource. The type has to be always the name of
-	 * the class which represents the resource.
-	 * <p>
-	 * For instance the type of <code>String</code> will be "String" or for
-	 * <code>Image</code> it will be "Image". Everything else will be false.
-	 * 
-	 * @return
-	 */
-	String getType();
-	
-	
-	/**
-	 * Returns the current group ob this definition
-	 * 
-	 * @return current definition group
-	 */
-	ResourceGroup getGroup();
-	
-	/**
-	 * Returns the name of the group (default is root)
-	 */
-	String getGroupId();
-	
-	/**
-	 * Determines if this definition is deferred or not. Deferred definitions will be loaded when they are needed.
-	 * 
-	 * @return True when deferred
-	 */
-	boolean isDeferred();
-	
-	/**
-	 * Sets a new resource type
-	 * 
-	 * @param type type of this definition
-	 */
-	void setType(String type);
-	
-	/**
-	 * Sets a new value of this definition
-	 * 
-	 * @param value value of this definition
-	 */
-	void setValue(String value);
-	
-	/**
-	 * Sets a new id of this definition
-	 * 
-	 * @param id id of this definition
-	 */
-	void setId(String id);	
-	
-	
-	
-	/**
-	 * Sets a new group and assign it to this definition
-	 * 
-	 * @param group group of this resource definition
-	 */
-	void setGroup(ResourceGroup group);
-	
-	/**
-	 * Sets a new deferred state
-	 * 
-	 * @param deferred new deferred state
-	 */
-	void setDeferred(boolean deferred);
 	
 	/**
 	 * Adds a new attribute to this definition
@@ -166,5 +78,38 @@ public interface ResourceDefinition extends Serializable, FamilyObject<ResourceD
 	 */
 	String getAttribute(String key);
 	
+	/**
+	 * Returns the attributes of this node
+	 * 
+	 * @return map of all attributes
+	 */
+	Map<String, String> getAttributes();
 	
+	/**
+	 * Sets the name of this node
+	 * 
+	 * @param name Name of this node
+	 */
+	void setName(String name);
+	
+	/**
+	 * Returns the current name of the node
+	 * 
+	 * @return Name of the node
+	 */
+	String getName();
+	
+	/**
+	 * Sets the content of this node
+	 * 
+	 * @param content new content
+	 */
+	void setContent(String content);
+	
+	/**
+	 * Returns the content of this node
+	 * 
+	 * @return content of this node
+	 */
+	String getContent();
 }
