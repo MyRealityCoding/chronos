@@ -88,8 +88,7 @@ public class BasicResourceDefinitionManager extends
 
 	@Override
 	public void onNodeCreate(DataSourceEvent event) {
-		// TODO Auto-generated method stub
-
+		System.out.println(event);
 	}
 
 	@Override

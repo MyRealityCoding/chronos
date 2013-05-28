@@ -83,8 +83,14 @@ public abstract class AbstractDataSource extends BasicObserver<DataSourceListene
 	
 	@Override
 	public final Collection<DataNode> load() throws ResourceException {
+		for (DataSourceListener listener : getListeners()) {
+			listener.beforeLoad();
+		}
 		nodes.clear();
 		startLoading();
+		for (DataSourceListener listener : getListeners()) {
+			listener.afterLoad();
+		}
 		return nodes;
 	}
 
@@ -95,8 +101,25 @@ public abstract class AbstractDataSource extends BasicObserver<DataSourceListene
 	protected abstract void startLoading() throws ResourceException;
 	
 	protected void addNode(DataNode node, DataNode parent) {
-		// TODO: Node implementation
+		for (DataSourceListener listener : getListeners()) {
+			DataSourceEvent event = new BasicDataSourceEvent(this, node, parent);
+			listener.onNodeCreate(event);
+		}
+		
+		if (parent != null) {
+			if (nodes.contains(parent)) {
+				DataNode realParent = nodes.get(nodes.indexOf(parent));
+				realParent.addChild(node);
+			} else {
+				parent.addChild(node);
+				nodes.add(parent);
+			}
+		} else if (!nodes.contains(node)){
+			nodes.add(node);
+		}
 	}
+	
+	
 
 	// ===========================================================
 	// Inner classes

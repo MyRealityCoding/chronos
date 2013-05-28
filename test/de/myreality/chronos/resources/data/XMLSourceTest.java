@@ -51,8 +51,8 @@ public class XMLSourceTest {
 			Collection<DataNode> nodes = source.load();
 
 			assertTrue(
-					"There should be 9 definitions instead of " + nodes.size(),
-					nodes.size() == 9);
+					"There should be 4 definitions instead of " + nodes.size(),
+					nodes.size() == 4);
 
 			for (ResourceDefinition definition : manager.getAllElements()) {
 				assertFalse("ID must be set of definition: " + definition,

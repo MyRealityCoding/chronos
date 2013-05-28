@@ -96,6 +96,7 @@ public class XMLSource extends AbstractDataSource {
 		for (int i = 0; i < nodes.getLength(); ++i) {
 			Node node = nodes.item(i);
 			NodeList items = node.getChildNodes();
+			
 			computeNodes(items, node);
 		}
 	}
@@ -149,14 +150,14 @@ public class XMLSource extends AbstractDataSource {
 	 *            parent node of the node list
 	 */
 	void computeNodes(NodeList nodes, Node parent) {
-
+		
 		for (int i = 0; i < nodes.getLength(); ++i) {
 			Node node = nodes.item(i);
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				DataNode dataNode = convertToDataNode(node);
 				DataNode parentNode = convertToDataNode(parent);
-
+				
 				addNode(dataNode, parentNode);
 
 				NodeList children = node.getChildNodes();

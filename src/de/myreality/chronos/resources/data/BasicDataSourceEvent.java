@@ -131,8 +131,12 @@ public class BasicDataSourceEvent implements DataSourceEvent {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "BasicDataSourceEvent [sender=" + sender + ", node=" + node
+				+ ", parent=" + parent + "]";
+	}
 
 	// ===========================================================
 	// Methods
