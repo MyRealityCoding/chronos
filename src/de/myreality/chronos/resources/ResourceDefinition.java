@@ -53,34 +53,40 @@ import de.myreality.chronos.util.IDProvider;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceDefinition extends Serializable, FamilyObject<ResourceDefinition>, IDProvider {
-	
+public interface ResourceDefinition extends Serializable,
+		FamilyObject<ResourceDefinition>, IDProvider {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	// Resource element tag
 	public static final String RESOURCE_TAG = "resource";
+
+	// Name of the id attribute
+	public static final String ID = "id";
+
+	// Name of the type attribute
+	public static final String TYPE = "type";
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
 	 * Returns the id of this definition
 	 * 
 	 * @return current definition id
 	 */
 	String getId();
-	
-	
+
 	/**
 	 * Returns the current value of this resource
 	 * 
 	 * @return current content value
 	 */
-	String getValue();	
-	
+	String getValue();
+
 	/**
 	 * Returns the type if the resource. The type has to be always the name of
 	 * the class which represents the resource.
@@ -91,80 +97,84 @@ public interface ResourceDefinition extends Serializable, FamilyObject<ResourceD
 	 * @return
 	 */
 	String getType();
-	
-	
+
 	/**
 	 * Returns the current group ob this definition
 	 * 
 	 * @return current definition group
 	 */
 	ResourceGroup getGroup();
-	
+
 	/**
 	 * Returns the name of the group (default is root)
 	 */
 	String getGroupId();
-	
+
 	/**
-	 * Determines if this definition is deferred or not. Deferred definitions will be loaded when they are needed.
+	 * Determines if this definition is deferred or not. Deferred definitions
+	 * will be loaded when they are needed.
 	 * 
 	 * @return True when deferred
 	 */
 	boolean isDeferred();
-	
+
 	/**
 	 * Sets a new resource type
 	 * 
-	 * @param type type of this definition
+	 * @param type
+	 *            type of this definition
 	 */
 	void setType(String type);
-	
+
 	/**
 	 * Sets a new value of this definition
 	 * 
-	 * @param value value of this definition
+	 * @param value
+	 *            value of this definition
 	 */
 	void setValue(String value);
-	
+
 	/**
 	 * Sets a new id of this definition
 	 * 
-	 * @param id id of this definition
+	 * @param id
+	 *            id of this definition
 	 */
-	void setId(String id);	
-	
-	
-	
+	void setId(String id);
+
 	/**
 	 * Sets a new group and assign it to this definition
 	 * 
-	 * @param group group of this resource definition
+	 * @param group
+	 *            group of this resource definition
 	 */
 	void setGroup(ResourceGroup group);
-	
+
 	/**
 	 * Sets a new deferred state
 	 * 
-	 * @param deferred new deferred state
+	 * @param deferred
+	 *            new deferred state
 	 */
 	void setDeferred(boolean deferred);
-	
+
 	/**
 	 * Adds a new attribute to this definition
 	 * 
-	 * @param name name of the attribute
-	 * @param value value of the attribute
+	 * @param name
+	 *            name of the attribute
+	 * @param value
+	 *            value of the attribute
 	 */
 	void addAttribute(String name, String value);
-	
-	
+
 	/**
 	 * Returns the attribute for a specific attribute name (the key)
 	 * 
-	 * @param key name of the attribute
+	 * @param key
+	 *            name of the attribute
 	 * @return value of the attribute
 	 */
 	String getAttribute(String key);
-	
-	
+
 }

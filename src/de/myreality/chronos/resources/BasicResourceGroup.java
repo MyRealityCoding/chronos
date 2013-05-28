@@ -111,12 +111,16 @@ public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup>
 
 	@Override
 	public void addResourceDefinition(ResourceDefinition definition) {
-		definitions.put(definition.getId(), definition);
+
+		definitions.put(definition.getId(), definition);		
+		if (!equals(definition.getGroup())) {
+			definition.setGroup(this);
+		}
 	}
 
 	@Override
 	public void removeResourceDefinition(ResourceDefinition definition) {
-		removeResourceDefinition(definition.getId());
+		removeResourceDefinition(definition.getId());	
 	}
 
 	@Override
@@ -168,6 +172,8 @@ public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup>
 			return false;
 		return true;
 	}
+
+	
 
 	// ===========================================================
 	// Methods

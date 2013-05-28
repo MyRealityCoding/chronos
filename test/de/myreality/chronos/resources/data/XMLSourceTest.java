@@ -57,15 +57,14 @@ public class XMLSourceTest {
 			for (ResourceDefinition definition : manager.getAllElements()) {
 				assertFalse("ID must be set of definition: " + definition,
 						definition.getId().isEmpty());
-				assertFalse("Value must be set of definition: " + definition,
-						definition.getValue().isEmpty());
+				System.out.println(definition.getId());
 				assertTrue("The definition " + definition
 						+ " needs at least a group (root)",
 						definition.getGroup() != null);
 
 				ResourceGroup group = definition.getGroup();
 				assertFalse("The group " + group + " needs children", group
-						.getChildren().isEmpty());
+						.getDefinitions().isEmpty());
 				assertTrue("The group " + group
 						+ " should have the definition " + definition
 						+ " as child", group.containsDefinition(definition));

@@ -155,12 +155,16 @@ public class BasicResourceDefinition extends BasicFamilyObject<ResourceDefinitio
 
 	@Override
 	public void setGroup(ResourceGroup group) {
-		if (group != null) {
+		if (group != null && !group.equals(this.group)) {
 			if (this.group != null) {
 				this.group.removeResourceDefinition(this);
 			}
-			group.addResourceDefinition(this);
+			
+			if (!group.containsDefinition(this)) {
+				group.addResourceDefinition(this);	
+			}
 		}
+		
 		this.group = group;
 	}
 
@@ -178,13 +182,7 @@ public class BasicResourceDefinition extends BasicFamilyObject<ResourceDefinitio
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((attributes == null) ? 0 : attributes.hashCode());
-		result = prime * result + (deferred ? 1231 : 1237);
-		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -192,40 +190,28 @@ public class BasicResourceDefinition extends BasicFamilyObject<ResourceDefinitio
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		BasicResourceDefinition other = (BasicResourceDefinition) obj;
-		if (attributes == null) {
-			if (other.attributes != null)
-				return false;
-		} else if (!attributes.equals(other.attributes))
-			return false;
-		if (deferred != other.deferred)
-			return false;
-		if (group == null) {
-			if (other.group != null)
-				return false;
-		} else if (!group.equals(other.group))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
-			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "BasicResourceDefinition [type=" + type + ", id=" + id
+				+ ", value=" + value + ", group=" + group + ", attributes="
+				+ attributes + ", deferred=" + deferred + "]";
+	}
+	
+	
+	
 
 	// ===========================================================
 	// Methods

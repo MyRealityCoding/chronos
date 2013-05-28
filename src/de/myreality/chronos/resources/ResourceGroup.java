@@ -46,78 +46,83 @@ import de.myreality.chronos.util.FamilyObject;
 import de.myreality.chronos.util.IDProvider;
 
 /**
- * A resource group contains all direct definitions as children. Furthermore
- * it provides functionality for global deferred resource loading. Also a
- * resource group can have other resource groups as children.
+ * A resource group contains all direct definitions as children. Furthermore it
+ * provides functionality for global deferred resource loading. Also a resource
+ * group can have other resource groups as children.
  * <p>
  * If the player has not defined an own resource group, Chronos will create a
  * "root" group for it.
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceGroup extends FamilyObject<ResourceGroup>, Serializable, IDProvider {
-	
+public interface ResourceGroup extends FamilyObject<ResourceGroup>,
+		Serializable, IDProvider {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	static final String DEFAULT_ID = "root";
-	
+
 	// Resource element tag
 	public static final String RESOURCE_TAG = "group";
+
+	// Resource element tag
+	public static final String ID = "id";
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
 	 * Returns the group id of this group.
 	 * 
 	 * @return current group id
 	 */
 	String getId();
-	
+
 	/**
 	 * Contains true when it contains a specific definition
 	 * 
-	 * @param definition target definition to check
+	 * @param definition
+	 *            target definition to check
 	 * @return True when found
 	 */
 	boolean containsDefinition(ResourceDefinition definition);
-	
+
 	/**
 	 * Returns all containing definitions
 	 * 
 	 * @return collection of resource definitions
 	 */
 	Collection<ResourceDefinition> getDefinitions();
-	
+
 	/**
 	 * Adds a new resource definition to the group
 	 * 
-	 * @param definition definition to add
+	 * @param definition
+	 *            definition to add
 	 */
 	void addResourceDefinition(ResourceDefinition definition);
-	
-	
+
 	/**
 	 * Removes an existing definition from the group
 	 * 
-	 * @param definition definition in the list
+	 * @param definition
+	 *            definition in the list
 	 */
 	void removeResourceDefinition(ResourceDefinition definition);
-	
-	
+
 	/**
 	 * Removes an existing definition by id
 	 * 
-	 * @param definitionId definition id
+	 * @param definitionId
+	 *            definition id
 	 */
 	void removeResourceDefinition(String definitionId);
-	
-	
+
 	/**
 	 * Sets a new id to the resource group
 	 * 

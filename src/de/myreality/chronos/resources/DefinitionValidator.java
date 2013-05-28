@@ -15,15 +15,6 @@ public class DefinitionValidator implements ResourceValidator {
 	// Constants
 	// ===========================================================
 	
-	// Name of the definition
-	public static final String NAME = "resource";
-
-	// Name of the id attribute
-	public static final String ID = "id";
-	
-	// Name of the type attribute
-	public static final String TYPE = "type";
-	
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -44,8 +35,8 @@ public class DefinitionValidator implements ResourceValidator {
 	public void validate(DataNode node) throws ResourceException {
 		
 		String name = node.getName();
-		String id = node.getAttribute(ID);
-		String type = node.getAttribute(TYPE);
+		String id = node.getAttribute(ResourceDefinition.ID);
+		String type = node.getAttribute(ResourceDefinition.TYPE);
 		
 		assertString(name, node, "name");
 		assertString(id, node, "id");

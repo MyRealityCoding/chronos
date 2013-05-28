@@ -153,6 +153,31 @@ public class BasicFamilyObject<T extends FamilyObject<T> > implements FamilyObje
 		return children.size();
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicFamilyObject other = (BasicFamilyObject) obj;
+		if (children == null) {
+			if (other.children != null)
+				return false;
+		} else if (!children.equals(other.children))
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		return true;
+	}
+	
+	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

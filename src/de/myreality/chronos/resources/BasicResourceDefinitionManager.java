@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources;
 
+import de.myreality.chronos.resources.data.BasicDataNode;
 import de.myreality.chronos.resources.data.DataNode;
 import de.myreality.chronos.resources.data.DataSourceEvent;
 import de.myreality.chronos.util.BasicManager;
@@ -96,21 +97,38 @@ public class BasicResourceDefinitionManager extends
 
 		if (node.getName().equals(ResourceDefinition.RESOURCE_TAG)) {
 
-			String id = node.getAttribute(DefinitionValidator.ID);
-			String parentId = parentNode.getAttribute(DefinitionValidator.ID);
+			String id = node.getAttribute(ResourceDefinition.ID);
+			String parentId = parentNode.getAttribute(ResourceDefinition.ID);
 
 			ResourceDefinition definition = getElement(id);
 			definition = computeDefinition(definition, node);
 
-			if (parentNode.getName().equals(ResourceDefinition.RESOURCE_TAG)) {
-				ResourceDefinition parentDefinition = getElement(parentId);
-				parentDefinition = computeDefinition(parentDefinition, parentNode);
-				parentDefinition.addChild(definition);
-			} else if (parentNode.getName().equals(ResourceGroup.RESOURCE_TAG)) {
-				ResourceGroup group = manager.getElement(parentId);
-				group = manager.computeGroup(group, parentNode);
-				group.addResourceDefinition(definition);
+			if (parentNode != null) {
+				if (parentNode.getName()
+						.equals(ResourceDefinition.RESOURCE_TAG)) {
+					ResourceDefinition parentDefinition = getElement(parentId);
+					parentDefinition = computeDefinition(parentDefinition,
+							parentNode);
+					parentDefinition.addChild(definition);
+				} else if (parentNode.getName().equals(
+						ResourceGroup.RESOURCE_TAG)) {
+					ResourceGroup group = manager.getElement(parentId);
+					group = manager.computeGroup(group, parentNode);
+					group.addResourceDefinition(definition);
+				} else {
+					// Create root group
+					DataNode rootNode = new BasicDataNode(
+							ResourceGroup.RESOURCE_TAG);
+					rootNode.addAttribute(ResourceGroup.ID,
+							ResourceGroup.DEFAULT_ID);
+
+					ResourceGroup root = manager
+							.getElement(ResourceGroup.DEFAULT_ID);
+					root = manager.computeGroup(root, parentNode);
+					root.addResourceDefinition(definition);
+				}
 			}
+
 		}
 	}
 
