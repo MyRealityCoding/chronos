@@ -73,8 +73,10 @@ public class ResourceManager implements ResourceManagerable {
 	// Contains the resource name as key and the resource class as value
 	private Map<String, String> translations;
 
+	// Manages all groups
 	private ResourceGroupManager groupManager;
 
+	// Manages all definitions
 	private ResourceDefinitionManager definitionManager;
 
 	// ===========================================================
@@ -91,7 +93,7 @@ public class ResourceManager implements ResourceManagerable {
 		loaders = new HashMap<String, ResourceLoader<?>>();
 		translations = new HashMap<String, String>();
 		groupManager = new BasicResourceGroupManager();
-		definitionManager = new BasicResourceDefinitionManager();
+		definitionManager = new BasicResourceDefinitionManager(groupManager);
 
 		// Add the root group as default
 		groupManager.addElement(new BasicResourceGroup());

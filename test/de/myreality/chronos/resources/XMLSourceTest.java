@@ -4,6 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,12 +19,13 @@ import org.junit.Test;
 public class XMLSourceTest {
 
 	DataSource source;
+	
 	ResourceDefinitionManager manager;
 	
 	@Before
 	public void setUp() throws Exception {
 		source = new XMLSource("xml/example.xml");
-		manager = new BasicResourceDefinitionManager();
+		manager = new BasicResourceDefinitionManager(new BasicResourceGroupManager());
 		source.addListener(manager);
 	}
 
@@ -31,10 +34,10 @@ public class XMLSourceTest {
 		try {
 			
 			
-			source.load();
+			Collection<DataNode> nodes = source.load();
 
 			assertTrue("There should be 9 definitions instead of "
-					+ manager.getAllElements().size(), manager.getAllElements().size() == 9);
+					+ nodes.size(), nodes.size() == 9);
 
 			for (ResourceDefinition definition : manager.getAllElements()) {
 				assertFalse("ID must be set of definition: " + definition,

@@ -39,7 +39,9 @@
  */
 package de.myreality.chronos.resources;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import de.myreality.chronos.util.BasicObserver;
 
@@ -59,10 +61,16 @@ public abstract class AbstractDataSource extends BasicObserver<DataSourceListene
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private List<DataNode> nodes;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public AbstractDataSource() {
+		nodes = new ArrayList<DataNode>();
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -74,8 +82,9 @@ public abstract class AbstractDataSource extends BasicObserver<DataSourceListene
 	
 	@Override
 	public final Collection<DataNode> load() throws ResourceException {
+		nodes.clear();
 		startLoading();
-		return null;
+		return nodes;
 	}
 
 	// ===========================================================
@@ -83,6 +92,10 @@ public abstract class AbstractDataSource extends BasicObserver<DataSourceListene
 	// ===========================================================
 	
 	protected abstract void startLoading() throws ResourceException;
+	
+	protected void addNode(DataNode node, DataNode parent) {
+		
+	}
 
 	// ===========================================================
 	// Inner classes

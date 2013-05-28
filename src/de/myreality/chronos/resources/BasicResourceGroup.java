@@ -52,40 +52,40 @@ import de.myreality.chronos.util.BasicFamilyObject;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup> implements ResourceGroup {
-	
+public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup>
+		implements ResourceGroup {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private String id;
-	
+
 	private Map<String, ResourceDefinition> definitions;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public BasicResourceGroup() {
 		this(DEFAULT_ID);
 	}
-	
+
 	public BasicResourceGroup(String id) {
 		this(id, false);
 	}
-	
+
 	public BasicResourceGroup(String id, boolean deferred) {
 		this.id = id;
 		definitions = new HashMap<String, ResourceDefinition>();
 	}
 
-	
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
@@ -98,7 +98,7 @@ public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup> impleme
 	public String getId() {
 		return id;
 	}
-	
+
 	@Override
 	public boolean containsDefinition(ResourceDefinition definition) {
 		return definitions.containsValue(definition);
@@ -122,12 +122,12 @@ public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup> impleme
 	@Override
 	public void removeResourceDefinition(String definitionId) {
 		ResourceDefinition def = definitions.get(definitionId);
-		
+
 		if (def != null) {
 			if (equals(def.getGroup())) {
 				def.setGroup(null);
 			}
-			
+
 			definitions.remove(definitionId);
 		}
 	}
@@ -137,7 +137,38 @@ public class BasicResourceGroup extends BasicFamilyObject<ResourceGroup> impleme
 		this.id = id;
 	}
 
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((definitions == null) ? 0 : definitions.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicResourceGroup other = (BasicResourceGroup) obj;
+		if (definitions == null) {
+			if (other.definitions != null)
+				return false;
+		} else if (!definitions.equals(other.definitions))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

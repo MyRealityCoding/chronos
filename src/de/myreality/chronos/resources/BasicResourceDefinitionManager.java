@@ -60,10 +60,16 @@ public class BasicResourceDefinitionManager extends
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ResourceGroupManager manager;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public BasicResourceDefinitionManager(ResourceGroupManager manager) {
+		this.manager = manager;
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -99,8 +105,7 @@ public class BasicResourceDefinitionManager extends
 
 	@Override
 	public ResourceGroupManager getGroupManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return manager;
 	}
 
 	// ===========================================================
