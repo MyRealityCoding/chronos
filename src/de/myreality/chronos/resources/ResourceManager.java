@@ -144,7 +144,7 @@ public class ResourceManager implements ResourceManagerable {
 		} else if (definitionManager.hasElement(id)) {
 			ResourceDefinition definition = definitionManager.getElement(id);
 
-			if (definition.isDeferred() && loader != null) {
+			if (loader != null) {
 				try {
 					resource = (Resource<T>) loader.loadResource(definition);
 				} catch (ResourceException e) {

@@ -74,10 +74,6 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 	// Constructors
 	// ===========================================================
 	
-	BasicDataNode() {
-		
-	}
-	
 	BasicDataNode(String name) {
 		this(name, "");
 	}
