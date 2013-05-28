@@ -37,19 +37,16 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
-import de.myreality.chronos.logging.ChronosLogger;
+package de.myreality.chronos.resources.data;
 
 /**
- * Creates string resources from a resource definition
+ * Basic implementation of a data source event
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-@ResourceType("string")
-public class StringLoader extends AbstractResourceLoader<String> {
+public class BasicDataSourceEvent implements DataSourceEvent {
 
 	// ===========================================================
 	// Constants
@@ -58,10 +55,22 @@ public class StringLoader extends AbstractResourceLoader<String> {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private DataSource sender;
+	
+	private DataNode node;
+	
+	private DataNode parent;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	BasicDataSourceEvent(DataSource sender, DataNode node, DataNode parent) {
+		this.sender = sender;
+		this.node = node;
+		this.parent = parent;
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -71,21 +80,63 @@ public class StringLoader extends AbstractResourceLoader<String> {
 	// Methods from Superclass
 	// ===========================================================
 
+	@Override
+	public DataSource getSender() {
+		return sender;
+	}
+
+	@Override
+	public DataNode getNode() {
+		return node;
+	}
+
+	@Override
+	public DataNode getParent() {
+		return parent;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((node == null) ? 0 : node.hashCode());
+		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+		result = prime * result + ((sender == null) ? 0 : sender.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicDataSourceEvent other = (BasicDataSourceEvent) obj;
+		if (node == null) {
+			if (other.node != null)
+				return false;
+		} else if (!node.equals(other.node))
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		if (sender == null) {
+			if (other.sender != null)
+				return false;
+		} else if (!sender.equals(other.sender))
+			return false;
+		return true;
+	}
+	
+	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	@Override
-	public String create(ResourceDefinition definition)
-			throws ResourceException {
-
-		if (definition.getValue().isEmpty()) {
-			ChronosLogger.warn(definition.getType() + " resource with id '"
-					+ definition.getId() + "' should have a value");
-		}
-
-		return definition.getValue();
-	}
 
 	// ===========================================================
 	// Inner classes

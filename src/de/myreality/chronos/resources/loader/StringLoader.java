@@ -37,44 +37,60 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.loader;
 
-import java.util.Collection;
-
-import de.myreality.chronos.util.Observer;
+import de.myreality.chronos.logging.ChronosLogger;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceType;
 
 /**
- * A data source provides definition data for a resource manager.
- *
+ * Creates string resources from a resource definition
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface DataSource extends Observer<DataSourceListener> {
-	
+@ResourceType("string")
+public class StringLoader extends AbstractResourceLoader<String> {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+
+	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Loads definitions from a data source. The underlying source has
-	 * to meet the following requirements:
-	 * <ul>
-	 * 	<li>Each resource element needs at least an id and a type. The name of the
-	 *      type is specified by the resource loaders in the annotation.</li>
-	 *  <li>custom resource groups should be attached to a definition, Otherwise
-	 *  the default group (root) will be attached automatically by the {@link ResourceManager}</li>
-	 *  <li>A resource group can have child groups</li>
-	 *  <li>A definition can have child definitions. These definitions are only
-	 *  for references and will NOT be loaded as a real resource</li>
-	 * </ul>
-	 * 
-	 * @return a collection of all found definitions
-	 */
-	Collection<DataNode> load() throws ResourceException;
 
+	@Override
+	public String create(ResourceDefinition definition)
+			throws ResourceException {
+
+		if (definition.getValue().isEmpty()) {
+			ChronosLogger.warn(definition.getType() + " resource with id '"
+					+ definition.getId() + "' should have a value");
+		}
+
+		return definition.getValue();
+	}
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }

@@ -37,65 +37,42 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.loader;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import de.myreality.chronos.util.BasicFamilyObject;
+import de.myreality.chronos.resources.BasicResource;
+import de.myreality.chronos.resources.Resource;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.util.ReflectionTemplate;
 
 /**
- * Basic implementation of a data node
+ * Abstract implementation of a resource loader
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class BasicDataNode extends BasicFamilyObject<DataNode> implements
-		DataNode {	
+public abstract class AbstractResourceLoader<T> extends ReflectionTemplate<T> implements ResourceLoader<T> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	private static final long serialVersionUID = 1L;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private Map<String, String> attributes;
-	
-	private String content;
-	
-	private String name;
+	private Map<String, Resource<T> > resources;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	BasicDataNode(String name) {
-		this(name, "");
-	}
-	
-	BasicDataNode(String name, String content, Map<String, String> attributes) {
-		this.attributes = attributes;
-		this.name = name;
-		this.content = content;	
-		
-		if (attributes == null) {
-			this.attributes = new HashMap<String, String>();
-		}
-		
-		this.content = content.trim();
-	}
-	
-	BasicDataNode(String name, String content) {
-		this(name, content, null);
-	}
-	
-	BasicDataNode(String name, Map<String, String> attributes) {
-		this(name, "", attributes);
+	public AbstractResourceLoader() {
+		resources = new HashMap<String, Resource<T> >();
 	}
 
 	// ===========================================================
@@ -107,86 +84,34 @@ public class BasicDataNode extends BasicFamilyObject<DataNode> implements
 	// ===========================================================
 
 	@Override
-	public void addAttribute(String name, String value) {
-		attributes.put(name, value);
+	public final Resource<T> getResource(String id) {
+		return resources.get(id);
 	}
 
 	@Override
-	public String getAttribute(String key) {
-		return attributes.get(key);
+	public final boolean containsResource(String id) {
+		return resources.containsKey(id);
 	}
 
 	@Override
-	public Map<String, String> getAttributes() {
-		return attributes;
+	public final Resource<T> loadResource(ResourceDefinition definition) throws ResourceException {
+		
+		String id = definition.getId();
+		
+		if (!containsResource(id)) {
+			T element = create(definition);
+			Resource<T> resource = new BasicResource<T>(element, definition);
+			resources.put(id, resource);
+			return resource;
+		} else {
+			return getResource(id);
+		}
 	}
 
 	@Override
-	public void setName(String name) {
-		this.name = name;
+	public Class<T> getResourceClass() {
+		return getInnerClass();
 	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setContent(String content) {
-		this.content = content;
-		this.content = content.trim();
-	}
-
-	@Override
-	public String getContent() {
-		return content;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((attributes == null) ? 0 : attributes.hashCode());
-		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BasicDataNode other = (BasicDataNode) obj;
-		if (attributes == null) {
-			if (other.attributes != null)
-				return false;
-		} else if (!attributes.equals(other.attributes))
-			return false;
-		if (content == null) {
-			if (other.content != null)
-				return false;
-		} else if (!content.equals(other.content))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "BasicDataNode [attributes=" + attributes + ", content="
-				+ content + ", name=" + name + "]";
-	}
-	
-	
 	
 	
 

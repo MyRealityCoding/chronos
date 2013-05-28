@@ -44,6 +44,15 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.myreality.chronos.resources.BasicResourceDefinition;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceManager;
+import de.myreality.chronos.resources.ResourceManagerable;
+import de.myreality.chronos.resources.data.AbstractDataSource;
+import de.myreality.chronos.resources.data.BasicDataNode;
+import de.myreality.chronos.resources.data.DataNode;
+
 /**
  * Test case for a resource managerable
  * 

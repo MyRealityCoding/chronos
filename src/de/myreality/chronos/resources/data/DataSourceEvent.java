@@ -37,67 +37,43 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import de.myreality.chronos.util.BasicObserver;
+package de.myreality.chronos.resources.data;
 
 /**
- * Abstract implementation of a data source
+ * Event that occurs while loading data nodes
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public abstract class AbstractDataSource extends BasicObserver<DataSourceListener>implements DataSource {
-
+public interface DataSourceEvent {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	// ===========================================================
-	// Fields
-	// ===========================================================
-	
-	private List<DataNode> nodes;
-
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-	
-	public AbstractDataSource() {
-		nodes = new ArrayList<DataNode>();
-	}
-
-	// ===========================================================
-	// Getters and Setters
-	// ===========================================================
-
-	// ===========================================================
-	// Methods from Superclass
-	// ===========================================================
-	
-	@Override
-	public final Collection<DataNode> load() throws ResourceException {
-		nodes.clear();
-		startLoading();
-		return nodes;
-	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 	
-	protected abstract void startLoading() throws ResourceException;
+	/**
+	 * Returns the sender of this event
+	 * 
+	 * @return data source sender
+	 */
+	DataSource getSender();
 	
-	protected void addNode(DataNode node, DataNode parent) {
-		// TODO: Node implementation
-	}
-
-	// ===========================================================
-	// Inner classes
-	// ===========================================================
+	/**
+	 * Returns the current node
+	 * 
+	 * @return node of the data source
+	 */
+	DataNode getNode();
+	
+	/**
+	 * Returns the current parent
+	 * 
+	 * @return parent of the current node
+	 */
+	DataNode getParent();
 }

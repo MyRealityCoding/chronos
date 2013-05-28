@@ -37,17 +37,22 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
 
+import java.util.Collection;
+
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceManager;
+import de.myreality.chronos.util.Observer;
 
 /**
- * Loads resources and provides them for the resource manager
+ * A data source provides definition data for a resource manager.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceLoader<T> extends ResourceFactory<T> {
+public interface DataSource extends Observer<DataSourceListener> {
 	
 	// ===========================================================
 	// Constants
@@ -58,35 +63,20 @@ public interface ResourceLoader<T> extends ResourceFactory<T> {
 	// ===========================================================
 	
 	/**
-	 * Gets the resource with the given id
+	 * Loads definitions from a data source. The underlying source has
+	 * to meet the following requirements:
+	 * <ul>
+	 * 	<li>Each resource element needs at least an id and a type. The name of the
+	 *      type is specified by the resource loaders in the annotation.</li>
+	 *  <li>custom resource groups should be attached to a definition, Otherwise
+	 *  the default group (root) will be attached automatically by the {@link ResourceManager}</li>
+	 *  <li>A resource group can have child groups</li>
+	 *  <li>A definition can have child definitions. These definitions are only
+	 *  for references and will NOT be loaded as a real resource</li>
+	 * </ul>
 	 * 
-	 * @param id id of the resource
-	 * @return Returns the resource. If it not exists the method will return
-	 * <code>null</code>
+	 * @return a collection of all found definitions
 	 */
-	Resource<T> getResource(String id);
-	
-	/**
-	 * Determines if a resource exists for a given id
-	 * 
-	 * @param id id of the resource
-	 * @return True when exists
-	 */
-	boolean containsResource(String id);
-	
-	/**
-	 * Adds a new definition to the loader. When the definition already exists
-	 * nothing will happen
-	 * 
-	 * @param definition Target definition to add
-	 */
-	Resource<T> loadResource(ResourceDefinition definition) throws ResourceException;
-	
-	/**
-	 * Returns the class of the resource
-	 * 
-	 * @return class of the resource
-	 */
-	Class<T> getResourceClass();
+	Collection<DataNode> load() throws ResourceException;
 
 }

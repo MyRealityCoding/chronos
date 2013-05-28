@@ -37,7 +37,7 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
 
 import java.io.Serializable;
 import java.util.Map;

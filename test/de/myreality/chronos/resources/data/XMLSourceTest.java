@@ -1,4 +1,4 @@
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +11,15 @@ import org.junit.Test;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import de.myreality.chronos.resources.BasicResourceDefinitionManager;
+import de.myreality.chronos.resources.BasicResourceGroupManager;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceDefinitionManager;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceGroup;
+import de.myreality.chronos.resources.data.DataNode;
+import de.myreality.chronos.resources.data.XMLSource;
 
 /**
  * Test case for a xml source

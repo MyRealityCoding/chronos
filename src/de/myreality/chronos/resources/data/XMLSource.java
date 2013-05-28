@@ -37,7 +37,7 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -50,6 +50,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import de.myreality.chronos.resources.ResourceException;
 
 /**
  * XML implementation of a datasource. Reads a XML file and converts it into a

@@ -37,79 +37,49 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
 
-import de.myreality.chronos.util.ROVector3f;
-import de.myreality.chronos.util.Vector3f;
+import de.myreality.chronos.util.Listener;
 
 /**
- * Creates string resources from a resource definition
+ * Listens to a data source
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-@ResourceType("vector")
-public class ROVectorLoader extends AbstractResourceLoader<ROVector3f> {
+public interface DataSourceListener extends Listener {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
-	// Fields
-	// ===========================================================
-
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-
-	// ===========================================================
-	// Getters and Setters
-	// ===========================================================
-
-	// ===========================================================
-	// Methods from Superclass
-	// ===========================================================
-	
-	@Override
-	public ROVector3f create(ResourceDefinition definition)
-			throws ResourceException {
-		String xValue = definition.getAttribute("x");
-		String yValue = definition.getAttribute("y");
-		String zValue = definition.getAttribute("z");
-		
-		float x = convertFromValue(xValue, definition);
-		float y = convertFromValue(yValue, definition);
-		
-		ROVector3f vector = new Vector3f(x, y);		
-		
-		// z value is not necessary!
-		if (zValue != null) {			
-			float z = convertFromValue(zValue, definition);
-			vector.setZ(z);		
-		}
-		
-		return vector;
-	}
-
-	// ===========================================================
 	// Methods
 	// ===========================================================
 	
-	private float convertFromValue(String value, ResourceDefinition definition) throws ResourceException {
-		if (value != null) {
-			try {
-				return Float.valueOf(value);
-			} catch (NumberFormatException e) {
-				throw new ResourceException("Value in " + definition.getType() + " resource with id '" + definition.getId() + "' is not valid: ");
-			}
-		} else {
-			throw new ResourceException("Missing value in " + definition.getType() + " resource with id '" + definition.getId() + "'");
-		}
-	}
-
-	// ===========================================================
-	// Inner classes
-	// ===========================================================
+	/**
+	 * Is called before the data source starts loading
+	 */
+	void beforeLoad();
+	
+	/**
+	 * Is called whenever a new data node will be added
+	 * 
+	 * @param event data source event
+	 */
+	void onNodeCreate(DataSourceEvent event);
+	
+	/**
+	 * Is called whenever an error occurs during loading
+	 * 
+	 * @param event data source event
+	 * @param cause cause of the error
+	 */
+	void onError(DataSourceEvent event, Throwable cause);
+	
+	/**
+	 * Is called after the dater source has loaded all data
+	 */
+	void afterLoad();
 }

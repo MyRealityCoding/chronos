@@ -37,39 +37,40 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.util.BasicObserver;
 
 /**
- * Basic implementation of a data source event
+ * Abstract implementation of a data source
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class BasicDataSourceEvent implements DataSourceEvent {
+public abstract class AbstractDataSource extends BasicObserver<DataSourceListener>implements DataSource {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private DataSource sender;
-	
-	private DataNode node;
-	
-	private DataNode parent;
+	private List<DataNode> nodes;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	BasicDataSourceEvent(DataSource sender, DataNode node, DataNode parent) {
-		this.sender = sender;
-		this.node = node;
-		this.parent = parent;
+	public AbstractDataSource() {
+		nodes = new ArrayList<DataNode>();
 	}
 
 	// ===========================================================
@@ -79,64 +80,23 @@ public class BasicDataSourceEvent implements DataSourceEvent {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
-	@Override
-	public DataSource getSender() {
-		return sender;
-	}
-
-	@Override
-	public DataNode getNode() {
-		return node;
-	}
-
-	@Override
-	public DataNode getParent() {
-		return parent;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((node == null) ? 0 : node.hashCode());
-		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
-		result = prime * result + ((sender == null) ? 0 : sender.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BasicDataSourceEvent other = (BasicDataSourceEvent) obj;
-		if (node == null) {
-			if (other.node != null)
-				return false;
-		} else if (!node.equals(other.node))
-			return false;
-		if (parent == null) {
-			if (other.parent != null)
-				return false;
-		} else if (!parent.equals(other.parent))
-			return false;
-		if (sender == null) {
-			if (other.sender != null)
-				return false;
-		} else if (!sender.equals(other.sender))
-			return false;
-		return true;
-	}
 	
-	
+	@Override
+	public final Collection<DataNode> load() throws ResourceException {
+		nodes.clear();
+		startLoading();
+		return nodes;
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	protected abstract void startLoading() throws ResourceException;
+	
+	protected void addNode(DataNode node, DataNode parent) {
+		// TODO: Node implementation
+	}
 
 	// ===========================================================
 	// Inner classes

@@ -37,34 +37,66 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.data;
 
-import de.myreality.chronos.resources.data.DataSourceEvent;
-import de.myreality.chronos.util.BasicManager;
+import java.util.HashMap;
+import java.util.Map;
+
+import de.myreality.chronos.util.BasicFamilyObject;
 
 /**
- * Basic implementation of a resource group manager
+ * Basic implementation of a data node
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class BasicResourceGroupManager extends BasicManager<ResourceGroup>
-		implements ResourceGroupManager {
+public class BasicDataNode extends BasicFamilyObject<DataNode> implements
+		DataNode {	
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	
 	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Map<String, String> attributes;
+	
+	private String content;
+	
+	private String name;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public BasicDataNode(String name) {
+		this(name, "");
+	}
+	
+	public BasicDataNode(String name, String content, Map<String, String> attributes) {
+		this.attributes = attributes;
+		this.name = name;
+		this.content = content;	
+		
+		if (attributes == null) {
+			this.attributes = new HashMap<String, String>();
+		}
+		
+		this.content = content.trim();
+	}
+	
+	BasicDataNode(String name, String content) {
+		this(name, content, null);
+	}
+	
+	BasicDataNode(String name, Map<String, String> attributes) {
+		this(name, "", attributes);
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -75,28 +107,88 @@ public class BasicResourceGroupManager extends BasicManager<ResourceGroup>
 	// ===========================================================
 
 	@Override
-	public void beforeLoad() {
-		// TODO Auto-generated method stub
-
+	public void addAttribute(String name, String value) {
+		attributes.put(name, value);
 	}
 
 	@Override
-	public void onNodeCreate(DataSourceEvent event) {
-		// TODO Auto-generated method stub
-
+	public String getAttribute(String key) {
+		return attributes.get(key);
 	}
 
 	@Override
-	public void onError(DataSourceEvent event, Throwable cause) {
-		// TODO Auto-generated method stub
-
+	public Map<String, String> getAttributes() {
+		return attributes;
 	}
 
 	@Override
-	public void afterLoad() {
-		// TODO Auto-generated method stub
-
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setContent(String content) {
+		this.content = content;
+		this.content = content.trim();
+	}
+
+	@Override
+	public String getContent() {
+		return content;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicDataNode other = (BasicDataNode) obj;
+		if (attributes == null) {
+			if (other.attributes != null)
+				return false;
+		} else if (!attributes.equals(other.attributes))
+			return false;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "BasicDataNode [attributes=" + attributes + ", content="
+				+ content + ", name=" + name + "]";
+	}
+	
+	
+	
+	
 
 	// ===========================================================
 	// Methods

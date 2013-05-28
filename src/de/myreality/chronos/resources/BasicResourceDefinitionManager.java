@@ -39,6 +39,7 @@
  */
 package de.myreality.chronos.resources;
 
+import de.myreality.chronos.resources.data.DataSourceEvent;
 import de.myreality.chronos.util.BasicManager;
 
 /**

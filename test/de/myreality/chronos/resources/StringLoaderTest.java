@@ -45,6 +45,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.myreality.chronos.resources.loader.StringLoader;
+
 /**
  * Test case for a string loader
  * 

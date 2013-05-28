@@ -37,18 +37,22 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.loader;
 
-import de.myreality.chronos.util.Listener;
+import de.myreality.chronos.resources.Resource;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceFactory;
+
 
 /**
- * Listens to a data source
- * 
+ * Loads resources and provides them for the resource manager
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface DataSourceListener extends Listener {
+public interface ResourceLoader<T> extends ResourceFactory<T> {
 	
 	// ===========================================================
 	// Constants
@@ -59,27 +63,35 @@ public interface DataSourceListener extends Listener {
 	// ===========================================================
 	
 	/**
-	 * Is called before the data source starts loading
-	 */
-	void beforeLoad();
-	
-	/**
-	 * Is called whenever a new data node will be added
+	 * Gets the resource with the given id
 	 * 
-	 * @param event data source event
+	 * @param id id of the resource
+	 * @return Returns the resource. If it not exists the method will return
+	 * <code>null</code>
 	 */
-	void onNodeCreate(DataSourceEvent event);
+	Resource<T> getResource(String id);
 	
 	/**
-	 * Is called whenever an error occurs during loading
+	 * Determines if a resource exists for a given id
 	 * 
-	 * @param event data source event
-	 * @param cause cause of the error
+	 * @param id id of the resource
+	 * @return True when exists
 	 */
-	void onError(DataSourceEvent event, Throwable cause);
+	boolean containsResource(String id);
 	
 	/**
-	 * Is called after the dater source has loaded all data
+	 * Adds a new definition to the loader. When the definition already exists
+	 * nothing will happen
+	 * 
+	 * @param definition Target definition to add
 	 */
-	void afterLoad();
+	Resource<T> loadResource(ResourceDefinition definition) throws ResourceException;
+	
+	/**
+	 * Returns the class of the resource
+	 * 
+	 * @return class of the resource
+	 */
+	Class<T> getResourceClass();
+
 }

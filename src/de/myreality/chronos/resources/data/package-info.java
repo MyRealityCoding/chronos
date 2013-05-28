@@ -37,43 +37,9 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
 /**
- * Event that occurs while loading data nodes
+ * Contains all classes which provide resource data
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.8alpha
- * @version 0.8alpha
  */
-public interface DataSourceEvent {
-	
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-	
-	/**
-	 * Returns the sender of this event
-	 * 
-	 * @return data source sender
-	 */
-	DataSource getSender();
-	
-	/**
-	 * Returns the current node
-	 * 
-	 * @return node of the data source
-	 */
-	DataNode getNode();
-	
-	/**
-	 * Returns the current parent
-	 * 
-	 * @return parent of the current node
-	 */
-	DataNode getParent();
-}
+package de.myreality.chronos.resources.data;

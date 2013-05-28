@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.myreality.chronos.logging.ChronosLogger;
+import de.myreality.chronos.resources.data.DataSource;
+import de.myreality.chronos.resources.loader.ResourceLoader;
 import de.myreality.chronos.util.ClassUtils;
 
 /**

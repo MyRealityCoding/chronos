@@ -41,6 +41,9 @@ package de.myreality.chronos.resources;
 
 import java.io.Serializable;
 
+import de.myreality.chronos.resources.data.DataSource;
+import de.myreality.chronos.resources.loader.ResourceLoader;
+
 /**
  * Manages resources and provides access to them
  * 

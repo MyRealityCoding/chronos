@@ -37,39 +37,35 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.loader;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import de.myreality.chronos.util.ReflectionTemplate;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceType;
+import de.myreality.chronos.util.ROVector3f;
+import de.myreality.chronos.util.Vector3f;
 
 /**
- * Abstract implementation of a resource loader
+ * Creates string resources from a resource definition
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public abstract class AbstractResourceLoader<T> extends ReflectionTemplate<T> implements ResourceLoader<T> {
-
+@ResourceType("vector")
+public class ROVectorLoader extends AbstractResourceLoader<ROVector3f> {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Map<String, Resource<T> > resources;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public AbstractResourceLoader() {
-		resources = new HashMap<String, Resource<T> >();
-	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -78,42 +74,43 @@ public abstract class AbstractResourceLoader<T> extends ReflectionTemplate<T> im
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
+	
 	@Override
-	public final Resource<T> getResource(String id) {
-		return resources.get(id);
-	}
-
-	@Override
-	public final boolean containsResource(String id) {
-		return resources.containsKey(id);
-	}
-
-	@Override
-	public final Resource<T> loadResource(ResourceDefinition definition) throws ResourceException {
+	public ROVector3f create(ResourceDefinition definition)
+			throws ResourceException {
+		String xValue = definition.getAttribute("x");
+		String yValue = definition.getAttribute("y");
+		String zValue = definition.getAttribute("z");
 		
-		String id = definition.getId();
+		float x = convertFromValue(xValue, definition);
+		float y = convertFromValue(yValue, definition);
 		
-		if (!containsResource(id)) {
-			T element = create(definition);
-			Resource<T> resource = new BasicResource<T>(element, definition);
-			resources.put(id, resource);
-			return resource;
-		} else {
-			return getResource(id);
+		ROVector3f vector = new Vector3f(x, y);		
+		
+		// z value is not necessary!
+		if (zValue != null) {			
+			float z = convertFromValue(zValue, definition);
+			vector.setZ(z);		
 		}
+		
+		return vector;
 	}
-
-	@Override
-	public Class<T> getResourceClass() {
-		return getInnerClass();
-	}
-	
-	
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private float convertFromValue(String value, ResourceDefinition definition) throws ResourceException {
+		if (value != null) {
+			try {
+				return Float.valueOf(value);
+			} catch (NumberFormatException e) {
+				throw new ResourceException("Value in " + definition.getType() + " resource with id '" + definition.getId() + "' is not valid: ");
+			}
+		} else {
+			throw new ResourceException("Missing value in " + definition.getType() + " resource with id '" + definition.getId() + "'");
+		}
+	}
 
 	// ===========================================================
 	// Inner classes

@@ -46,6 +46,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.myreality.chronos.resources.loader.ROVectorLoader;
 import de.myreality.chronos.util.ROVector3f;
 
 /**
