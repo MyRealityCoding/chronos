@@ -37,50 +37,26 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
-import de.myreality.chronos.resources.data.DataNode;
+package de.myreality.chronos.models;
 
 /**
- * Validates for a resource group
+ * Listener which listens to an entity
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class GroupValidator implements ResourceValidator {
-
+public interface EntityListener {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
-	// Fields
-	// ===========================================================
-
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-
-	// ===========================================================
-	// Getters and Setters
-	// ===========================================================
-
-	// ===========================================================
-	// Methods from Superclass
-	// ===========================================================
-	
-	@Override
-	public void validate(DataNode node) throws ResourceException {
-		
-	}
-
-	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	// ===========================================================
-	// Inner classes
-	// ===========================================================
+	
+	void onCreate(EntityChangedEvent event);
+	
+	void onUpdate(EntityChangedEvent event);
 }

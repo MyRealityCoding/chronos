@@ -37,20 +37,17 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
-import de.myreality.chronos.resources.data.DataNode;
+package de.myreality.chronos.models;
 
 /**
- * Validates for a resource group
+ * Basic implementation of an entity changed event
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class GroupValidator implements ResourceValidator {
+public class BasicEntityChangedEvent implements EntityChangedEvent {
 
-	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -58,10 +55,23 @@ public class GroupValidator implements ResourceValidator {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Entity sender;
+	
+	private int delta;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public BasicEntityChangedEvent(Entity sender, int delta) {
+		this.sender = sender;
+		this.delta = delta;
+	}
+	
+	public BasicEntityChangedEvent(Entity sender) {
+		this(sender, 0);
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -70,10 +80,15 @@ public class GroupValidator implements ResourceValidator {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
+
 	@Override
-	public void validate(DataNode node) throws ResourceException {
-		
+	public int getFrameDelta() {
+		return delta;
+	}
+
+	@Override
+	public Entity getSender() {
+		return sender;
 	}
 
 	// ===========================================================
