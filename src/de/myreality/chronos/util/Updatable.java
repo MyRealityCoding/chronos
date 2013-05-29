@@ -37,24 +37,17 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.models;
-
-import java.io.Serializable;
-import java.util.Collection;
-
-import de.myreality.chronos.util.GameObject;
-import de.myreality.chronos.util.Observer;
-import de.myreality.chronos.util.Updatable;
+package de.myreality.chronos.util;
 
 /**
- * Provides functionality for an game entity
+ * Represents an updatable object
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Entity extends GameObject, Boundable<Entity>, Serializable, Observer<EntityListener>, Updatable {
-
+public interface Updatable {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -62,33 +55,6 @@ public interface Entity extends GameObject, Boundable<Entity>, Serializable, Obs
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	/**
-	 * Adds a new component to the entity. If the component already exists
-	 * nothing will happen
-	 * 
-	 * @param component
-	 *            new component to add
-	 */
-	void addComponent(Component component);
-
-	/**
-	 * Returns all current components
-	 * 
-	 * @return all current components
-	 */
-	Collection<Component> getComponents();
-
-	/**
-	 * Returns the number of components
-	 * 
-	 * @return number of components
-	 */
-	int getNumberOfComponents();
 	
-	/**
-	 * Returns the component with the given ID
-	 */
-	Component getComponent(String componentId);
-
+	void update(int delta);
 }
