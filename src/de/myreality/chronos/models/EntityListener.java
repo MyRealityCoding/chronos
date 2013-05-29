@@ -39,6 +39,8 @@
  */
 package de.myreality.chronos.models;
 
+import de.myreality.chronos.util.Listener;
+
 /**
  * Listener which listens to an entity
  * 
@@ -46,7 +48,7 @@ package de.myreality.chronos.models;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface EntityListener {
+public interface EntityListener extends Listener {
 	
 	// ===========================================================
 	// Constants
@@ -55,8 +57,6 @@ public interface EntityListener {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	void onCreate(EntityChangedEvent event);
 	
 	void onUpdate(EntityChangedEvent event);
 }

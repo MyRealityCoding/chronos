@@ -47,7 +47,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.myreality.chronos.util.BasicGameObject;
+import de.myreality.chronos.util.BasicObserver;
 import de.myreality.chronos.util.GameObject;
+import de.myreality.chronos.util.Observer;
 
 /**
  * Provides basic functionality of an entity
@@ -71,6 +73,8 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 	private GameObject gameObject;
 	
 	private Map<String, Component> components;
+	
+	private Observer<EntityListener> observer;
 
 	// ===========================================================
 	// Constructors
@@ -79,6 +83,7 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 	public BasicEntity() {
 		gameObject = new BasicGameObject();
 		components = new HashMap<String, Component>();
+		observer = new BasicObserver<EntityListener>();
 	}
 
 	// ===========================================================
@@ -118,11 +123,42 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 		for (Component component : components.values()) {
 			component.update(delta);
 		}
+		
+		EntityChangedEvent event = new BasicEntityChangedEvent(this, delta);
+		
+		for (EntityListener listener : getListeners()) {
+			listener.onUpdate(event);
+		}
 	}
 
 	@Override
 	public Component getComponent(String componentId) {
 		return components.get(componentId);
+	}
+
+	@Override
+	public Collection<EntityListener> getListeners() {
+		return observer.getListeners();
+	}
+
+	@Override
+	public void addListener(EntityListener listener) {
+		observer.addListener(listener);
+	}
+
+	@Override
+	public void removeListener(EntityListener listener) {
+		observer.removeListener(listener);
+	}
+
+	@Override
+	public boolean hasListener(EntityListener listener) {
+		return observer.hasListener(listener);
+	}
+
+	@Override
+	public int getNumberOfListeners() {
+		return observer.getNumberOfListeners();
 	}
 	
 	// ===========================================================

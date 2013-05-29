@@ -43,6 +43,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import de.myreality.chronos.util.GameObject;
+import de.myreality.chronos.util.Observer;
 
 /**
  * Provides functionality for an game entity
@@ -51,7 +52,7 @@ import de.myreality.chronos.util.GameObject;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Entity extends GameObject, Boundable<Entity>, Serializable {
+public interface Entity extends GameObject, Boundable<Entity>, Serializable, Observer<EntityListener> {
 
 	// ===========================================================
 	// Constants
