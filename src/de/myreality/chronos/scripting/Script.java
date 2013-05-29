@@ -64,11 +64,4 @@ public interface Script extends EntityListener {
 	 * @return filename of the script
 	 */
 	String getFile();
-	
-	/**
-	 * Returns the file extension of this script
-	 * 
-	 * @return file extension
-	 */
-	String getFileExtension();
 }

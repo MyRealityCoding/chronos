@@ -73,7 +73,7 @@ public class GroupValidator implements ResourceValidator {
 	
 	@Override
 	public void validate(DataNode node) throws ResourceException {
-		
+		// TODO: Validate group node
 	}
 
 	// ===========================================================
