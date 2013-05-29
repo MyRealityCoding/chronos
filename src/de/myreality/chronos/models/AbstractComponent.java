@@ -48,9 +48,7 @@ import de.myreality.chronos.util.BasicGameObject;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public abstract class AbstractComponent extends BasicGameObject implements Component {
-
-	
+public abstract class AbstractComponent extends BasicGameObject implements Component {	
 	
 	// ===========================================================
 	// Constants

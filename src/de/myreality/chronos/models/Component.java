@@ -49,7 +49,7 @@ import de.myreality.chronos.util.GameObject;
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Component extends GameObject {
+public interface Component extends GameObject, EntityListener {
 	
 	// ===========================================================
 	// Constants
@@ -58,11 +58,5 @@ public interface Component extends GameObject {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Updates this component
-	 * 
-	 * @param delta frame delta
-	 */
-	void update(int delta);
+
 }

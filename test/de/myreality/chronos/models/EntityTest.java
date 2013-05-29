@@ -86,9 +86,11 @@ public class EntityTest {
 		private static final long serialVersionUID = 6362414714894164153L;
 
 		@Override
-		public void update(int delta) {
+		public void onUpdate(EntityChangedEvent event) {
 			System.out.println("I'm a component, yeah!");
 		}
+
+		
 		
 	}
 }

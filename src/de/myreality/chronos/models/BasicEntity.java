@@ -105,6 +105,7 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 		
 		if (!components.containsKey(id) && !components.containsValue(component)) {
 			components.put(id, component);
+			addListener(component);
 		}
 	}
 
@@ -120,9 +121,6 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 
 	@Override
 	public void update(int delta) {
-		for (Component component : components.values()) {
-			component.update(delta);
-		}
 		
 		EntityChangedEvent event = new BasicEntityChangedEvent(this, delta);
 		
