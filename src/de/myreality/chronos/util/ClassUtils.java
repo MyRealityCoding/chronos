@@ -191,7 +191,7 @@ public class ClassUtils {
 			}
 		}
 
-		return (Class[]) classes.toArray(new Class[classes.size()]);
+		return classes.toArray(new Class[classes.size()]);
 	}
 
 	// ===========================================================

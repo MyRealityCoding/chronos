@@ -64,5 +64,6 @@ public interface GameObject extends Serializable, IDProvider {
 	 * 
 	 * @return current id
 	 */
+	@Override
 	String getId();
 }

@@ -6,3 +6,5 @@
 *.ear
 /trunk
 /doc
+/target
+/bin

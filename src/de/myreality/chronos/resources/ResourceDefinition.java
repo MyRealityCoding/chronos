@@ -78,6 +78,7 @@ public interface ResourceDefinition extends Serializable,
 	 * 
 	 * @return current definition id
 	 */
+	@Override
 	String getId();
 
 	/**

@@ -81,6 +81,7 @@ public interface ResourceGroup extends FamilyObject<ResourceGroup>,
 	 * 
 	 * @return current group id
 	 */
+	@Override
 	String getId();
 
 	/**
