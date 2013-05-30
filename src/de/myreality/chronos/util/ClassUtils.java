@@ -61,6 +61,8 @@ import java.util.jar.JarFile;
  */
 public class ClassUtils {
 	
+	
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -167,8 +169,7 @@ public class ClassUtils {
 	public static Class<?>[] searchForAnnotation(Class<?> annotation) {
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		final String TARGET_FORMAT = ".class";
-		URL[] roots = ((URLClassLoader) (Thread.currentThread()
-				.getContextClassLoader())).getURLs();
+		URL[] roots = ((URLClassLoader) (ClassUtils.class.getClassLoader())).getURLs();
 
 		for (URL root : roots) {
 			for (String relativePath : getChildren(root)) {
