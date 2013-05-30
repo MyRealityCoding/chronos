@@ -94,7 +94,7 @@ public interface ResourceDefinition extends Serializable,
 	 * For instance the type of <code>String</code> will be "String" or for
 	 * <code>Image</code> it will be "Image". Everything else will be false.
 	 * 
-	 * @return
+	 * @return Returns the type of the definition
 	 */
 	String getType();
 
