@@ -18,7 +18,7 @@ Chronos provides functionality for your game:
 Getting started
 ---------------
 
-Read the wiki first, to learn more about the basic principles of Chronos.
+Read [the wiki](https://github.com/MyRealityCoding/chronos/wiki) first, to learn more about the basic principles of Chronos.
 
 Development
 -----------
