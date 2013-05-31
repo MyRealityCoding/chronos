@@ -39,10 +39,14 @@
  */
 package de.myreality.chronos.resources.loader;
 
+import javax.script.ScriptException;
+
 import de.myreality.chronos.resources.ResourceDefinition;
 import de.myreality.chronos.resources.ResourceException;
 import de.myreality.chronos.resources.ResourceType;
+import de.myreality.chronos.scripting.BasicScriptFactory;
 import de.myreality.chronos.scripting.Script;
+import de.myreality.chronos.scripting.ScriptFactory;
 
 /**
  * Loader which loads scripts
@@ -61,10 +65,16 @@ public class ScriptLoader extends AbstractResourceLoader<Script> {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ScriptFactory factory;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public ScriptLoader() {
+		factory = new BasicScriptFactory();
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -77,8 +87,19 @@ public class ScriptLoader extends AbstractResourceLoader<Script> {
 	@Override
 	public Script create(ResourceDefinition definition)
 			throws ResourceException {
-		// TODO: Implementation
-		return null;
+		String compileAttr = definition.getAttribute("compile");
+		boolean compile = (compileAttr != null && compileAttr.equals("false")) ? false : true;
+		String file = definition.getValue();
+		
+		if (file.isEmpty()) {
+			throw new ResourceException("Script resource with id='" + definition.getId() + "' does not define a file");
+		}
+		
+		try {
+			return factory.create(file, compile);
+		} catch (ScriptException ex) {
+			throw new ResourceException(ex);
+		}
 	}
 
 	// ===========================================================

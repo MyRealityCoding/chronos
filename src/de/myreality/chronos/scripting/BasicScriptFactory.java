@@ -40,45 +40,78 @@
 package de.myreality.chronos.scripting;
 
 import javax.script.ScriptEngine;
-
-import de.myreality.chronos.models.EntityListener;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 /**
- * Basic script that can be updated by an entity
+ * Basic implementation of a script factory
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Script extends EntityListener {
-	
+public class BasicScriptFactory implements ScriptFactory {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
+	// Fields
+	// ===========================================================
+	
+	private ScriptEngineManager manager;
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+	
+	public BasicScriptFactory() {
+		this.manager = new ScriptEngineManager();
+	}
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+	
+	@Override
+	public Script create(String file) throws ScriptException {
+		return create(file, true);
+	}
+
+	@Override
+	public Script create(String file, boolean compile) throws ScriptException {
+		ScriptEngine engine = manager.getEngineByExtension(getFileExtension(file));
+		
+		if (engine != null) {
+			return new BasicScript(file, engine, compile);
+		} else {
+			throw new ScriptException(file);
+		}
+	}
+
+	// ===========================================================
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * Returns the file of this script
-	 * 
-	 * @return filename of the script
-	 */
-	String getFile();
-	
-	/**
-	 * Determines if the script is compilable
-	 * 
-	 * @return True when compilable
-	 */
-	boolean isCompilable();
-	
-	
-	/**
-	 * Returns the underlying script engine
-	 * 
-	 * @return target script engine
-	 */
-	ScriptEngine getEngine();
+	private String getFileExtension(String file) {
+		String extension = "";
+
+		int i = file.lastIndexOf('.');
+		int p = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
+
+		if (i > p) {
+		    extension = file.substring(i+1);
+		}
+		
+		return extension;
+	}
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }

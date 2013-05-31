@@ -39,46 +39,78 @@
  */
 package de.myreality.chronos.scripting;
 
+import javax.script.Compilable;
 import javax.script.ScriptEngine;
 
-import de.myreality.chronos.models.EntityListener;
+import de.myreality.chronos.models.EntityChangedEvent;
 
 /**
- * Basic script that can be updated by an entity
+ * Basic script implemenation
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Script extends EntityListener {
+public class BasicScript implements Script {
+
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
-	// Methods
+	// Fields
 	// ===========================================================
 	
-	/**
-	 * Returns the file of this script
-	 * 
-	 * @return filename of the script
-	 */
-	String getFile();
+	private String file;
 	
-	/**
-	 * Determines if the script is compilable
-	 * 
-	 * @return True when compilable
-	 */
-	boolean isCompilable();
+	private ScriptEngine engine;
 	
+	private boolean compile;
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
 	
-	/**
-	 * Returns the underlying script engine
-	 * 
-	 * @return target script engine
-	 */
-	ScriptEngine getEngine();
+	public BasicScript(String file, ScriptEngine engine, boolean compile) {
+		this.file = file;
+		this.engine = engine;
+		this.compile = compile;
+	}
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+	
+	@Override
+	public void onUpdate(EntityChangedEvent event) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getFile() {
+		return file;
+	}
+
+	@Override
+	public boolean isCompilable() {
+		return compile && engine instanceof Compilable;
+	}
+
+	@Override
+	public ScriptEngine getEngine() {
+		return engine;
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }

@@ -39,18 +39,16 @@
  */
 package de.myreality.chronos.scripting;
 
-import javax.script.ScriptEngine;
-
-import de.myreality.chronos.models.EntityListener;
+import javax.script.ScriptException;
 
 /**
- * Basic script that can be updated by an entity
+ * Factory which creates scripts from file
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface Script extends EntityListener {
+public interface ScriptFactory {
 	
 	// ===========================================================
 	// Constants
@@ -61,24 +59,23 @@ public interface Script extends EntityListener {
 	// ===========================================================
 	
 	/**
-	 * Returns the file of this script
+	 * Creates a new script by considering the file extension. Additionally, the
+	 * script will be compiled (if able)
 	 * 
-	 * @return filename of the script
+	 * @param file path to the script file
+	 * @return new script which can be used
+	 * @throws ScriptException Is thrown when there is no script engine for the script
 	 */
-	String getFile();
+	Script create(String file) throws ScriptException;
 	
 	/**
-	 * Determines if the script is compilable
+	 * Creates a new script by considering the file extension. Additionally, the
+	 * script can be compiled.
 	 * 
-	 * @return True when compilable
+	 * @param file path to the script file
+	 * @param compile determines if the script should be compiled (if able)
+	 * @return new script which can be used
+	 * @throws ScriptException Is thrown when there is no script engine for the script
 	 */
-	boolean isCompilable();
-	
-	
-	/**
-	 * Returns the underlying script engine
-	 * 
-	 * @return target script engine
-	 */
-	ScriptEngine getEngine();
+	Script create(String file, boolean compile) throws ScriptException;
 }
