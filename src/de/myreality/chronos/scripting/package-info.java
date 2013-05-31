@@ -37,33 +37,9 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.util;
-
-import java.io.Serializable;
-
 /**
- * Game object which provides ID support
- *
+ * Contains all classes for providing scripting support
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.8alpha
- * @version 0.8alpha
  */
-public interface GameObject extends Serializable, IDProvider {
-	
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-	
-
-	/**
-	 * Returns the ID of this component
-	 * 
-	 * @return current id
-	 */
-	@Override
-	String getId();
-}
+package de.myreality.chronos.scripting;

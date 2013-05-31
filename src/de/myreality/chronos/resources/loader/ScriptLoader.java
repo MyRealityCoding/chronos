@@ -37,97 +37,55 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.resources.loader;
 
-import java.io.Serializable;
-import java.util.Collection;
-
-import de.myreality.chronos.util.FamilyObject;
-import de.myreality.chronos.util.IDProvider;
+import de.myreality.chronos.resources.ResourceDefinition;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceType;
+import de.myreality.chronos.scripting.Script;
 
 /**
- * A resource group contains all direct definitions as children. Furthermore it
- * provides functionality for global deferred resource loading. Also a resource
- * group can have other resource groups as children.
- * <p>
- * If the player has not defined an own resource group, Chronos will create a
- * "root" group for it.
+ * Loader which loads scripts
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceGroup extends FamilyObject<ResourceGroup>,
-		Serializable, IDProvider {
+@ResourceType("script")
+public class ScriptLoader extends AbstractResourceLoader<Script> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	static final String DEFAULT_ID = "root";
+	// ===========================================================
+	// Fields
+	// ===========================================================
 
-	// Resource element tag
-	public static final String RESOURCE_TAG = "group";
+	// ===========================================================
+	// Constructors
+	// ===========================================================
 
-	// Resource element tag
-	public static final String ID = "id";
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+	
+	@Override
+	public Script create(ResourceDefinition definition)
+			throws ResourceException {
+		// TODO: Implementation
+		return null;
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
-	/**
-	 * Returns the group id of this group.
-	 * 
-	 * @return current group id
-	 */
-	@Override
-	String getId();
-
-	/**
-	 * Contains true when it contains a specific definition
-	 * 
-	 * @param definition
-	 *            target definition to check
-	 * @return True when found
-	 */
-	boolean containsDefinition(ResourceDefinition definition);
-
-	/**
-	 * Returns all containing definitions
-	 * 
-	 * @return collection of resource definitions
-	 */
-	Collection<ResourceDefinition> getDefinitions();
-
-	/**
-	 * Adds a new resource definition to the group
-	 * 
-	 * @param definition
-	 *            definition to add
-	 */
-	void addResourceDefinition(ResourceDefinition definition);
-
-	/**
-	 * Removes an existing definition from the group
-	 * 
-	 * @param definition
-	 *            definition in the list
-	 */
-	void removeResourceDefinition(ResourceDefinition definition);
-
-	/**
-	 * Removes an existing definition by id
-	 * 
-	 * @param definitionId
-	 *            definition id
-	 */
-	void removeResourceDefinition(String definitionId);
-
-	/**
-	 * Sets a new id to the resource group
-	 * 
-	 * @param id
-	 */
-	void setId(String id);
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }

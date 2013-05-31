@@ -37,97 +37,31 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
+package de.myreality.chronos.scripting;
 
-import java.io.Serializable;
-import java.util.Collection;
-
-import de.myreality.chronos.util.FamilyObject;
-import de.myreality.chronos.util.IDProvider;
+import de.myreality.chronos.models.EntityListener;
 
 /**
- * A resource group contains all direct definitions as children. Furthermore it
- * provides functionality for global deferred resource loading. Also a resource
- * group can have other resource groups as children.
- * <p>
- * If the player has not defined an own resource group, Chronos will create a
- * "root" group for it.
+ * Basic script that can be updated by an entity
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public interface ResourceGroup extends FamilyObject<ResourceGroup>,
-		Serializable, IDProvider {
-
+public interface Script extends EntityListener {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	static final String DEFAULT_ID = "root";
-
-	// Resource element tag
-	public static final String RESOURCE_TAG = "group";
-
-	// Resource element tag
-	public static final String ID = "id";
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
+	
 	/**
-	 * Returns the group id of this group.
+	 * Returns the file of this script
 	 * 
-	 * @return current group id
+	 * @return filename of the script
 	 */
-	@Override
-	String getId();
-
-	/**
-	 * Contains true when it contains a specific definition
-	 * 
-	 * @param definition
-	 *            target definition to check
-	 * @return True when found
-	 */
-	boolean containsDefinition(ResourceDefinition definition);
-
-	/**
-	 * Returns all containing definitions
-	 * 
-	 * @return collection of resource definitions
-	 */
-	Collection<ResourceDefinition> getDefinitions();
-
-	/**
-	 * Adds a new resource definition to the group
-	 * 
-	 * @param definition
-	 *            definition to add
-	 */
-	void addResourceDefinition(ResourceDefinition definition);
-
-	/**
-	 * Removes an existing definition from the group
-	 * 
-	 * @param definition
-	 *            definition in the list
-	 */
-	void removeResourceDefinition(ResourceDefinition definition);
-
-	/**
-	 * Removes an existing definition by id
-	 * 
-	 * @param definitionId
-	 *            definition id
-	 */
-	void removeResourceDefinition(String definitionId);
-
-	/**
-	 * Sets a new id to the resource group
-	 * 
-	 * @param id
-	 */
-	void setId(String id);
+	String getFile();
 }

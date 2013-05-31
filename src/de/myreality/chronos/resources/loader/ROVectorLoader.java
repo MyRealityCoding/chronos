@@ -54,7 +54,7 @@ import de.myreality.chronos.util.Vector3f;
  */
 @ResourceType("vector")
 public class ROVectorLoader extends AbstractResourceLoader<ROVector3f> {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -74,41 +74,46 @@ public class ROVectorLoader extends AbstractResourceLoader<ROVector3f> {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
+
 	@Override
 	public ROVector3f create(ResourceDefinition definition)
 			throws ResourceException {
 		String xValue = definition.getAttribute("x");
 		String yValue = definition.getAttribute("y");
 		String zValue = definition.getAttribute("z");
-		
-		float x = convertFromValue(xValue, definition);
-		float y = convertFromValue(yValue, definition);
-		
-		ROVector3f vector = new Vector3f(x, y);		
-		
+
+		double x = convertFromValue(xValue, definition);
+		double y = convertFromValue(yValue, definition);
+
+		ROVector3f vector = new Vector3f((float) x, (float) y);
+
 		// z value is not necessary!
-		if (zValue != null) {			
-			float z = convertFromValue(zValue, definition);
-			vector.setZ(z);		
+		if (zValue != null) {
+			double z = convertFromValue(zValue, definition);
+			vector.setZ((float) z);
 		}
-		
+
 		return vector;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private float convertFromValue(String value, ResourceDefinition definition) throws ResourceException {
+
+	private Double convertFromValue(String value, ResourceDefinition definition)
+			throws ResourceException {
 		if (value != null) {
 			try {
-				return Float.valueOf(value);
+				return Double.valueOf(value);
 			} catch (NumberFormatException e) {
-				throw new ResourceException("Value in " + definition.getType() + " resource with id '" + definition.getId() + "' is not valid: ");
+				throw new ResourceException("Value in " + definition.getType()
+						+ " resource with id '" + definition.getId()
+						+ "' is not valid: ");
 			}
 		} else {
-			throw new ResourceException("Missing value in " + definition.getType() + " resource with id '" + definition.getId() + "'");
+			throw new ResourceException("Missing value in "
+					+ definition.getType() + " resource with id '"
+					+ definition.getId() + "'");
 		}
 	}
 
