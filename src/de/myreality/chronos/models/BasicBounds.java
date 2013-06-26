@@ -81,7 +81,7 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 * Default constructor
 	 */
 	public BasicBounds() {
-		this(null, null);
+		this(new Vector3f(), new Vector3f());
 	}
 
 	public BasicBounds(ROVector3f topLeft, ROVector3f bottomRight) {
@@ -303,6 +303,7 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	@Override
 	public void set(ROVector3f topLeft, ROVector3f bottomRight, float rotation,
 			float scale) {
+		
 		if (topLeft != null && bottomRight != null) {
 			set(topLeft.getX(), topLeft.getY(), bottomRight.getX(),
 					bottomRight.getY(), rotation, scale);

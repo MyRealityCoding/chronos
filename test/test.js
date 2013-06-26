@@ -1,5 +1,5 @@
-entity.setX(100);
-entity.setY(100);
+entity.setX(100.0);
+entity.setY(100.0);
 
 function update(object, delta) {
 	
