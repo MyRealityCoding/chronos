@@ -39,9 +39,13 @@
  */
 package de.myreality.chronos.scripting;
 
-import static org.junit.Assert.*;
+import javax.script.ScriptException;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import de.myreality.chronos.models.BasicEntity;
+import de.myreality.chronos.models.Entity;
 
 /**
  * Test case for basic script
@@ -51,6 +55,32 @@ import org.junit.Test;
  * @version 0.8alpha
  */
 public class ScriptTest {
-
 	
+	Entity entityOne, entityTwo;
+	
+	Script script;
+	
+	@Before
+	public void beforeTest() throws ScriptException {
+		entityOne = new BasicEntity();
+		entityTwo = new BasicEntity();
+		ScriptFactory factory = new BasicScriptFactory();
+		script = factory.create("test/test.js");
+		
+		entityOne.addListener(script);
+		entityTwo.addListener(script);
+	}
+	
+	
+	
+	@Test
+	public void testInitScript() {
+		// TODO:
+		System.out.println(entityOne.getX());
+	}
+	
+	@Test
+	public void testUpdateEntity() {
+		// TODO:
+	}
 }

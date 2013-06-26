@@ -141,6 +141,12 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 
 	@Override
 	public void addListener(EntityListener listener) {
+		
+		if (!observer.hasListener(listener)) {
+			EntityChangedEvent event = new BasicEntityChangedEvent(this, 0);
+			listener.onAddListener(event);
+		}
+		
 		observer.addListener(listener);
 	}
 
