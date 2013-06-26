@@ -173,8 +173,15 @@ public class XMLSource extends AbstractDataSource {
 			DataNode dataNode = new BasicDataNode(node.getNodeName(),
 					node.getTextContent());
 			
-			if (node.getChildNodes().getLength() > 0) {
-				dataNode.setContent("");
+			NodeList children = node.getChildNodes();
+			
+			for (int index = 0; index < children.getLength(); ++index) {
+				Node child = children.item(index);
+				
+				if (child.getNodeType() == Node.TEXT_NODE) {
+					dataNode.setContent(child.getTextContent().trim());
+					break;
+				}
 			}
 
 			NamedNodeMap attributes = node.getAttributes();

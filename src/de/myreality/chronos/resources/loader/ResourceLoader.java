@@ -39,7 +39,6 @@
  */
 package de.myreality.chronos.resources.loader;
 
-import de.myreality.chronos.resources.Resource;
 import de.myreality.chronos.resources.ResourceDefinition;
 import de.myreality.chronos.resources.ResourceException;
 import de.myreality.chronos.resources.ResourceFactory;
@@ -69,7 +68,7 @@ public interface ResourceLoader<T> extends ResourceFactory<T> {
 	 * @return Returns the resource. If it not exists the method will return
 	 * <code>null</code>
 	 */
-	Resource<T> getResource(String id);
+	T getResource(String id);
 	
 	/**
 	 * Determines if a resource exists for a given id
@@ -85,7 +84,7 @@ public interface ResourceLoader<T> extends ResourceFactory<T> {
 	 * 
 	 * @param definition Target definition to add
 	 */
-	Resource<T> loadResource(ResourceDefinition definition) throws ResourceException;
+	T loadResource(ResourceDefinition definition) throws ResourceException;
 	
 	/**
 	 * Returns the class of the resource

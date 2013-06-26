@@ -76,7 +76,7 @@ public interface ResourceManagerable extends Serializable {
 	 * @param clazz class of the resource
 	 * @return Returns the resource when exists. Otherwise it will return <code>null</code>
 	 */
-	public <T> Resource<T> getResource(String id, Class<T> clazz);
+	public <T> T getResource(String id, Class<T> clazz);
 	
 	/**
 	 * Loads new resources from the given data source. If some data is marked

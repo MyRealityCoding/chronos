@@ -48,6 +48,9 @@ import org.junit.Test;
 
 import de.myreality.chronos.models.BasicEntity;
 import de.myreality.chronos.models.Entity;
+import de.myreality.chronos.resources.ResourceException;
+import de.myreality.chronos.resources.ResourceManager;
+import de.myreality.chronos.resources.data.XMLSource;
 
 /**
  * Test case for basic script
@@ -63,13 +66,12 @@ public class ScriptTest {
 	Script script;
 	
 	@Before
-	public void beforeTest() throws ScriptException {
+	public void beforeTest() throws ScriptException, ResourceException {
 		entityOne = new BasicEntity();
 		entityTwo = new BasicEntity();
-		ScriptFactory factory = new BasicScriptFactory();
-		script = factory.create("test/test.js");
-		
-		
+		ResourceManager manager = ResourceManager.getInstance();
+		manager.load(new XMLSource("xml/example.xml"));
+		script = manager.getResource("test", Script.class);
 	}
 	
 	

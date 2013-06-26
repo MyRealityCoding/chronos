@@ -136,19 +136,19 @@ public class ResourceManager implements ResourceManagerable {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> Resource<T> getResource(String id, Class<T> clazz) {
+	public <T> T getResource(String id, Class<T> clazz) {
 
 		ResourceLoader<?> loader = loaders.get(clazz.getName());
-		Resource<T> resource = null;
+		
+		T resource = null;
 		if (hasResource(id, clazz)) {
-			resource = (Resource<T>) loader.getResource(id);
-
+			resource = (T) loader.getResource(id);
 		} else if (definitionManager.hasElement(id)) {
 			ResourceDefinition definition = definitionManager.getElement(id);
 
 			if (loader != null) {
 				try {
-					resource = (Resource<T>) loader.loadResource(definition);
+					resource = (T) loader.loadResource(definition);
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}

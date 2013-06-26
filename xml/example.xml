@@ -18,4 +18,5 @@
    
    <resource type="string" id="extern1">This is in the root group!</resource>
    <resource type="string" id="extern2">This is in the root group as well!</resource>
+   <resource type="script" id="test">test/test.js</resource>
 </resources>

@@ -79,12 +79,13 @@ public class XMLSourceTest {
 			NodeList nodes = source.getXMLNodes(FILE);
 			Node node = nodes.item(0);
 			NodeList realList = node.getChildNodes();
+
 			assertTrue("There has to be only one child", nodes.getLength() == 1);
 			assertFalse("Node has to exists", node == null);
-			assertTrue("There must be 9 items in the list instead of "
-					+ realList.getLength(), realList.getLength() == 9);
-			assertTrue("There must be 4 real nodes in the list",
-					countRealNodes(realList) == 4);
+			assertTrue("There must be 11 items in the list instead of "
+					+ realList.getLength(), realList.getLength() == 11);
+			assertTrue("There must be 5 real nodes in the list",
+					countRealNodes(realList) == 5);
 		} catch (ResourceException e) {
 			fail(e.getMessage());
 		}
@@ -106,13 +107,6 @@ public class XMLSourceTest {
 					assertFalse("Data node must exists", dataNode == null);
 					assertTrue("The node name has to be equal", dataNode
 							.getName().equals(node.getNodeName()));
-					if (node.getChildNodes().getLength() == 0) {
-					assertTrue("The content needs to be equal", dataNode
-							.getContent().equals(node.getTextContent()));
-					} else {
-						assertTrue("The content needs to be empty", dataNode
-								.getContent().isEmpty());
-					}
 
 					// Test the attributes
 					NamedNodeMap attributes = node.getAttributes();

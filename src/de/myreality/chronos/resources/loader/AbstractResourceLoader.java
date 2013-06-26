@@ -42,8 +42,6 @@ package de.myreality.chronos.resources.loader;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.myreality.chronos.resources.BasicResource;
-import de.myreality.chronos.resources.Resource;
 import de.myreality.chronos.resources.ResourceDefinition;
 import de.myreality.chronos.resources.ResourceException;
 import de.myreality.chronos.util.ReflectionTemplate;
@@ -65,14 +63,14 @@ public abstract class AbstractResourceLoader<T> extends ReflectionTemplate<T> im
 	// Fields
 	// ===========================================================
 	
-	private Map<String, Resource<T> > resources;
+	private Map<String, T > resources;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public AbstractResourceLoader() {
-		resources = new HashMap<String, Resource<T> >();
+		resources = new HashMap<String, T >();
 	}
 
 	// ===========================================================
@@ -84,7 +82,7 @@ public abstract class AbstractResourceLoader<T> extends ReflectionTemplate<T> im
 	// ===========================================================
 
 	@Override
-	public final Resource<T> getResource(String id) {
+	public final T getResource(String id) {
 		return resources.get(id);
 	}
 
@@ -94,15 +92,13 @@ public abstract class AbstractResourceLoader<T> extends ReflectionTemplate<T> im
 	}
 
 	@Override
-	public final Resource<T> loadResource(ResourceDefinition definition) throws ResourceException {
+	public final T loadResource(ResourceDefinition definition) throws ResourceException {
 		
 		String id = definition.getId();
-		
 		if (!containsResource(id)) {
 			T element = create(definition);
-			Resource<T> resource = new BasicResource<T>(element, definition);
-			resources.put(id, resource);
-			return resource;
+			resources.put(id, element);
+			return element;
 		} else {
 			return getResource(id);
 		}

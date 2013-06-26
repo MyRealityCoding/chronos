@@ -37,40 +37,11 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources;
-
-import java.io.Serializable;
-
 /**
- * Resource wrapper which contains the "real" resource object. This class provides
- * functionality to change the resource at runtime without telling other classes.
- *
+ * Provides updating functionality for HTTP(S), SVN and GIT
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.8alpha
- * @version 0.8alpha
+ * @since 1.0
+ * @version 1.0
  */
-public interface Resource<T> extends Serializable {
-	
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-	
-	/**
-	 * Returns the real resource
-	 * 
-	 * @return the wrapped resource
-	 */
-	T get();
-	
-	/**
-	 * Returns the definition this resource belongs to
-	 * 
-	 * @return definition sibling
-	 */
-	ResourceDefinition getDefinition();
-
-}
+package de.myreality.chronos.updating;
