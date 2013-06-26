@@ -58,5 +58,17 @@ public interface EntityListener extends Listener {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * Is called each frame when an entity will be updated.
+	 * 
+	 * @param event Event which contains the entity and the frame delta
+	 */
 	void onUpdate(EntityChangedEvent event);
+	
+	/**
+	 * Is called when this listener will be attached to an entity
+	 * 
+	 * @param event Event which contains the entity and the frame delta
+	 */
+	void onAddListener(EntityChangedEvent event);
 }

@@ -39,9 +39,19 @@
  */
 package de.myreality.chronos.scripting;
 
-import javax.script.Compilable;
-import javax.script.ScriptEngine;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.Invocable;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+import javax.script.SimpleScriptContext;
+
+import de.myreality.chronos.models.Entity;
 import de.myreality.chronos.models.EntityChangedEvent;
 
 /**
@@ -57,12 +67,16 @@ public class BasicScript implements Script {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static final String ENTITY_NAME = "entity";
+	
+	private static final String UPDATE_FUNCTION = "update";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private String file;
+	private File file;
 	
 	private ScriptEngine engine;
 	
@@ -73,7 +87,7 @@ public class BasicScript implements Script {
 	// ===========================================================
 	
 	public BasicScript(String file, ScriptEngine engine, boolean compile) {
-		this.file = file;
+		this.file = new File(file);
 		this.engine = engine;
 		this.compile = compile;
 	}
@@ -85,15 +99,43 @@ public class BasicScript implements Script {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
+
+	@Override
+	public void onAddListener(EntityChangedEvent event) {
+		Entity entity = event.getSender();
+		ScriptContext context = new SimpleScriptContext();
+		Bindings engineScope = context.getBindings(ScriptContext.ENGINE_SCOPE);
+		engineScope.put(ENTITY_NAME, entity);
+		
+		try {
+			engine.eval(new FileReader(file), context);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	public void onUpdate(EntityChangedEvent event) {
-		// TODO Auto-generated method stub
+		if (engine instanceof Invocable) {
+			Invocable invocable = (Invocable)engine;
+			Entity object = event.getSender();
+			int delta = event.getFrameDelta();
+			
+			try {
+				invocable.invokeFunction(UPDATE_FUNCTION, object, delta);
+			} catch (ScriptException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public String getFile() {
-		return file;
+		return file.getName();
 	}
 
 	@Override
