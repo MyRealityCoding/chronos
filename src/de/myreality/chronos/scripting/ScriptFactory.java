@@ -37,57 +37,45 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.models;
+package de.myreality.chronos.scripting;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import javax.script.ScriptException;
 
 /**
- * Test suite for an entity 
+ * Factory which creates scripts from file
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-public class EntityTest {
+public interface ScriptFactory {
 	
-	Entity entity;
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
-	@Before
-	public void setUp() throws Exception {
-		entity = new BasicEntity();
-		for (int i = 0; i < 100; ++i) {
-			entity.addComponent(new MyComponent());
-		}
-	}
-
-	@Test
-	public void testAddComponent() {
-		MyComponent myComponent = new MyComponent();
-		assertFalse("Component must not be part of the entity", entity.getComponent(myComponent.getId()) != null);
-		entity.addComponent(myComponent);
-		assertTrue("Component must not be part of the entity", entity.getComponent(myComponent.getId()) != null);
-	}
-
-	@Test
-	public void testGetNumberOfComponents() {
-		assertTrue("Number of components does not match.", entity.getNumberOfComponents() == 100);
-	}
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	
+	/**
+	 * Creates a new script by considering the file extension. Additionally, the
+	 * script will be compiled (if able)
+	 * 
+	 * @param file path to the script file
+	 * @return new script which can be used
+	 * @throws ScriptException Is thrown when there is no script engine for the script
+	 */
+	Script create(String file) throws ScriptException;
 	
-	
-	class MyComponent extends AbstractComponent {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 6362414714894164153L;
-
-		@Override
-		public void onUpdate(EntityChangedEvent event) {
-			System.out.println("I'm a component, yeah!");
-		}	
-	}
+	/**
+	 * Creates a new script by considering the file extension. Additionally, the
+	 * script can be compiled.
+	 * 
+	 * @param file path to the script file
+	 * @param compile determines if the script should be compiled (if able)
+	 * @return new script which can be used
+	 * @throws ScriptException Is thrown when there is no script engine for the script
+	 */
+	Script create(String file, boolean compile) throws ScriptException;
 }

@@ -37,43 +37,63 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
  * OF SUCH DAMAGE.
  */
-package de.myreality.chronos.resources.loader;
+package de.myreality.chronos.scripting;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.Invocable;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import javax.script.SimpleScriptContext;
 
-import de.myreality.chronos.resources.ResourceDefinition;
-import de.myreality.chronos.resources.ResourceException;
-import de.myreality.chronos.resources.ResourceType;
-import de.myreality.chronos.scripting.BasicScriptFactory;
-import de.myreality.chronos.scripting.Script;
-import de.myreality.chronos.scripting.ScriptFactory;
+import de.myreality.chronos.models.Entity;
+import de.myreality.chronos.models.EntityChangedEvent;
 
 /**
- * Loader which loads scripts
+ * Basic script implemenation
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.8alpha
  * @version 0.8alpha
  */
-@ResourceType("script")
-public class ScriptLoader extends AbstractResourceLoader<Script> {
-
+public class BasicScript implements Script {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static final String ENTITY_NAME = "entity";
+	
+	private static final String UPDATE_FUNCTION = "update";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private ScriptFactory factory;
+	private File file;
+	
+	private ScriptEngine engine;
+	
+	private boolean compile;
+	
+	private Map<Entity, ScriptContext> contexts;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ScriptLoader() {
-		factory = new BasicScriptFactory();
+	public BasicScript(String file, ScriptEngine engine, boolean compile) {
+		this.file = new File(file);
+		this.engine = engine;
+		this.compile = compile;
+		contexts = new HashMap<Entity, ScriptContext>();
 	}
 
 	// ===========================================================
@@ -83,23 +103,64 @@ public class ScriptLoader extends AbstractResourceLoader<Script> {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
+
+	@Override
+	public void onAddListener(EntityChangedEvent event) {
+		Entity entity = event.getSender();
+		ScriptContext context = new SimpleScriptContext();
+		Bindings engineScope = context.getBindings(ScriptContext.ENGINE_SCOPE);
+		engineScope.put(ENTITY_NAME, entity);
+		try {
+			engine.eval(new FileReader(file), context);
+			contexts.put(entity, context);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	@Override
+	public void onRemoveListener(EntityChangedEvent event) {
+		Entity entity = event.getSender();
+		
+		if (entity != null) {
+			contexts.remove(entity);
+		}
+	}
 	
 	@Override
-	public Script create(ResourceDefinition definition)
-			throws ResourceException {
-		String compileAttr = definition.getAttribute("compile");
-		boolean compile = (compileAttr != null && compileAttr.equals("false")) ? false : true;
-		String file = definition.getValue();
-		
-		if (file.isEmpty()) {
-			throw new ResourceException("Script resource with id='" + definition.getId() + "' does not define a file");
+	public void onUpdate(EntityChangedEvent event) {
+		if (engine instanceof Invocable) {
+			Invocable invocable = (Invocable)engine;
+			Entity object = event.getSender();
+			int delta = event.getFrameDelta();
+			
+			try {
+				engine.setContext(contexts.get(object));
+				invocable.invokeFunction(UPDATE_FUNCTION, object, delta);
+			} catch (ScriptException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		try {
-			return factory.create(file, compile);
-		} catch (ScriptException ex) {
-			throw new ResourceException(ex);
-		}
+	}
+
+	@Override
+	public String getFile() {
+		return file.getName();
+	}
+
+	@Override
+	public boolean isCompilable() {
+		return compile && engine instanceof Compilable;
+	}
+
+	@Override
+	public ScriptEngine getEngine() {
+		return engine;
 	}
 
 	// ===========================================================
