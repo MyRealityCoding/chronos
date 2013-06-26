@@ -69,7 +69,7 @@ public class BasicScript implements Script {
 	// Constants
 	// ===========================================================
 	
-	private static final String ENTITY_NAME = "entity";
+	private static final String ENTITY_NAME = "object";
 	
 	private static final String UPDATE_FUNCTION = "update";
 
