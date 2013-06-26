@@ -88,14 +88,6 @@ public class EntityTest {
 		@Override
 		public void onUpdate(EntityChangedEvent event) {
 			System.out.println("I'm a component, yeah!");
-		}
-
-		@Override
-		public void onAddListener(EntityChangedEvent event) {
-			System.out.println("Listener added");
-		}
-
-		
-		
+		}	
 	}
 }

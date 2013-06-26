@@ -39,6 +39,8 @@
  */
 package de.myreality.chronos.scripting;
 
+import static org.junit.Assert.*;
+
 import javax.script.ScriptException;
 
 import org.junit.Before;
@@ -67,20 +69,45 @@ public class ScriptTest {
 		ScriptFactory factory = new BasicScriptFactory();
 		script = factory.create("test/test.js");
 		
-		entityOne.addListener(script);
-		entityTwo.addListener(script);
+		
 	}
 	
 	
 	
 	@Test
-	public void testInitScript() {
-		// TODO:
-		System.out.println(entityOne.getX());
+	public void testAddListener() {
+		
+		entityOne.addListener(script);
+		
+		assertTrue("X should be 100", entityOne.getX() == 100f);
+		assertTrue("Y should be 100", entityOne.getY() == 100f);
+		assertTrue("X should be 0", entityTwo.getX() == 0f);
+		assertTrue("Y should be 0", entityTwo.getY() == 0f);
+		entityTwo.addListener(script);
+		assertTrue("X should be 100", entityTwo.getX() == 100f);
+		assertTrue("Y should be 100", entityTwo.getY() == 100f);
 	}
 	
 	@Test
 	public void testUpdateEntity() {
-		// TODO:
+		entityOne.addListener(script);
+		entityTwo.addListener(script);
+		
+		entityOne.update(15);
+		
+		assertTrue("EntityOne should be at X: 115", entityOne.getX() == 115f);
+		assertTrue("EntityOne should be at Y: 115", entityOne.getY() == 115f);
+		assertTrue("EntityTwo should be at X: 100", entityTwo.getX() == 100f);
+		assertTrue("EntityTwo should be at Y: 100", entityTwo.getY() == 100f);
+		
+		entityTwo.update(30);
+		
+		assertTrue("EntityTwo should be at X: 130", entityTwo.getX() == 130f);
+		assertTrue("EntityTwo should be at Y: 130", entityTwo.getY() == 130f);
+		
+		entityOne.update(20);
+	
+		assertTrue("EntityOne should be at X: 135", entityOne.getX() == 135f);
+		assertTrue("EntityOne should be at Y: 135", entityOne.getY() == 135f);
 	}
 }

@@ -71,4 +71,12 @@ public interface EntityListener extends Listener {
 	 * @param event Event which contains the entity and the frame delta
 	 */
 	void onAddListener(EntityChangedEvent event);
+	
+	
+	/**
+	 * Is called when a listener will be removed from a specific entity
+	 * 
+	 * @param event Event which contains the entity and the frame delta
+	 */
+	void onRemoveListener(EntityChangedEvent event);
 }

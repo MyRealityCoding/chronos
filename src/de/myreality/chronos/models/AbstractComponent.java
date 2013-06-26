@@ -71,6 +71,16 @@ public abstract class AbstractComponent extends BasicGameObject implements Compo
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
+	
+	@Override
+	public void onAddListener(EntityChangedEvent event) {
+		// do nothing!
+	}
+
+	@Override
+	public void onRemoveListener(EntityChangedEvent event) {
+		// do nothing!
+	}
 
 	// ===========================================================
 	// Methods

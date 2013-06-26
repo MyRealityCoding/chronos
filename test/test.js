@@ -6,7 +6,7 @@ function update(object, delta) {
 	var globalX = object.getX();
 	var globalY = object.getY();
 	
-	var amount = 10;
+	var amount = delta;
 	
 	object.setX(globalX + amount);
 	object.setY(globalY + amount);

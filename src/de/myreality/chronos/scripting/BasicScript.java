@@ -42,6 +42,8 @@ package de.myreality.chronos.scripting;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.script.Bindings;
 import javax.script.Compilable;
@@ -62,7 +64,6 @@ import de.myreality.chronos.models.EntityChangedEvent;
  * @version 0.8alpha
  */
 public class BasicScript implements Script {
-
 	
 	// ===========================================================
 	// Constants
@@ -81,6 +82,8 @@ public class BasicScript implements Script {
 	private ScriptEngine engine;
 	
 	private boolean compile;
+	
+	private Map<Entity, ScriptContext> contexts;
 
 	// ===========================================================
 	// Constructors
@@ -90,6 +93,7 @@ public class BasicScript implements Script {
 		this.file = new File(file);
 		this.engine = engine;
 		this.compile = compile;
+		contexts = new HashMap<Entity, ScriptContext>();
 	}
 
 	// ===========================================================
@@ -106,13 +110,23 @@ public class BasicScript implements Script {
 		ScriptContext context = new SimpleScriptContext();
 		Bindings engineScope = context.getBindings(ScriptContext.ENGINE_SCOPE);
 		engineScope.put(ENTITY_NAME, entity);
-		
 		try {
 			engine.eval(new FileReader(file), context);
+			contexts.put(entity, context);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (ScriptException e) {
 			e.printStackTrace();
+		}
+	}
+	
+
+	@Override
+	public void onRemoveListener(EntityChangedEvent event) {
+		Entity entity = event.getSender();
+		
+		if (entity != null) {
+			contexts.remove(entity);
 		}
 	}
 	
@@ -124,6 +138,7 @@ public class BasicScript implements Script {
 			int delta = event.getFrameDelta();
 			
 			try {
+				engine.setContext(contexts.get(object));
 				invocable.invokeFunction(UPDATE_FUNCTION, object, delta);
 			} catch (ScriptException e) {
 				e.printStackTrace();
