@@ -125,6 +125,15 @@ public class BoundsTest {
 				&& topRightVertices.getY() == -RADIUS;
 		
 		assertTrue("Top right bound does not match." + topRightVertices, topRightCondition);
+		
+		
+		vb.setPosition(10f, 10f);
+		
+		assertTrue("global X position should be 10f instead of " + vb.get(Edge.TOP_LEFT).getX(), vb.get(Edge.TOP_LEFT).getX() == 10f);
+		assertTrue("global Y position should be 10f instead of " + vb.get(Edge.TOP_LEFT).getY(), vb.get(Edge.TOP_LEFT).getY() == 10f);
+		assertTrue("global X position should be " + vb.getX() + " instead of " + vb.get(Edge.TOP_LEFT).getX(), vb.get(Edge.TOP_LEFT).getX() == vb.getX());
+		assertTrue("global Y position should be " + vb.getY() + " instead of " + vb.get(Edge.TOP_LEFT).getY(), vb.get(Edge.TOP_LEFT).getY() == vb.getY());
+		
 	}
 
 	/**
@@ -213,13 +222,13 @@ public class BoundsTest {
 		
 		Bounds parent = new BasicBounds();
 		parent.setPosition(1f, 1f);
-		vb.setPosition(1f, 1f);
+		vb.setPosition(2f, 1f);
 		vb.attachTo(parent);
 		
 		assertTrue("Parent rotation should be 0f", parent.getRotation() == 0f);
 		assertTrue("Parent x position should be 0", parent.getX() == 1f);
 		assertTrue("Parent y position should be 0", parent.getY() == 1f);
-		
+
 		parent.rotate(90f);
 		
 		assertTrue("Parent rotation should be 90.0", parent.getRotation() == 90f);

@@ -506,8 +506,6 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		setIgnoreSingleAdjustment(true);
 		super.setPosition(x, y, z, coord);
 		setIgnoreSingleAdjustment(false);
-		
-		
 	}
 	
 
@@ -588,12 +586,12 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 			for (int i = 0; i < COUNT; ++i) {
 				ROVector3f dataVector = data[i];
 				ROVector3f origVector = originalData[i];
-				dataVector.setX(dataVector.getX() + diffX);
-				origVector.setX(origVector.getX() + diffX);
-				dataVector.setY(dataVector.getY() + diffY);
-				origVector.setY(origVector.getY() + diffY);
-				dataVector.setZ(dataVector.getZ() + diffZ);
-				origVector.setZ(origVector.getZ() + diffZ);
+				dataVector.setX(dataVector.getX() - diffX);
+				origVector.setX(origVector.getX() - diffX);
+				dataVector.setY(dataVector.getY() - diffY);
+				origVector.setY(origVector.getY() - diffY);
+				dataVector.setZ(dataVector.getZ() - diffZ);
+				origVector.setZ(origVector.getZ() - diffZ);
 			}
 		}
 	}
