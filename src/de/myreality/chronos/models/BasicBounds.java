@@ -377,7 +377,7 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 * @see de.myreality.chronos.models.Bounds#getRotation()
 	 */
 	@Override
-	public float getRotation() {
+	public float getRotation() {		
 		return rotation;
 	}
 
@@ -388,9 +388,19 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 */
 	@Override
 	public void setRotation(float rotation) {
+		
+		float oldRotation = this.rotation;
+		
 		// Reduce the angle and force it to be the positive remainder,
 		// so that 0 <= angle < 360
 		this.rotation = (float) (((rotation % 360.0) + 360.0) % 360.0);
+
+		float diff = rotation - oldRotation;
+		
+		// Apply rotation to children
+		for (Bounds child : getChildren()) {
+			child.rotate(diff);
+		}
 		
 		// Apply rotation to the bounds
 		if (originalData != null) {
