@@ -60,7 +60,6 @@ public class XMLSourceTest {
 				assertTrue("The definition " + definition
 						+ " needs at least a group (root)",
 						definition.getGroup() != null);
-
 				ResourceGroup group = definition.getGroup();
 				assertFalse("The group " + group + " needs children", group
 						.getDefinitions().isEmpty());

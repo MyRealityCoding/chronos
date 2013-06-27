@@ -57,8 +57,8 @@ import de.myreality.chronos.resources.data.DataNode;
  * Test case for a resource managerable
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 
- * @version 
+ * @since 0.9alpha
+ * @version 0.9alpha
  */
 public class ResourceManagerableTest {
 	

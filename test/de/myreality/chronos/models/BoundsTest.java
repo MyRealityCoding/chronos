@@ -59,12 +59,12 @@ public class BoundsTest {
 	Bounds vb, fb;
 
 	static final float RADIUS = 100f;
-
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception {		
 		ROVector3f[] vertices = new ROVector3f[] { new Vector3f(-RADIUS, -RADIUS),
 				new Vector3f(-RADIUS / 2, -RADIUS / 2),
 				new Vector3f(RADIUS / 5, RADIUS / 4), new Vector3f(0, RADIUS / 6),
@@ -209,6 +209,25 @@ public class BoundsTest {
 		vb.rotate(-20f);
 		
 		assertTrue("Rotation should be 350f instead of " + vb.getRotation(), vb.getRotation() == 350f);
+		
+		
+		Bounds parent = new BasicBounds();
+		parent.setPosition(1f, 1f);
+		vb.setPosition(1f, 1f);
+		vb.attachTo(parent);
+		
+		assertTrue("Parent rotation should be 0f", parent.getRotation() == 0f);
+		assertTrue("Parent x position should be 0", parent.getX() == 1f);
+		assertTrue("Parent y position should be 0", parent.getY() == 1f);
+		
+		parent.rotate(90f);
+		
+		assertTrue("Parent rotation should be 90.0", parent.getRotation() == 90f);
+		
+		assertTrue("Current rotation should be 80.0 instead of " + vb.getRotation(), vb.getRotation() == 80f);
+		assertTrue("Current x position should be 1 instead of " + vb.getX(), vb.getX() == 1f);
+		assertTrue("Current y position should be 2 instead of " + vb.getY(), vb.getY() == 2f);
+		
 	}
 
 	/**
