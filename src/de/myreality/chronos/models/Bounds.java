@@ -122,6 +122,15 @@ public interface Bounds extends Serializable, Iterable<ROVector3f>, Positionable
 	void rotate(float angle);
 	
 	/**
+	 * Rotates the bounds around a given point
+	 * 
+	 * @param angle
+	 * @param rotateX
+	 * @param rotateY
+	 */
+	void rotate(float angle, float rotateX, float rotateY);
+	
+	/**
 	 * Returns the current scale factor
 	 * 
 	 * @return current scale factor

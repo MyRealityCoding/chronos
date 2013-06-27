@@ -400,6 +400,7 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		// Apply rotation to children
 		for (Bounds child : getChildren()) {
 			child.rotate(diff);
+			child.rotate(diff, getCenterX(), getCenterY());
 		}
 		
 		// Apply rotation to the bounds
@@ -609,11 +610,21 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		bottomLeft.setX(topLeftX); bottomLeft.setY(bottomRightY);
 		
 		if (rotation != 0f) {
-			VectorUtils.rotate(getCenterX(), getCenterY(), topLeft, rotation);
-			VectorUtils.rotate(getCenterX(), getCenterY(), topRight, rotation);
-			VectorUtils.rotate(getCenterX(), getCenterY(), bottomLeft, rotation);
-			VectorUtils.rotate(getCenterX(), getCenterY(), bottomRight, rotation);
+			rotateBounds(data, rotation, getCenterX(), getCenterY());
 		}
+	}
+	
+	private void rotateBounds(ROVector3f[] bounds, float angle, float x, float y) {
+		for (ROVector3f bound : bounds) {
+			VectorUtils.rotate(x, y, bound, angle);
+		}
+	}
+
+	@Override
+	public void rotate(float angle, float rotateX, float rotateY) {
+		rotateBounds(originalData, rotation, rotateX, rotateY);		
+		ROVector3f topLeft = get(Edge.TOP_LEFT, false);		
+		setPosition(topLeft.getX(), topLeft.getY());
 	}
 	
 	// ===========================================================
