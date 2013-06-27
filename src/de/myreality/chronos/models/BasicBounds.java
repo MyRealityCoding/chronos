@@ -615,14 +615,18 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	}
 	
 	private void rotateBounds(ROVector3f[] bounds, float angle, float x, float y) {
+		System.out.println("Rotation: " + angle + ", centerX: " + x + ", centerY: " + y);
 		for (ROVector3f bound : bounds) {
+			System.out.println("Before: " + bound);
 			VectorUtils.rotate(x, y, bound, angle);
+
+			System.out.println("After: " + bound);
 		}
 	}
 
 	@Override
-	public void rotate(float angle, float rotateX, float rotateY) {
-		rotateBounds(originalData, rotation, rotateX, rotateY);		
+	public void rotate(float angle, float rotateX, float rotateY) {		
+		rotateBounds(originalData, rotation, rotateX, rotateY);					
 		ROVector3f topLeft = get(Edge.TOP_LEFT, false);		
 		setPosition(topLeft.getX(), topLeft.getY());
 	}

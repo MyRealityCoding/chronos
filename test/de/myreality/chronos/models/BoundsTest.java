@@ -201,6 +201,26 @@ public class BoundsTest {
 		
 		
 	}
+	
+	/**
+	 * Test method for {@link de.myreality.chronos.models.Bounds#rotate(float, float, float)}.
+	 */
+	@Test
+	public void testRotateXY() {
+		vb.setPosition(1, 0);
+		vb.rotate(90f, 0f, 0f);
+		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
+		assertTrue("Y position should be 1 instead of " + vb.getY(), vb.getY() == 1f);
+		vb.rotate(90f, 0f, 0f);
+		assertTrue("X position should be -1 instead of " + vb.getX(), vb.getX() == -1f);
+		assertTrue("Y position should be 0 instead of " + vb.getY(), vb.getY() == 0f);
+		vb.rotate(90f, 0f, 0f);
+		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
+		assertTrue("Y position should be -1 instead of " + vb.getY(), vb.getY() == -1f);
+		vb.rotate(90f, 0f, 0f);
+		assertTrue("X position should be 1 instead of " + vb.getX(), vb.getX() == 1f);
+		assertTrue("Y position should be 0 instead of " + vb.getY(), vb.getY() == 0f);
+	}
 
 	/**
 	 * Test method for {@link de.myreality.chronos.models.Bounds#rotate(float)}.
