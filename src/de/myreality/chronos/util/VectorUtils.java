@@ -39,8 +39,6 @@
  */
 package de.myreality.chronos.util;
 
-import java.awt.geom.AffineTransform;
-
 import de.myreality.chronos.models.BasicBounds;
 import de.myreality.chronos.models.Bounds;
 
@@ -123,17 +121,33 @@ public class VectorUtils {
 	 */
 	public static void rotate(float centerX, float centerY, ROVector3f target, float angle) {
 		// TODO: Fix precision bug with native code
-        /*double radian = Math.toRadians(angle);
-        double cosinus = Math.cos(radian);
-        double sinus = Math.sin(radian);
-        double xVector = target.getX() - centerX;
-        double yVector = target.getY() - centerY;
-        target.setX((float) (centerX + cosinus * xVector - sinus * yVector));
-        target.setY((float) (centerY + sinus * xVector + cosinus * yVector));*/
-		AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(angle), centerX, centerY);
-		double[] pt = {target.getX(), target.getY()};
-		trans.transform(pt, 0, pt, 0, 1);
-		target.setX((float) pt[0]);
-		target.setY((float) pt[1]);
+//        double radian = Math.toRadians(angle);
+//        double cosinus = Math.cos(radian);
+//        double sinus = Math.sin(radian);
+//        double xVector = target.getX() - centerX;
+//        double yVector = target.getY() - centerY;
+//        double factorX = cosinus * xVector - sinus * yVector;
+//        double factorY = sinus * xVector + cosinus * yVector;
+//        System.out.println("New vector x:" + xVector + "with cosinus=" + cosinus + ", sinus=" + sinus);
+//        System.out.println("New vector y:" + yVector + "with cosinus=" + cosinus + ", sinus=" + sinus);
+//        target.setX((float) (centerX + factorX));
+//        target.setY((float) (centerY + factorY));
+//		AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(angle), centerX, centerY);
+//		double[] pt = {target.getX(), target.getY()};
+//		trans.transform(pt, 0, pt, 0, 1);
+//		target.setX((float) pt[0]);
+//		target.setY((float) pt[1]);
+		double radians = Math.toRadians(angle);
+		double cosVal = Math.cos(radians);
+        double sinVal = Math.sin(radians);
+
+        double ox = target.getX() - centerX;
+        double oy = target.getY() - centerY;
+
+        double x = target.getX() + ox * cosVal - oy * sinVal;
+        double y = target.getY() + ox * sinVal + oy * cosVal;
+        
+        target.setX((float) x);
+        target.setY((float) y);
 	}
 }

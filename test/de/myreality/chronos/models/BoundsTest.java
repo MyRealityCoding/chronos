@@ -207,6 +207,8 @@ public class BoundsTest {
 	 */
 	@Test
 	public void testRotateXY() {
+		System.out.println("TEST: ROTATEXY");
+		vb = new BasicBounds();
 		vb.setPosition(1, 0);
 		vb.rotate(90f, 0f, 0f);
 		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
@@ -241,6 +243,8 @@ public class BoundsTest {
 		
 		
 		Bounds parent = new BasicBounds();
+		vb = new BasicBounds();
+		vb.setRotation(350f);
 		parent.setPosition(1f, 1f);
 		vb.setPosition(2f, 1f);
 		vb.attachTo(parent);
