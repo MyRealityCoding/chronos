@@ -207,6 +207,7 @@ public class BoundsTest {
 	 */
 	@Test
 	public void testRotateXY() {
+		
 		System.out.println("TEST: ROTATEXY");
 		vb = new BasicBounds();
 		vb.setPosition(1, 0);
@@ -272,7 +273,52 @@ public class BoundsTest {
 		vb.setScale(2f);		
 		assertTrue("Scale should be 2f", vb.getScale() == 2f);
 		
-		// TODO: Implement scaling of bounds
+		ROVector3f bounds[] = {
+				new Vector3f(-1f, -1f),
+				new Vector3f(1, -1),
+				new Vector3f(1, 1),
+				new Vector3f(-1, 1)
+		};
+		
+		vb = new BasicBounds(bounds);
+		
+		vb.setScale(0.5f);
+		
+		ROVector3f topLeft = vb.get(Edge.TOP_LEFT);
+		ROVector3f topRight = vb.get(Edge.TOP_RIGHT);
+		ROVector3f bottomRight = vb.get(Edge.BOTTOM_RIGHT);
+		ROVector3f bottomLeft = vb.get(Edge.BOTTOM_LEFT);
+		
+		assertTrue("Top left X should be -0.5 instead of " + topLeft.getX(), topLeft.getX() == -0.5f);
+		assertTrue("Top left Y should be -0.5 instead of " + topLeft.getY(), topLeft.getY() == -0.5f);
+		
+		assertTrue("Top right X should be 0.5 instead of " + topRight.getX(), topRight.getX() == 0.5f);
+		assertTrue("Top right Y should be -0.5 instead of " + topRight.getY(), topRight.getY() == -0.5f);
+		
+		assertTrue("Bottom right X should be 0.5 instead of " + bottomRight.getX(), bottomRight.getX() == 0.5f);
+		assertTrue("Bottom right Y should be 0.5 instead of " + bottomRight.getY(), bottomRight.getY() == 0.5f);
+		
+		assertTrue("Bottom left X should be -0.5 instead of " + bottomLeft.getX(), bottomLeft.getX() == -0.5f);
+		assertTrue("Bottom left Y should be 0.5 instead of " + bottomLeft.getY(), bottomLeft.getY() == 0.5f);
+		
+		vb.scale(4f);
+		
+		topLeft = vb.get(Edge.TOP_LEFT);
+		topRight = vb.get(Edge.TOP_RIGHT);
+		bottomRight = vb.get(Edge.BOTTOM_RIGHT);
+		bottomLeft = vb.get(Edge.BOTTOM_LEFT);
+		
+		assertTrue("Top left X should be -2", topLeft.getX() == -2f);
+		assertTrue("Top left Y should be -2", topLeft.getY() == -2f);
+		
+		assertTrue("Top right X should be 2", topRight.getX() == 2f);
+		assertTrue("Top right Y should be -2", topRight.getY() == -2f);
+		
+		assertTrue("Bottom right X should be 2", bottomRight.getX() == 2f);
+		assertTrue("Bottom right Y should be 2", bottomRight.getY() == 2f);
+		
+		assertTrue("Bottom left X should be -2", bottomLeft.getX() == -2f);
+		assertTrue("Bottom left Y should be 2", bottomLeft.getY() == 2f);
 	}
 
 	/**

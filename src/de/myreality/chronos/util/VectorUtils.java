@@ -122,7 +122,6 @@ public class VectorUtils {
 	 * @param angle angle of rotation
 	 */
 	public static void rotate(float centerX, float centerY, ROVector3f target, float angle) {
-
 		AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(angle), centerX, centerY);
 		double[] pt = {target.getX(), target.getY()};
 		trans.transform(pt, 0, pt, 0, 1);
