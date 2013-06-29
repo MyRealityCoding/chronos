@@ -5,7 +5,7 @@
 	<string id="APP_AUTHOR">Miguel Gonzalez</string>
 	<string id="APP_COMPANY">myReality Development</string>
 	<string id="APP_WEBSITE">http://chronos.my-reality.de/</string>
-	<string id="APP_VERSION">0.8</string>
-	<string id="APP_PHASE">alpha</string>
-	<string id="APP_PHASE_PROGRESS">100</string>
+	<string id="APP_VERSION">0.9</string>
+	<string id="APP_PHASE">beta</string>
+	<string id="APP_PHASE_PROGRESS">1</string>
 </resources>
