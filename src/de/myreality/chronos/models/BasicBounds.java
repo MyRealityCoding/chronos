@@ -440,16 +440,21 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	public void setScale(float scale) {
 		float oldScale = this.scale;
 		this.scale = Math.abs(scale);
-		float delta = this.scale - oldScale;
+		float factor = this.scale / oldScale;
 		
-		if (delta > 0) {
-			this.scaleBounds(originalData, delta);
-			this.scaleBounds(data, delta);
-
-			for (Bounds child : getChildren()) {
-				child.scale(delta);
-			}
+		System.out.println(data);
+		System.out.println(originalData);
+		
+		this.scaleBounds(originalData, factor);
+		this.scaleBounds(data, factor);
+		
+		ROVector3f topLeft = get(Edge.TOP_LEFT, false);		
+		super.setPosition(topLeft.getX(), topLeft.getY());
+		
+		for (Bounds child : getChildren()) {
+			child.scale(factor);
 		}
+		
 	}
 
 	/*
@@ -633,13 +638,16 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	
 	private void scaleBounds(ROVector3f[] bounds, float scale) {
 		
-		for (ROVector3f bound : bounds) {
-			float newX = bound.getX() * scale;
-			float newY = bound.getY() * scale;
-			bound.setX(newX);
-			bound.setY(newY);
-		}
+		ROVector3f center = new Vector3f(getCenterX(), getCenterY());
 		
+		for (ROVector3f bound : bounds) {
+			ROVector3f vector = new Vector3f(center, bound);
+			vector.scale(scale);
+			bound.setX(vector.getX());
+			bound.setY(vector.getY());
+			// Not supported yet
+			//bound.setZ(bound.getZ() + vector.getZ());
+		}
 	}
 
 	@Override

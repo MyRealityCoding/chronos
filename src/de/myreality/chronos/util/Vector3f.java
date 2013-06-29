@@ -225,6 +225,13 @@ public class Vector3f implements ROVector3f {
 		return new Vector3f(this);
 	}
 
+	@Override
+	public void scale(float factor) {
+		x *= factor;
+		y *= factor;
+		z *= factor;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

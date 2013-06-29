@@ -126,4 +126,11 @@ public interface ROVector3f extends Serializable {
 	 * @param z new z-position
 	 */
 	void setZ(float z);
+	
+	/**
+	 * Scales the vector by the given factor
+	 * 
+	 * @param factor scale factor
+	 */
+	void scale(float factor);
 }
