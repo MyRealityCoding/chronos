@@ -377,7 +377,7 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 * @see de.myreality.chronos.models.Bounds#getRotation()
 	 */
 	@Override
-	public float getRotation() {
+	public float getRotation() {		
 		return rotation;
 	}
 
@@ -388,9 +388,20 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 */
 	@Override
 	public void setRotation(float rotation) {
+		
+		float oldRotation = this.rotation;
+		
 		// Reduce the angle and force it to be the positive remainder,
 		// so that 0 <= angle < 360
 		this.rotation = (float) (((rotation % 360.0) + 360.0) % 360.0);
+
+		float diff = rotation - oldRotation;
+		
+		// Apply rotation to children
+		for (Bounds child : getChildren()) {
+			child.rotate(diff);
+			child.rotate(diff, getCenterX(), getCenterY());
+		}
 		
 		// Apply rotation to the bounds
 		if (originalData != null) {
@@ -427,7 +438,27 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 */
 	@Override
 	public void setScale(float scale) {
+		float oldScale = this.scale;
 		this.scale = Math.abs(scale);
+		float factor = this.scale / oldScale;
+		
+		float centerX = getCenterX();
+		float centerY = getCenterY();
+		
+		this.scaleBounds(originalData, factor, centerX, centerY);
+		this.scaleBounds(data, factor, centerX, centerY);
+		
+		ROVector3f topLeft = get(Edge.TOP_LEFT, false);
+		
+		// Fix adjustment by disabling it
+		ignoreSingleAdjustment = true;
+		setPosition(topLeft.getX(), topLeft.getY());
+		ignoreSingleAdjustment = false;
+		
+		for (Bounds child : getChildren()) {
+			child.scale(factor);
+		}
+		
 	}
 
 	/*
@@ -496,8 +527,6 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		setIgnoreSingleAdjustment(true);
 		super.setPosition(x, y, z, coord);
 		setIgnoreSingleAdjustment(false);
-		
-		
 	}
 	
 
@@ -578,12 +607,12 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 			for (int i = 0; i < COUNT; ++i) {
 				ROVector3f dataVector = data[i];
 				ROVector3f origVector = originalData[i];
-				dataVector.setX(dataVector.getX() + diffX);
-				origVector.setX(origVector.getX() + diffX);
-				dataVector.setY(dataVector.getY() + diffY);
-				origVector.setY(origVector.getY() + diffY);
-				dataVector.setZ(dataVector.getZ() + diffZ);
-				origVector.setZ(origVector.getZ() + diffZ);
+				dataVector.setX(dataVector.getX() - diffX);
+				origVector.setX(origVector.getX() - diffX);
+				dataVector.setY(dataVector.getY() - diffY);
+				origVector.setY(origVector.getY() - diffY);
+				dataVector.setZ(dataVector.getZ() - diffZ);
+				origVector.setZ(origVector.getZ() - diffZ);
 			}
 		}
 	}
@@ -601,11 +630,35 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		bottomLeft.setX(topLeftX); bottomLeft.setY(bottomRightY);
 		
 		if (rotation != 0f) {
-			VectorUtils.rotate(getCenterX(), getCenterY(), topLeft, rotation);
-			VectorUtils.rotate(getCenterX(), getCenterY(), topRight, rotation);
-			VectorUtils.rotate(getCenterX(), getCenterY(), bottomLeft, rotation);
-			VectorUtils.rotate(getCenterX(), getCenterY(), bottomRight, rotation);
+			rotateBounds(data, rotation, getCenterX(), getCenterY());
 		}
+	}
+	
+	private void rotateBounds(ROVector3f[] bounds, float angle, float x, float y) {
+		for (ROVector3f bound : bounds) {
+			VectorUtils.rotate(x, y, bound, angle);
+		}
+	}
+	
+	private void scaleBounds(ROVector3f[] bounds, float scale, float centerX, float centerY) {
+		
+		ROVector3f center = new Vector3f(centerX, centerY);
+		
+		for (ROVector3f bound : bounds) {
+			ROVector3f vector = new Vector3f(center, bound);
+			vector.scale(scale);
+			bound.setX(centerX + vector.getX());
+			bound.setY(centerY + vector.getY());
+			// Not supported yet
+			//bound.setZ(bound.getZ() + vector.getZ());
+		}
+	}
+
+	@Override
+	public void rotate(float angle, float rotateX, float rotateY) {
+		rotateBounds(originalData, rotation, rotateX, rotateY);		
+		ROVector3f topLeft = get(Edge.TOP_LEFT, false);		
+		setPosition(topLeft.getX(), topLeft.getY());
 	}
 	
 	// ===========================================================

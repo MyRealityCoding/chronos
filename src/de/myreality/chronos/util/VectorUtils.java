@@ -122,14 +122,6 @@ public class VectorUtils {
 	 * @param angle angle of rotation
 	 */
 	public static void rotate(float centerX, float centerY, ROVector3f target, float angle) {
-		// TODO: Fix precision bug with native code
-        /*double radian = Math.toRadians(angle);
-        double cosinus = Math.cos(radian);
-        double sinus = Math.sin(radian);
-        double xVector = target.getX() - centerX;
-        double yVector = target.getY() - centerY;
-        target.setX((float) (centerX + cosinus * xVector - sinus * yVector));
-        target.setY((float) (centerY + sinus * xVector + cosinus * yVector));*/
 		AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(angle), centerX, centerY);
 		double[] pt = {target.getX(), target.getY()};
 		trans.transform(pt, 0, pt, 0, 1);
