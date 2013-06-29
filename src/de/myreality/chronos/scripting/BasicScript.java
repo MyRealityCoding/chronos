@@ -89,7 +89,7 @@ public class BasicScript implements Script {
 	// Constructors
 	// ===========================================================
 	
-	public BasicScript(String file, ScriptEngine engine, boolean compile) {
+	BasicScript(String file, ScriptEngine engine, boolean compile) {
 		this.file = new File(file);
 		this.engine = engine;
 		this.compile = compile;

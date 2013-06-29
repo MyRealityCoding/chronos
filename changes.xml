@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changes>
+	<patch version="0.8alpha">
+		<category name="General">
+			<item type="added">Rewritten the whole software to increase usability</item>
+			<item type="added">Created a new wiki on GitHub with detailed information</item>
+			<item type="added">Added JUNIT testing to increase quality of code</item>			
+			<item type="modified">Changed javadoc version to JDK7</item>
+			<item type="modified">Moved Chronos to Github due to git support</item>
+			<item type="modified">Renamed logging class CLog to ChronosLogger</item>
+			<item type="removed">Removed Slick support</item>			
+			<item type="removed">Removed old implementation completely</item>
+		</category>
+		<category name="Models">
+			<item type="added">Rewritten whole model framework</item>
+			<item type="added">Added bounds</item>
+			<item type="added">Added listener for models</item>
+			<item type="modified">Improved family system by using templates</item>
+			<item type="modified">Changed coordinate system to increase the usability of global and local coordinates.</item>
+			<item type="removed">Removed SlickEntity and SlickComponent classes</item>
+		</category>
+		<category name="Resources">
+			<item type="added">Rewritten whole resource framework</item>
+			<item type="added">Added resource groups</item>
+			<item type="added">Added resource definitions</item>
+			<item type="added">Added validators</item>
+			<item type="added">Added annotations for resource loaders</item>
+			<item type="added">Added ROVectorLoader as default</item>
+			<item type="added">Added ScriptLoader as default</item>
+			<item type="added">Added XML independent resource loading by using data sources</item>
+			<item type="added">Added XMLSource to load XML files</item>
+			<item type="added">Added listeners for data sources</item>
+			<item type="modified">Rewritten resource loading and resource loaders</item>
+			<item type="removed">Removed deprecated resource class. Resources have to be loaded directly without wrapping.</item>
+		</category>
+		<category name="Scripting">
+			<item type="added">Created a completely new scripting framework based on the Java scripting API</item>
+			<item type="added">Added script factories</item>
+			<item type="added">Added script class</item>
+			<item type="modified">Scripts can be loaded now by adding script loaders to the class path</item>
+			<item type="removed">Removed LUAScript class due to independent script loading</item>
+		</category>
+		<category name="Bug Fixes">
+			<item type="modified">Issue #32 solved: Independent resource loading order</item>
+			<item type="modified">Issue #34 solved: XMLSource loads whitespace content</item>
+		</category>
+	</patch>
     <patch version="0.7.3alpha">
     	<category name="General">
     		<item type="modified">Javadoc has been extended</item>
@@ -27,8 +72,8 @@
 	</patch>
 	<patch version="0.7.1alpha">
 		<category name="General">
+			<item type="added">util.* package has been added</item>			
 			<item type="modified">Packages have been renamed to a shorter way</item>
-			<item type="added">util.* package has been added</item>
 			<item type="modified">Documentation has been extended</item>
 		</category>
 		<category name="Utilities">
@@ -66,9 +111,9 @@
 	<patch version="0.6dev">
 		<category name="General">
 			<item type="added">First XML validation via XSD has been added</item>
-			<item type="modified">Entities and components can be serialized now</item>
 			<item type="added">Serialization example has been added</item>
-			<item type="added">Scripting example has been added</item>
+			<item type="added">Scripting example has been added</item>			
+			<item type="modified">Entities and components can be serialized now</item>
 		</category>
 		<category name="Resources">
 			<item type="added">Deferred resource loading has been implemented</item>
@@ -85,23 +130,23 @@
 			<item type="added">Added support for LUA</item>
 		</category>
 		<category name="Resources">
-			<item type="modified">Reformatted the entire resource XML base</item>
 			<item type="added">Referred resource loading</item>
-			<item type="added">Resource performance by free resources.</item>
+			<item type="added">Resource performance by free resources.</item>			
+			<item type="modified">Reformatted the entire resource XML base</item>
 		</category>
 	</patch>
 	<patch version="0.4dev">
-		<category name="General">
-			<item type="modified">Documentation has been extended and refreshed</item>
+		<category name="General">			
 			<item type="added">A reflection template has been written in order to fetch the internal type class correctly</item>
+			<item type="modified">Documentation has been extended and refreshed</item>
 			<item type="modified">ID of components and entities will be now generated automatically</item>
 		</category>
 		<category name="Models">
 			<item type="added">An entity manager has been implemented</item>
 			<item type="added">Entities can now be attached to entity systems</item>
-			<item type="removed">Removed the default position methods like getX() and getY()</item>	
 			<item type="added">Added global and local position methods</item>		
-			<item type="added">Entities can now have a width, a height and a depth</item>
+			<item type="added">Entities can now have a width, a height and a depth</item>			
+			<item type="removed">Removed the default position methods like getX() and getY()</item>	
 		</category>
 		<category name="Resources">
 			<item type="added">A resource wrapper has been written in order to change immutable resources at runtime</item>
