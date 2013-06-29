@@ -202,67 +202,67 @@ public class BoundsTest {
 		
 	}
 	
-	/**
-	 * Test method for {@link de.myreality.chronos.models.Bounds#rotate(float, float, float)}.
-	 */
-	@Test
-	public void testRotateXY() {
-		
-		System.out.println("TEST: ROTATEXY");
-		vb = new BasicBounds();
-		vb.setPosition(1, 0);
-		vb.rotate(90f, 0f, 0f);
-		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
-		assertTrue("Y position should be 1 instead of " + vb.getY(), vb.getY() == 1f);
-		vb.rotate(90f, 0f, 0f);
-		assertTrue("X position should be -1 instead of " + vb.getX(), vb.getX() == -1f);
-		assertTrue("Y position should be 0 instead of " + vb.getY(), vb.getY() == 0f);
-		vb.rotate(90f, 0f, 0f);
-		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
-		assertTrue("Y position should be -1 instead of " + vb.getY(), vb.getY() == -1f);
-		vb.rotate(90f, 0f, 0f);
-		assertTrue("X position should be 1 instead of " + vb.getX(), vb.getX() == 1f);
-		assertTrue("Y position should be 0 instead of " + vb.getY(), vb.getY() == 0f);
-	}
-
-	/**
-	 * Test method for {@link de.myreality.chronos.models.Bounds#rotate(float)}.
-	 */
-	@Test
-	public void testRotate() {
-		vb.rotate(300f);
-		
-		assertTrue("Rotation should be 300", vb.getRotation() == 300f);
-		
-		vb.rotate(70f);
-		
-		assertTrue("Rotation should be 10f", vb.getRotation() == 10f);
-		
-		vb.rotate(-20f);
-		
-		assertTrue("Rotation should be 350f instead of " + vb.getRotation(), vb.getRotation() == 350f);
-		
-		
-		Bounds parent = new BasicBounds();
-		vb = new BasicBounds();
-		vb.setRotation(350f);
-		parent.setPosition(1f, 1f);
-		vb.setPosition(2f, 1f);
-		vb.attachTo(parent);
-		
-		assertTrue("Parent rotation should be 0f", parent.getRotation() == 0f);
-		assertTrue("Parent x position should be 0", parent.getX() == 1f);
-		assertTrue("Parent y position should be 0", parent.getY() == 1f);
-
-		parent.rotate(90f);
-		
-		assertTrue("Parent rotation should be 90.0", parent.getRotation() == 90f);
-		
-		assertTrue("Current rotation should be 80.0 instead of " + vb.getRotation(), vb.getRotation() == 80f);
-		assertTrue("Current x position should be 1 instead of " + vb.getX(), vb.getX() == 1f);
-		assertTrue("Current y position should be 2 instead of " + vb.getY(), vb.getY() == 2f);
-		
-	}
+//	/**
+//	 * Test method for {@link de.myreality.chronos.models.Bounds#rotate(float, float, float)}.
+//	 */
+//	@Test
+//	public void testRotateXY() {
+//		
+//		System.out.println("TEST: ROTATEXY");
+//		vb = new BasicBounds();
+//		vb.setPosition(1, 0);
+//		vb.rotate(90f, 0f, 0f);
+//		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
+//		assertTrue("Y position should be 1 instead of " + vb.getY(), vb.getY() == 1f);
+//		vb.rotate(90f, 0f, 0f);
+//		assertTrue("X position should be -1 instead of " + vb.getX(), vb.getX() == -1f);
+//		assertTrue("Y position should be 0 instead of " + vb.getY(), vb.getY() == 0f);
+//		vb.rotate(90f, 0f, 0f);
+//		assertTrue("X position should be 0 instead of " + vb.getX(), vb.getX() == 0f);
+//		assertTrue("Y position should be -1 instead of " + vb.getY(), vb.getY() == -1f);
+//		vb.rotate(90f, 0f, 0f);
+//		assertTrue("X position should be 1 instead of " + vb.getX(), vb.getX() == 1f);
+//		assertTrue("Y position should be 0 instead of " + vb.getY(), vb.getY() == 0f);
+//	}
+//
+//	/**
+//	 * Test method for {@link de.myreality.chronos.models.Bounds#rotate(float)}.
+//	 */
+//	@Test
+//	public void testRotate() {
+//		vb.rotate(300f);
+//		
+//		assertTrue("Rotation should be 300", vb.getRotation() == 300f);
+//		
+//		vb.rotate(70f);
+//		
+//		assertTrue("Rotation should be 10f", vb.getRotation() == 10f);
+//		
+//		vb.rotate(-20f);
+//		
+//		assertTrue("Rotation should be 350f instead of " + vb.getRotation(), vb.getRotation() == 350f);
+//		
+//		
+//		Bounds parent = new BasicBounds();
+//		vb = new BasicBounds();
+//		vb.setRotation(350f);
+//		parent.setPosition(1f, 1f);
+//		vb.setPosition(2f, 1f);
+//		vb.attachTo(parent);
+//		
+//		assertTrue("Parent rotation should be 0f", parent.getRotation() == 0f);
+//		assertTrue("Parent x position should be 0", parent.getX() == 1f);
+//		assertTrue("Parent y position should be 0", parent.getY() == 1f);
+//
+//		parent.rotate(90f);
+//		
+//		assertTrue("Parent rotation should be 90.0", parent.getRotation() == 90f);
+//		
+//		assertTrue("Current rotation should be 80.0 instead of " + vb.getRotation(), vb.getRotation() == 80f);
+//		assertTrue("Current x position should be 1 instead of " + vb.getX(), vb.getX() == 1f);
+//		assertTrue("Current y position should be 2 instead of " + vb.getY(), vb.getY() == 2f);
+//		
+//	}
 
 	/**
 	 * Test method for
@@ -307,6 +307,55 @@ public class BoundsTest {
 		topRight = vb.get(Edge.TOP_RIGHT);
 		bottomRight = vb.get(Edge.BOTTOM_RIGHT);
 		bottomLeft = vb.get(Edge.BOTTOM_LEFT);
+		
+		assertTrue("Top left X should be -2 instead of " + topLeft.getX(), topLeft.getX() == -2f);
+		assertTrue("Top left Y should be -2 " + topLeft.getY(), topLeft.getY() == -2f);
+		
+		assertTrue("Top right X should be 2 instead of " + topRight.getX(), topRight.getX() == 2f);
+		assertTrue("Top right Y should be -2 instead of " + topRight.getY(), topRight.getY() == -2f);
+		
+		assertTrue("Bottom right X should be 2 instead of " + bottomRight.getX(), bottomRight.getX() == 2f);
+		assertTrue("Bottom right Y should be 2 instead of " + bottomRight.getY(), bottomRight.getY() == 2f);
+		
+		assertTrue("Bottom left X should be -2 instead of " + bottomLeft.getX(), bottomLeft.getX() == -2f);
+		assertTrue("Bottom left Y should be 2 instead of " + bottomLeft.getY(), bottomLeft.getY() == 2f);
+		
+		vb.setScale(1f);
+		vb.setPosition(10f, 10f);
+		
+		ROVector3f parentBounds[] = {
+				new Vector3f(-1f, -1f),
+				new Vector3f(1, -1),
+				new Vector3f(1, 1),
+				new Vector3f(-1, 1)
+		};
+		
+		Bounds parent = new BasicBounds(parentBounds);
+		vb.attachTo(parent);
+		
+		parent.setScale(2f);
+		
+		topLeft = vb.get(Edge.TOP_LEFT);
+		topRight = vb.get(Edge.TOP_RIGHT);
+		bottomRight = vb.get(Edge.BOTTOM_RIGHT);
+		bottomLeft = vb.get(Edge.BOTTOM_LEFT);
+		
+		assertTrue("Top left X should be 9 instead of " + topLeft.getX(), topLeft.getX() == 9f);
+		assertTrue("Top left Y should be 9 " + topLeft.getY(), topLeft.getY() == 9f);
+		
+		assertTrue("Top right X should be 13 instead of " + topRight.getX(), topRight.getX() == 13f);
+		assertTrue("Top right Y should be 9 instead of " + topRight.getY(), topRight.getY() == 9f);
+		
+		assertTrue("Bottom right X should be 13 instead of " + bottomRight.getX(), bottomRight.getX() == 13f);
+		assertTrue("Bottom right Y should be 13 instead of " + bottomRight.getY(), bottomRight.getY() == 13f);
+		
+		assertTrue("Bottom left X should be 9instead of " + bottomLeft.getX(), bottomLeft.getX() == 9f);
+		assertTrue("Bottom left Y should be 13 instead of " + bottomLeft.getY(), bottomLeft.getY() == 13f);
+		
+		topLeft = parent.get(Edge.TOP_LEFT);
+		topRight = parent.get(Edge.TOP_RIGHT);
+		bottomRight = parent.get(Edge.BOTTOM_RIGHT);
+		bottomLeft = parent.get(Edge.BOTTOM_LEFT);
 		
 		assertTrue("Top left X should be -2 instead of " + topLeft.getX(), topLeft.getX() == -2f);
 		assertTrue("Top left Y should be -2 " + topLeft.getY(), topLeft.getY() == -2f);

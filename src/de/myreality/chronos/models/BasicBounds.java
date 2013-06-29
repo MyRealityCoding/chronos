@@ -647,8 +647,8 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		for (ROVector3f bound : bounds) {
 			ROVector3f vector = new Vector3f(center, bound);
 			vector.scale(scale);
-			bound.setX(vector.getX());
-			bound.setY(vector.getY());
+			bound.setX(centerX + vector.getX());
+			bound.setY(centerY + vector.getY());
 			// Not supported yet
 			//bound.setZ(bound.getZ() + vector.getZ());
 		}
