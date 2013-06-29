@@ -25,4 +25,4 @@ Development
 
 This software has been developed by [Miguel Gonzalez](http://my-reality.de/ "Blog of Miguel Gonzalez"), a software engineer and game developer from Germany. Follow him [on twitter](https://twitter.com/tweetmyreality/ "Miguel's twitter") or [Google+](https://plus.google.com/103183029519102261612/ "Miguel's Google+") to get newest development information.
 
-Visit [the official website of Chronos](http://dev.my-reality.de/chronos/ "Official website of Chronos") for more information.
+Visit [the official website of Chronos](http://chronos.my-reality.de "Official website of Chronos") for more information.
