@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/resources/" targetNamespace="http://www.example.org/resources/">
+    <element name="string" block="restriction">
+    	<annotation>
+    		<documentation>String resource</documentation>
+    	</annotation>
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </element>
+    
+    <element name="image">
+        <annotation>
+        	<documentation>Image resource</documentation>
+        </annotation>
+        <simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    		</restriction>
+    	</simpleType>
+    </element>
+    
+    <element name="script">
+        <annotation>
+        	<documentation>Script resource</documentation>
+        </annotation>
+        <simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </element>
+    
+    <element name="color" block="extension">
+        <annotation>
+        	<documentation>Color resource.</documentation>
+        </annotation>
+        <simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </element>
+    
+    <element name="font">
+    	<annotation>
+    		<documentation>Font resource</documentation>
+    	</annotation>
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </element>
+    
+    <element name="music">
+    	<annotation>
+    		<documentation>Music resource</documentation>
+    	</annotation>
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </element>
+    
+    <element name="sound">
+    	<annotation>
+    		<documentation>Sound resource</documentation>
+    	</annotation>
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </element>
+
+    <attribute name="id">
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </attribute>
+
+    <attribute name="referred">
+    	<simpleType>
+    		<restriction base="boolean">
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </attribute>
+
+    <attribute name="type">
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="1"></minLength>
+    			<whiteSpace value="collapse"></whiteSpace>
+    		</restriction>
+    	</simpleType>
+    </attribute>
+</schema>

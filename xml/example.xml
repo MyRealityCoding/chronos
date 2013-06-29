@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+   <group id="strings">
+   	  <resource type="string" id="intern1">This is in the strings group</resource>
+   	  <resource type="string" id="intern2">This is in the strings group as well</resource>
+   	  <resource type="string" id="intern3">This is in the strings group!!!</resource>
+   	  
+   	  <group id="substrings">
+   	     <resource type="string" id="intern1">This is a substring</resource>
+   	  </group>
+   </group>
+   
+   <group id="vectors">
+   		<resource type="vector" id="vector1" x="10.4" y="83.4" z="63.84"/>
+   		<resource type="vector" id="vector2" x="20.4" y="33.4" z="43.84"/>
+   		<resource type="vector" id="vector3" x="14.4" y="4.4" z="73.84"/>
+   </group>
+   
+   <resource type="string" id="extern1">This is in the root group!</resource>
+   <resource type="string" id="extern2">This is in the root group as well!</resource>
+   <resource type="script" id="test">test/test.js</resource>
+</resources>

@@ -4,8 +4,8 @@
 	<string id="APP_NAME">Chronos Game Development Toolkit</string>
 	<string id="APP_AUTHOR">Miguel Gonzalez</string>
 	<string id="APP_COMPANY">myReality Development</string>
-	<string id="APP_WEBSITE">http://dev.my-reality.de/chronos</string>
-	<string id="APP_VERSION">0.7.3</string>
+	<string id="APP_WEBSITE">http://chronos.my-reality.de/</string>
+	<string id="APP_VERSION">0.8</string>
 	<string id="APP_PHASE">alpha</string>
-	<string id="APP_PHASE_PROGRESS">80</string>
+	<string id="APP_PHASE_PROGRESS">100</string>
 </resources>
