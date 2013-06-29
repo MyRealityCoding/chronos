@@ -442,14 +442,18 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		this.scale = Math.abs(scale);
 		float factor = this.scale / oldScale;
 		
-		System.out.println(data);
-		System.out.println(originalData);
+		float centerX = getCenterX();
+		float centerY = getCenterY();
 		
-		this.scaleBounds(originalData, factor);
-		this.scaleBounds(data, factor);
+		this.scaleBounds(originalData, factor, centerX, centerY);
+		this.scaleBounds(data, factor, centerX, centerY);
 		
-		ROVector3f topLeft = get(Edge.TOP_LEFT, false);		
-		super.setPosition(topLeft.getX(), topLeft.getY());
+		ROVector3f topLeft = get(Edge.TOP_LEFT, false);
+		
+		// Fix adjustment by disabling it
+		ignoreSingleAdjustment = true;
+		setPosition(topLeft.getX(), topLeft.getY());
+		ignoreSingleAdjustment = false;
 		
 		for (Bounds child : getChildren()) {
 			child.scale(factor);
@@ -636,9 +640,9 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		}
 	}
 	
-	private void scaleBounds(ROVector3f[] bounds, float scale) {
+	private void scaleBounds(ROVector3f[] bounds, float scale, float centerX, float centerY) {
 		
-		ROVector3f center = new Vector3f(getCenterX(), getCenterY());
+		ROVector3f center = new Vector3f(centerX, centerY);
 		
 		for (ROVector3f bound : bounds) {
 			ROVector3f vector = new Vector3f(center, bound);

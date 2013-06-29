@@ -308,17 +308,17 @@ public class BoundsTest {
 		bottomRight = vb.get(Edge.BOTTOM_RIGHT);
 		bottomLeft = vb.get(Edge.BOTTOM_LEFT);
 		
-		assertTrue("Top left X should be -2", topLeft.getX() == -2f);
-		assertTrue("Top left Y should be -2", topLeft.getY() == -2f);
+		assertTrue("Top left X should be -2 instead of " + topLeft.getX(), topLeft.getX() == -2f);
+		assertTrue("Top left Y should be -2 " + topLeft.getY(), topLeft.getY() == -2f);
 		
-		assertTrue("Top right X should be 2", topRight.getX() == 2f);
-		assertTrue("Top right Y should be -2", topRight.getY() == -2f);
+		assertTrue("Top right X should be 2 instead of " + topRight.getX(), topRight.getX() == 2f);
+		assertTrue("Top right Y should be -2 instead of " + topRight.getY(), topRight.getY() == -2f);
 		
-		assertTrue("Bottom right X should be 2", bottomRight.getX() == 2f);
-		assertTrue("Bottom right Y should be 2", bottomRight.getY() == 2f);
+		assertTrue("Bottom right X should be 2 instead of " + bottomRight.getX(), bottomRight.getX() == 2f);
+		assertTrue("Bottom right Y should be 2 instead of " + bottomRight.getY(), bottomRight.getY() == 2f);
 		
-		assertTrue("Bottom left X should be -2", bottomLeft.getX() == -2f);
-		assertTrue("Bottom left Y should be 2", bottomLeft.getY() == 2f);
+		assertTrue("Bottom left X should be -2 instead of " + bottomLeft.getX(), bottomLeft.getX() == -2f);
+		assertTrue("Bottom left Y should be 2 instead of " + bottomLeft.getY(), bottomLeft.getY() == 2f);
 	}
 
 	/**
