@@ -438,7 +438,18 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 	 */
 	@Override
 	public void setScale(float scale) {
+		float oldScale = this.scale;
 		this.scale = Math.abs(scale);
+		float delta = this.scale - oldScale;
+		
+		if (delta > 0) {
+			this.scaleBounds(originalData, delta);
+			this.scaleBounds(data, delta);
+
+			for (Bounds child : getChildren()) {
+				child.scale(delta);
+			}
+		}
 	}
 
 	/*
@@ -618,6 +629,17 @@ public class BasicBounds extends BasicPositionable<Bounds> implements Bounds {
 		for (ROVector3f bound : bounds) {
 			VectorUtils.rotate(x, y, bound, angle);
 		}
+	}
+	
+	private void scaleBounds(ROVector3f[] bounds, float scale) {
+		
+		for (ROVector3f bound : bounds) {
+			float newX = bound.getX() * scale;
+			float newY = bound.getY() * scale;
+			bound.setX(newX);
+			bound.setY(newY);
+		}
+		
 	}
 
 	@Override
