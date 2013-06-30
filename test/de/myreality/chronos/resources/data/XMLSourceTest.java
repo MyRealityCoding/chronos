@@ -4,6 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -18,8 +22,6 @@ import de.myreality.chronos.resources.ResourceDefinition;
 import de.myreality.chronos.resources.ResourceDefinitionManager;
 import de.myreality.chronos.resources.ResourceException;
 import de.myreality.chronos.resources.ResourceGroup;
-import de.myreality.chronos.resources.data.DataNode;
-import de.myreality.chronos.resources.data.XMLSource;
 
 /**
  * Test case for a xml source
@@ -73,9 +75,10 @@ public class XMLSourceTest {
 	}
 
 	@Test
-	public void testGetXMLNodes() {
+	public void testGetXMLNodes() throws FileNotFoundException {
 		try {
-			NodeList nodes = source.getXMLNodes(FILE);
+			InputStream inputStream = new FileInputStream(new File("xml/example.xml"));
+			NodeList nodes = source.getXMLNodes(inputStream);
 			Node node = nodes.item(0);
 			NodeList realList = node.getChildNodes();
 
@@ -91,9 +94,10 @@ public class XMLSourceTest {
 	}
 
 	@Test
-	public void testConvertToDataNode() {
+	public void testConvertToDataNode() throws FileNotFoundException {
 		try {
-			NodeList nodes = source.getXMLNodes(FILE);
+			InputStream inputStream = new FileInputStream(new File("xml/example.xml"));
+			NodeList nodes = source.getXMLNodes(inputStream);
 			Node parent = nodes.item(0);
 			NodeList realList = parent.getChildNodes();
 

@@ -39,7 +39,9 @@
  */
 package de.myreality.chronos.resources.data;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -71,14 +73,22 @@ public class XMLSource extends AbstractDataSource {
 	// Fields
 	// ===========================================================
 
-	private String file;
+	private InputStream inputStream;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public XMLSource(String file) {
-		this.file = file;
+	public XMLSource(String path) throws FileNotFoundException {
+		this(new File(path));
+	}
+	
+	public XMLSource(File file) throws FileNotFoundException {
+		this(new FileInputStream(file));
+	}
+	
+	public XMLSource(InputStream inputStream) {
+		this.inputStream = inputStream;
 	}
 
 	// ===========================================================
@@ -91,7 +101,7 @@ public class XMLSource extends AbstractDataSource {
 
 	@Override
 	protected void startLoading() throws ResourceException {
-		NodeList nodes = getXMLNodes(file);
+		NodeList nodes = getXMLNodes(inputStream);
 
 		for (int i = 0; i < nodes.getLength(); ++i) {
 			Node node = nodes.item(i);
@@ -115,22 +125,20 @@ public class XMLSource extends AbstractDataSource {
 	 * @throws ResourceException
 	 *             Is thrown when the file is corrupt or not valid
 	 */
-	NodeList getXMLNodes(String file) throws ResourceException {
-		InputStream input = null;
+	NodeList getXMLNodes(InputStream inputStream) throws ResourceException {
 		try {
-			input = new FileInputStream(file);
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(input);
+			Document doc = docBuilder.parse(inputStream);
 			doc.getDocumentElement().normalize();
 			return doc.getElementsByTagName("resources");
 		} catch (Exception e) {
 			throw new ResourceException(e);
 		} finally {
-			if (input != null) {
+			if (inputStream != null) {
 				try {
-					input.close();
+					inputStream.close();
 				} catch (IOException e) {
 					throw new ResourceException(e);
 				}

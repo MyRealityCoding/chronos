@@ -41,6 +41,8 @@ package de.myreality.chronos.scripting;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import javax.script.ScriptException;
 
 import org.junit.Before;
@@ -66,7 +68,7 @@ public class ScriptTest {
 	Script script;
 	
 	@Before
-	public void beforeTest() throws ScriptException, ResourceException {
+	public void beforeTest() throws ScriptException, ResourceException, FileNotFoundException {
 		entityOne = new BasicEntity();
 		entityTwo = new BasicEntity();
 		ResourceManager manager = ResourceManager.getInstance();
