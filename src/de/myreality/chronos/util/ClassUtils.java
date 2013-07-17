@@ -44,11 +44,12 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -60,9 +61,7 @@ import java.util.jar.JarFile;
  * @version 0.8alpha
  */
 public class ClassUtils {
-	
-	
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -116,7 +115,7 @@ public class ClassUtils {
 	 * resulting string is the relative path from the given reference.
 	 */
 	private static void addFiles(File file, List<String> result, File reference) {
-		if (!file.exists() || !file.isDirectory()) {
+		if (file == null || !file.exists() || !file.isDirectory()) {
 			return;
 		}
 		for (File child : file.listFiles()) {
@@ -169,16 +168,17 @@ public class ClassUtils {
 	public static Class<?>[] searchForAnnotation(Class<?> annotation) {
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		final String TARGET_FORMAT = ".class";
-		URL[] roots = ((URLClassLoader) (ClassUtils.class.getClassLoader())).getURLs();
+		URL[] roots = findClassPaths();
 
 		for (URL root : roots) {
 			for (String relativePath : getChildren(root)) {
-				
+
 				if (relativePath.endsWith(TARGET_FORMAT)) {
-					
+
 					// Remove .class and change / to .
 					String className = relativePath.substring(0,
-							relativePath.length() - TARGET_FORMAT.length()).replace("/", ".");
+							relativePath.length() - TARGET_FORMAT.length())
+							.replace("/", ".");
 					try {
 						Class element = Class.forName(className);
 
@@ -193,6 +193,165 @@ public class ClassUtils {
 		}
 
 		return classes.toArray(new Class[classes.size()]);
+	}
+
+	/**
+	 * Find the classpath URLs for a specific classpath resource. The classpath
+	 * URL is extracted from loader.getResources() using the baseResource.
+	 * 
+	 * @param baseResource
+	 * @return
+	 */
+	public static URL[] findResourceBases(String baseResource,
+			ClassLoader loader) {
+		ArrayList<URL> list = new ArrayList<URL>();
+		try {
+			Enumeration<URL> urls = loader.getResources(baseResource);
+			while (urls.hasMoreElements()) {
+				URL url = urls.nextElement();
+				list.add(findResourceBase(url, baseResource));
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return list.toArray(new URL[list.size()]);
+	}
+
+	/**
+	 * Find the classpath URLs for a specific classpath resource. The classpath
+	 * URL is extracted from loader.getResources() using the baseResource.
+	 * 
+	 * @param baseResource
+	 * @return
+	 */
+	public static URL[] findResourceBases(String baseResource) {
+		return findResourceBases(baseResource, Thread.currentThread()
+				.getContextClassLoader());
+	}
+
+	private static URL findResourceBase(URL url, String baseResource) {
+		String urlString = url.toString();
+		int idx = urlString.lastIndexOf(baseResource);
+		urlString = urlString.substring(0, idx);
+		URL deployUrl = null;
+		try {
+			deployUrl = new URL(urlString);
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+		return deployUrl;
+	}
+
+	/**
+	 * Find the classpath URL for a specific classpath resource. The classpath
+	 * URL is extracted from
+	 * Thread.currentThread().getContextClassLoader().getResource() using the
+	 * baseResource.
+	 * 
+	 * @param baseResource
+	 * @return
+	 */
+	public static URL findResourceBase(String baseResource) {
+		return findResourceBase(baseResource, Thread.currentThread()
+				.getContextClassLoader());
+	}
+
+	/**
+	 * Find the classpath URL for a specific classpath resource. The classpath
+	 * URL is extracted from loader.getResource() using the baseResource.
+	 * 
+	 * @param baseResource
+	 * @param loader
+	 * @return
+	 */
+	public static URL findResourceBase(String baseResource, ClassLoader loader) {
+		URL url = loader.getResource(baseResource);
+		return findResourceBase(url, baseResource);
+	}
+
+	/**
+	 * Find the classpath for the particular class
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public static URL findClassBase(Class<?> clazz) {
+		String resource = clazz.getName().replace('.', '/') + ".class";
+		return findResourceBase(resource, clazz.getClassLoader());
+	}
+
+	/**
+	 * Uses the java.class.path system property to obtain a list of URLs that
+	 * represent the CLASSPATH
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	public static URL[] findClassPaths() {
+		List<URL> list = new ArrayList<URL>();
+		String classpath = System.getProperty("java.class.path");
+		StringTokenizer tokenizer = new StringTokenizer(classpath,
+				File.pathSeparator);
+
+		while (tokenizer.hasMoreTokens()) {
+			String path = tokenizer.nextToken();
+			File fp = new File(path);
+			if (!fp.exists())
+				throw new RuntimeException(
+						"File in java.class.path does not exist: " + fp);
+			try {
+				list.add(fp.toURL());
+			} catch (MalformedURLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return list.toArray(new URL[list.size()]);
+	}
+
+	/**
+	 * Uses the java.class.path system property to obtain a list of URLs that
+	 * represent the CLASSPATH
+	 * <p/>
+	 * paths is used as a filter to only include paths that have the specific
+	 * relative file within it
+	 * 
+	 * @param paths
+	 *            comma list of files that should exist in a particular path
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	public static URL[] findClassPaths(String... paths) {
+		ArrayList<URL> list = new ArrayList<URL>();
+
+		String classpath = System.getProperty("java.class.path");
+		StringTokenizer tokenizer = new StringTokenizer(classpath,
+				File.pathSeparator);
+		for (int i = 0; i < paths.length; i++) {
+			paths[i] = paths[i].trim();
+		}
+
+		while (tokenizer.hasMoreTokens()) {
+			String path = tokenizer.nextToken().trim();
+			boolean found = false;
+			for (String wantedPath : paths) {
+				if (path.endsWith(File.separator + wantedPath)) {
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				continue;
+			File fp = new File(path);
+			if (!fp.exists())
+				throw new RuntimeException(
+						"File in java.class.path does not exists: " + fp);
+			try {
+				list.add(fp.toURL());
+			} catch (MalformedURLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return list.toArray(new URL[list.size()]);
 	}
 
 	// ===========================================================
