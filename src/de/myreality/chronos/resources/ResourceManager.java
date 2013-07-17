@@ -44,7 +44,10 @@ import java.util.Map;
 
 import de.myreality.chronos.logging.ChronosLogger;
 import de.myreality.chronos.resources.data.DataSource;
+import de.myreality.chronos.resources.loader.ROVectorLoader;
 import de.myreality.chronos.resources.loader.ResourceLoader;
+import de.myreality.chronos.resources.loader.ScriptLoader;
+import de.myreality.chronos.resources.loader.StringLoader;
 import de.myreality.chronos.util.ClassUtils;
 
 /**
@@ -90,7 +93,6 @@ public class ResourceManager implements ResourceManagerable {
 	}
 
 	// Make manager package-private for testing purpose
-	@SuppressWarnings("unchecked")
 	ResourceManager() {
 		loaders = new HashMap<String, ResourceLoader<?>>();
 		translations = new HashMap<String, String>();
@@ -101,11 +103,15 @@ public class ResourceManager implements ResourceManagerable {
 		groupManager.addElement(new BasicResourceGroup());
 
 		try {
-			Class<? extends ResourceLoader<?>>[] loaders = (Class<? extends ResourceLoader<?>>[]) ClassUtils
-					.searchForAnnotation(ResourceType.class);
-			for (Class<? extends ResourceLoader<?>> clazz : loaders) {
-				addResourceLoader(clazz);
-			}
+//			Class<? extends ResourceLoader<?>>[] loaders = (Class<? extends ResourceLoader<?>>[]) ClassUtils
+//					.searchForAnnotation(ResourceType.class);
+//			for (Class<? extends ResourceLoader<?>> clazz : loaders) {
+//				addResourceLoader(clazz);
+//			}
+			
+			addResourceLoader(StringLoader.class);
+			addResourceLoader(ScriptLoader.class);
+			addResourceLoader(ROVectorLoader.class);
 		} catch (ResourceException e) {
 			ChronosLogger.error(e);
 		}
