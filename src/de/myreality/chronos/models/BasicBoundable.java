@@ -68,7 +68,23 @@ public class BasicBoundable<T extends Positionable<T> & Boundable<T> > extends B
 	// ===========================================================
 	
 	public BasicBoundable() {
-		bounds = new BasicBounds();
+		this(0f, 0f);
+	}
+	
+	public BasicBoundable(float x, float y) {
+		this(x, y, 0, 0);
+	}
+	
+	public BasicBoundable(float x, float y, float width, float height) {
+		bounds = new BasicBounds(x, y, x + width, y + height);
+	}
+	
+	public BasicBoundable(ROVector3f ... vertices) {
+		bounds = new BasicBounds(vertices);
+	}
+	
+	public BasicBoundable(ROVector3f topLeft, ROVector3f bottomRight) {
+		bounds = new BasicBounds(topLeft, bottomRight);
 	}
 
 	// ===========================================================

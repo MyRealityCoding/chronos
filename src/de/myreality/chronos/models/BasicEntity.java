@@ -50,6 +50,7 @@ import de.myreality.chronos.util.BasicGameObject;
 import de.myreality.chronos.util.BasicObserver;
 import de.myreality.chronos.util.GameObject;
 import de.myreality.chronos.util.Observer;
+import de.myreality.chronos.util.ROVector3f;
 
 /**
  * Provides basic functionality of an entity
@@ -81,10 +82,34 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 	// ===========================================================
 	
 	public BasicEntity() {
-		gameObject = new BasicGameObject();
-		components = new HashMap<String, Component>();
-		observer = new BasicObserver<EntityListener>();
+		this(0, 0);
 	}
+	
+	public BasicEntity(float x, float y, float width, float height) {
+		super(x, y, width, height);
+		initializeFields();
+	}
+
+
+
+	public BasicEntity(float x, float y) {
+		this(x, y, 0f, 0f);
+	}
+
+
+
+	public BasicEntity(ROVector3f topLeft, ROVector3f bottomRight) {
+		super(topLeft, bottomRight);
+		initializeFields();
+	}
+
+
+
+	public BasicEntity(ROVector3f... vertices) {
+		super(vertices);
+		initializeFields();
+	}
+
 
 	// ===========================================================
 	// Getters and Setters
@@ -170,6 +195,12 @@ public class BasicEntity extends BasicBoundable<Entity> implements Entity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void initializeFields() {
+		gameObject = new BasicGameObject();
+		components = new HashMap<String, Component>();
+		observer = new BasicObserver<EntityListener>();
+	}
 
 	// ===========================================================
 	// Inner classes
