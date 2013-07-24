@@ -1,0 +1,11 @@
+{
+    "name" : "Chronos Game Development Toolkit",
+    "author" : "Miguel Gonzalez",
+    "url" : "http://chronos.my-reality.de",
+    "version" : "0.8",
+    "phase" : "beta",
+    "progress" : "5",
+    "phaselist" : [
+        "prototype", "dev", "alpha", "beta", "release"
+    ]
+}
